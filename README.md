@@ -1,2 +1,16 @@
 # CSC8498
-??? | PROJECT AND DISSERTATION FOR MCOMP MODULE (2022/23) | MCOMP | NEWCASTLE UNIVERSITY
+Newcastle University - 2022/23 - MComp
+
+	PROJECT AND DISSERTATION FOR MCOMP MODULE
+	
+	<<description>>
+	
+	<<deliverable>> Submitted: <<date>>
+
+Marks and Feedback
+
+	<<NAME>>
+	
+	Marks: 
+	Feedback:     
+	    
