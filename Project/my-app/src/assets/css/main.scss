@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-
 $raleway: 'Raleway';
+
+@font-face {
+    font-family: Exthing;
+    src: url('../fonts/exthing-font/Exthing-1Gox2.ttf');
+  }
 
 //Colours ------------------------------------------------------------------------------------------------------------------
 
@@ -56,6 +60,11 @@ h1 {
     font-family: $raleway;
 }
 
+h1.title {
+    font-size: 100px;
+    font-family: Exthing;
+}
+
 h2 {
     color: $baby-powder;
     font-family: $raleway;
@@ -97,6 +106,7 @@ a {
     margin: 0 !important;
     padding: 1rem !important;
     background-color: transparent !important;
+    font-family: $raleway;
 }
 
 .navbar-brand {
@@ -154,6 +164,15 @@ a {
     padding: 1rem;
     min-width: 1080px;
     min-height: 520px;
+}
+
+.home {
+    display: flex;
+    align-items: center;
+}
+
+.home div {
+    min-height: 10px;
 }
 
 // Buttons --------------------------------------------------------------------------------------------------
