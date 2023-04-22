@@ -1,0 +1,653 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;1,500&display=swap");
+
+// $light-blue: #67B7EE;
+// $blue-purple: #6E78FF;
+// $light-light-blue: #61F4DE;
+// $light-light-green: #7EF29D;
+
+$light-blue: #040f0fff;
+$blue-purple: #000501ff;
+$light-light-blue: #61F4DE;
+$light-light-green: #7EF29D;
+
+
+
+$rich-black: #040f0fff;
+$forest-green: #248232ff;
+$pigment-green: #2ba84aff;
+$gunmetal: #2d3a3aff;
+$baby-powder: #fcfffcff;
+
+// $rich-black: rgba(4, 15, 15, 1);
+// $forest-green: rgba(36, 130, 50, 1);
+// $pigment-green: rgba(43, 168, 74, 1);
+// $gunmetal: rgba(45, 58, 58, 1);
+// $baby-powder: rgba(252, 255, 252, 1);
+
+$black: #000501ff;
+$cambridge-blue: #73ab84ff;
+$celadon: #99d19cff;
+$tiffany-blue: #79c7c5ff;
+$non-photo-blue: #ade1e5ff;
+
+// $black: rgba(0, 5, 1, 1);
+// $cambridge-blue: rgba(115, 171, 132, 1);
+// $celadon: rgba(153, 209, 156, 1);
+// $tiffany-blue: rgba(121, 199, 197, 1);
+// $non-photo-blue: rgba(173, 225, 229, 1);
+
+$night: #00120bff;
+$dark-slate-gray: #35605aff;
+$slate-gray: #6b818cff;
+$lavender-web: #d8e4ffff;
+$spring-green: #31e981ff;
+
+// $night: rgba(0, 18, 11, 1);
+// $dark-slate-gray: rgba(53, 96, 90, 1);
+// $slate-gray: rgba(107, 129, 140, 1);
+// $lavender-web: rgba(216, 228, 255, 1);
+// $spring-green: rgba(49, 233, 129, 1);
+
+
+
+// This is an example of animations & svgs... I completely understand that the amount of absolute positioning in this file is insane... ;) <3
+
+body {
+  background: linear-gradient($black, $rich-black);
+  height: 100vh;
+  font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "DM Mono", monospace;
+  font-weight: 300;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+}
+
+.hex {  
+  &--1 {
+    position: absolute;
+    opacity: 0.5;
+    top: 5em;
+    left: 1em;
+  }
+
+  &--2 {
+    position: absolute;
+    opacity: 1;
+    top: 22em;
+    left: 20em;
+  }
+
+  &--3 {
+    z-index: -1;
+    position: absolute;
+    opacity: 0.5;
+    top: 60%;
+    left: 50%;
+    width: 100vw;
+    height: 80vh;
+    transform: translate(-50%, -60%);
+  }
+}
+
+.hexsvg {
+  &--1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+  }
+
+  &--2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+
+  &--3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(40%, -50%);
+  }
+
+  &--4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-140%, -50%);
+  }
+
+  &--5 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-260%, 25%);
+  }
+
+  &--6 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(160%, 25%);
+  }
+
+  &--7 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-190%, -200%);
+  }
+
+  &--8 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-480%, -170%);
+  }
+
+  &--9 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(215%, -250%);
+  }
+
+  &--10 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(240%, -125%);
+  }
+}
+
+.main-hex {
+  &--1 {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+  }
+
+  &--2 {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+  }
+
+  &--3 {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+  }
+
+  &--4 {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+  }
+
+  &--5 {
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+  }
+
+  &--6 {
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+  }
+
+  &--7 {
+    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+  }
+
+  &--8 {
+    transform: scale(0.3);
+    -webkit-transform: scale(0.3);
+  }
+
+  &--9 {
+    transform: scale(0.3);
+    -webkit-transform: scale(0.3);
+  }
+
+  &--10 {
+    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+  }
+}
+
+.dotted-line {
+  fill: none;
+  stroke: $pigment-green;
+  stroke-width: 1;
+  stroke-miterlimit: 10;
+  stroke-dasharray: 12.921,11.9271;
+}
+
+.solid-thick-line {
+  fill: none;
+  stroke: $pigment-green;
+  stroke-width: 5;
+  opacity: 0.5;
+}
+
+.solid-thin-line {
+  fill: none;
+  stroke: $pigment-green;
+  stroke-width: 1;
+}
+
+.solid-thick-dotted-line {
+  &--1 {
+    fill: none;
+    stroke: $pigment-green;
+    stroke-width: 3;
+    opacity: 0.3;
+    stroke-dasharray: 200 20;
+  }
+
+  &--2 {
+    fill: none;
+    stroke: $pigment-green;
+    stroke-width: 7;
+    opacity: 0.3;
+    stroke-dasharray: 200 10;
+  }
+}
+
+.filled {
+  fill: $pigment-green;
+  stroke: $pigment-green;
+  opacity: 0.5;
+}
+
+// Animations
+
+.draw-in {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 10;
+  animation: draw 15s ease-in-out alternate infinite;
+}
+
+.rotate {
+  transform-origin: center center;
+  animation: rotation 38s linear infinite;
+}
+
+.item-to {
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+.bounce-1 {
+  animation-name: bounce-1;
+  animation-timing-function: ease;
+}
+
+.bounce-2 {
+  animation-name: bounce-2;
+  animation-timing-function: ease;
+}
+
+.bounce-3 {
+  animation-name: bounce-3;
+  animation-timing-function: ease;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bounce-1 {
+  0% {
+    transform: translateY(0) scale(0.7);
+  }
+  50% {
+    transform: translateY(50px) scale(0.7);
+  }
+  100% {
+    transform: translateY(0) scale(0.7);
+  }
+}
+
+@keyframes bounce-2 {
+  0% {
+    transform: translateY(0) scale(0.5);
+  }
+  50% {
+    transform: translateY(-30px) scale(0.5);
+  }
+  100% {
+    transform: translateY(0) scale(0.5);
+  }
+}
+
+@keyframes bounce-3 {
+  0% {
+    transform: translateX(0) scale(0.5);
+  }
+  50% {
+    transform: translateX(50px) scale(0.5);
+  }
+  100% {
+    transform: translateX(0) scale(0.5);
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Gradient Fades
+
+@keyframes gradient-fade {
+  from {
+    transform: translate(10%, -10%) rotate(0deg);
+  }
+  to {
+    transform: translate(50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes gradient-fade-alt {
+  from {
+    transform: translate(-20%, 20%) rotate(0deg);
+  }
+  to {
+    transform: translate(-60%, 60%) rotate(360deg);
+  }
+}
+
+
+
+
+
+
+// .main {
+//   height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+//   flex-wrap: wrap;
+//   position: relative;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100vw;
+
+//   &:before,
+//   &:after {
+//     content: "\2B22";
+//     display: block;
+//     position: absolute;
+//     z-index: -3;
+//     color: $light-light-blue;
+//     width: 100vw;
+//   }
+//   &:before {
+//     right: 0;
+//     bottom: -19;
+//     height: 30em;
+//     width: 30em;
+//     border-radius: 30em;
+//     background: linear-gradient($blue-purple, $light-blue);
+//     align-self: flex-end;
+//     animation: gradient-fade 8s ease-in-out 3s infinite alternate;
+//   }
+//   &:after {
+//     $circle-unit: 10em;
+//     top: 0;
+//     left: 30;
+//     height: $circle-unit;
+//     width: $circle-unit;
+//     border-radius: $circle-unit;
+//     background: linear-gradient($blue-purple, $light-blue);
+//     animation: gradient-fade-alt 6s ease-in-out 3s infinite alternate;
+//   }
+
+//   &__text-wrapper {
+//     position: relative;
+//     padding: 2em;
+//     width: 100vw;
+
+//     &:before,
+//     &:after {
+//       content: "\2B22";
+//       display: block;
+//       position: absolute;
+//       color: blueviolet;
+//       width: 100vw;
+//     }
+
+//     &:before {
+//       $circle-unit: 13em;
+//       z-index: -1;
+//       top: -3em;
+//       right: -3em;
+//       width: $circle-unit;
+//       height: $circle-unit;
+//       opacity: 0.7;
+//       border-radius: $circle-unit;
+//       background: linear-gradient($light-light-blue, $light-blue);
+//       animation: rotation 7s linear infinite;
+//     }
+
+//     &:after {
+//       $circle-unit: 20em;
+//       z-index: -1;
+//       bottom: -#{$circle-unit};
+//       width: $circle-unit;
+//       height: $circle-unit;
+//       border-radius: $circle-unit;
+//       background: linear-gradient($light-light-green, $light-blue);
+//       animation: rotation 7s linear infinite;
+//     }
+//   }
+// }
+
+// .geo-arrow {
+//   fill: none;
+//   stroke: #fff;
+//   stroke-width: 2;
+//   stroke-miterlimit: 10
+// }
+
+// .arrow {
+//   z-index: 1000;
+//   opacity: 0.5;
+//   position: absolute;
+
+//   &--top {
+//     top: 2em;
+//     left: -5em;
+//   }
+
+//   &--bottom {
+//     bottom: 0;
+//     right: 3em;
+//   }
+// }
+
+
+
+// .circle {
+//   transform: translate(50%, -50%) rotate(0deg);
+//   transform-origin: center;
+
+//   &--ltblue {
+//     $circle-unit: 20em;
+//     height: $circle-unit;
+//     width: $circle-unit;
+//     border-radius: $circle-unit;
+//     background: linear-gradient($light-light-blue, $blue-purple);
+//   }
+// }
+
+// .hexagon {
+
+//   &--1 {
+//     transform: scale(0.9);
+//     -webkit-transform: scale(0.9);
+//   }
+
+//   &--2 {
+//     transform: scale(0.5);
+//     -webkit-transform: scale(0.5);
+//     transform-origin: 100% 60%;
+//     -webkit-transform-origin: 100% 60%;
+//   }
+
+//   &--3 {
+//     transform: scale(0.2);
+//     -webkit-transform: scale(0.2);
+//     transform-origin: 0% 0%;
+//     -webkit-transform-origin: 0% 0%;
+//   }
+
+//   &--4 {
+//     transform: scale(0.2);
+//     -webkit-transform: scale(0.2);
+//     transform-origin: 30% 5%;
+//     -webkit-transform-origin: 30% 5%;
+//   }
+
+//   &--5 {
+//     transform: scale(0.2);
+//     -webkit-transform: scale(0.2);
+//     transform-origin: 5% 12.5%;
+//     -webkit-transform-origin: 5% 12.5%;
+//   }
+// }
+
+// .backdrop {
+//   position: absolute;
+//   width: 100vw;
+//   height: 100vh;
+//   display: block;
+//   background-color: pink;
+// }
+
+// .dotted {
+//   transform-origin: center center;
+//   animation: rotation 38s linear infinite;
+// }
+
+// .dotted-hex {
+//   fill: none;
+//   stroke: #fff;
+//   stroke-width: 1;
+//   stroke-miterlimit: 10;
+//   stroke-dasharray: 12.921,11.9271;
+//   transform: scale(1.5);
+//   -webkit-transform: scale(1.5);
+// }
+
+// // animations
+// .draw-in {
+//   stroke-dasharray: 1000;
+//   stroke-dashoffset: 10;
+//   animation: draw 15s ease-in-out alternate infinite;
+// }
+
+// @keyframes draw {
+//   from {
+//     stroke-dashoffset: 1000;
+//   }
+
+//   to {
+//     stroke-dashoffset: 0;
+//   }
+// }
+
+// .item-to {
+//   animation-duration: 10s;
+//   animation-iteration-count: infinite;
+//   transform-origin: bottom;
+// }
+
+// .bounce-1 {
+//   animation-name: bounce-1;
+//   animation-timing-function: ease;
+// }
+
+// .bounce-2 {
+//   animation-name: bounce-2;
+//   animation-timing-function: ease;
+// }
+
+// .bounce-3 {
+//   animation-name: bounce-3;
+//   animation-timing-function: ease;
+// }
+
+// @keyframes bounce-1 {
+//   0% {
+//     transform: translateY(0);
+//   }
+//   50% {
+//     transform: translateY(50px);
+//   }
+//   100% {
+//     transform: translateY(0);
+//   }
+// }
+
+// @keyframes bounce-2 {
+//   0% {
+//     transform: translateY(0);
+//   }
+//   50% {
+//     transform: translateY(-30px);
+//   }
+//   100% {
+//     transform: translateY(0);
+//   }
+// }
+
+// @keyframes bounce-3 {
+//   0% {
+//     transform: translateY(0);
+//   }
+//   50% {
+//     transform: translateY(30px);
+//   }
+//   100% {
+//     transform: translateY(0);
+//   }
+// }
+
+// // gradient fade
+
+// @keyframes rotation {
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// }
+
+// @keyframes gradient-fade {
+//   from {
+//     transform: translate(10%, -10%) rotate(0deg);
+//   }
+//   to {
+//     transform: translate(50%, -50%) rotate(360deg);
+//   }
+// }
+
+// @keyframes gradient-fade-alt {
+//   from {
+//     transform: translate(-20%, 20%) rotate(0deg);
+//   }
+//   to {
+//     transform: translate(-60%, 60%) rotate(360deg);
+//   }
+// }

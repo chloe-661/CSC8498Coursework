@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+$raleway: 'Raleway';
+
+//Colours ------------------------------------------------------------------------------------------------------------------
+
+$rich-black: #040f0fff;
+$forest-green: #248232ff;
+$pigment-green: #2ba84aff;
+$gunmetal: #2d3a3aff;
+$baby-powder: #fcfffcff;
+
+// $rich-black: rgba(4, 15, 15, 1);
+// $forest-green: rgba(36, 130, 50, 1);
+// $pigment-green: rgba(43, 168, 74, 1);
+// $gunmetal: rgba(45, 58, 58, 1);
+// $baby-powder: rgba(252, 255, 252, 1);
+
+$black: #000501ff;
+$cambridge-blue: #73ab84ff;
+$celadon: #99d19cff;
+$tiffany-blue: #79c7c5ff;
+$non-photo-blue: #ade1e5ff;
+
+// $black: rgba(0, 5, 1, 1);
+// $cambridge-blue: rgba(115, 171, 132, 1);
+// $celadon: rgba(153, 209, 156, 1);
+// $tiffany-blue: rgba(121, 199, 197, 1);
+// $non-photo-blue: rgba(173, 225, 229, 1);
+
+$night: #00120bff;
+$dark-slate-gray: #35605aff;
+$slate-gray: #6b818cff;
+$lavender-web: #d8e4ffff;
+$spring-green: #31e981ff;
+
+// $night: rgba(0, 18, 11, 1);
+// $dark-slate-gray: rgba(53, 96, 90, 1);
+// $slate-gray: rgba(107, 129, 140, 1);
+// $lavender-web: rgba(216, 228, 255, 1);
+// $spring-green: rgba(49, 233, 129, 1);
+
+$light-blue: #67B7EE;
+$blue-purple: #6E78FF;
+$light-light-blue: #61F4DE;
+$light-light-green: #7EF29D;
+
+// Text -----------------------------------------------------------------------------------------------------------------
+
+body {
+
+}
+
+h1 {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+h2 {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+h3 {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+h4 {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+h5 {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+h6 {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+p {
+    color: $baby-powder;
+    font-family: $raleway;
+}
+
+a {
+
+}
+
+// Navigation -----------------------------------------------------------------------------------------------------------------
+
+.navbar {
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    background-color: transparent !important;
+}
+
+.navbar-brand {
+    color: $forest-green !important;
+    
+    &:hover {
+        color: $baby-powder !important;
+    }
+}
+
+.navbar-toggler {
+    border-color: $forest-green !important;
+    color: $pigment-green !important;
+
+    &:hover {
+        border-color: $baby-powder !important;
+      }
+}
+
+.navbar-toggler-icon {
+    background-image: url('../img/menu-icon-green.png') !important;
+}
+
+.offcanvas {
+    background-color: $gunmetal !important;
+    text-align: left !important;
+}
+
+// Containers -----------------------------------------------------------------------------------------------------------------
+
+.App {
+    text-align: center;
+}
+
+.App-header {
+    /* background-color: #282c34; */
+    // align-items: center;
+    // justify-content: center;
+    // font-size: calc(10px + 2vmin);
+
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.gameFrameContainer{
+    width: 100vw;
+    height: 100vh;
+    word-wrap: normal;
+    overflow: auto;
+}
+
+.gameFrame{
+    padding: 1rem;
+    min-width: 1080px;
+    min-height: 520px;
+}
+
+// Buttons --------------------------------------------------------------------------------------------------
+
+.btn {
+    background-color: $forest-green !important;
+    border-color: $forest-green !important;
+    color: $rich-black !important;
+
+    &:hover {
+        border-color: $baby-powder !important;
+        background-color: $pigment-green !important;
+    }
+}

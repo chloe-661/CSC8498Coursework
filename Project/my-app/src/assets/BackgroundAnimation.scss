@@ -1,0 +1,342 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;1,500&display=swap");
+
+$light-blue: #67B7EE;
+$blue-purple: #6E78FF;
+$light-light-blue: #61F4DE;
+$light-light-green: #7EF29D;
+
+// This is an example of animations & svgs... I completely understand that the amount of absolute positioning in this file is insane... ;) <3
+
+body {
+  background: linear-gradient($blue-purple, $light-blue);
+  height: 100vh;
+  font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "DM Mono", monospace;
+  font-weight: 300;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3em;
+  margin-bottom: 0.2em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+#background-container {
+  width: 100vw;
+  height: 80vw;
+  top: 20vw;
+}
+
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+
+  &:before,
+  &:after {
+    content: "\2B22";
+    display: block;
+    position: absolute;
+    z-index: -3;
+    color: $light-light-blue;
+    width: 100vw;
+  }
+  &:before {
+    right: 0;
+    bottom: -19;
+    height: 30em;
+    width: 30em;
+    border-radius: 30em;
+    background: linear-gradient($blue-purple, $light-blue);
+    align-self: flex-end;
+    animation: gradient-fade 8s ease-in-out 3s infinite alternate;
+  }
+  &:after {
+    $circle-unit: 10em;
+    top: 0;
+    left: 30;
+    height: $circle-unit;
+    width: $circle-unit;
+    border-radius: $circle-unit;
+    background: linear-gradient($blue-purple, $light-blue);
+    animation: gradient-fade-alt 6s ease-in-out 3s infinite alternate;
+  }
+
+  &__text-wrapper {
+    position: relative;
+    padding: 2em;
+    width: 100vw;
+
+    &:before,
+    &:after {
+      content: "\2B22";
+      display: block;
+      position: absolute;
+      color: blueviolet;
+      width: 100vw;
+    }
+
+    &:before {
+      $circle-unit: 13em;
+      z-index: -1;
+      top: -3em;
+      right: -3em;
+      width: $circle-unit;
+      height: $circle-unit;
+      opacity: 0.7;
+      border-radius: $circle-unit;
+      background: linear-gradient($light-light-blue, $light-blue);
+      animation: rotation 7s linear infinite;
+    }
+
+    &:after {
+      $circle-unit: 20em;
+      z-index: -1;
+      bottom: -#{$circle-unit};
+      width: $circle-unit;
+      height: $circle-unit;
+      border-radius: $circle-unit;
+      background: linear-gradient($light-light-green, $light-blue);
+      animation: rotation 7s linear infinite;
+    }
+  }
+}
+
+.geo-arrow {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-miterlimit: 10
+}
+
+.arrow {
+  z-index: 1000;
+  opacity: 0.5;
+  position: absolute;
+
+  &--top {
+    top: 2em;
+    left: -5em;
+  }
+
+  &--bottom {
+    bottom: 0;
+    right: 3em;
+  }
+}
+
+.hex {
+  z-index: 1000;
+  position: absolute;
+  
+  &--1 {
+    position: absolute;
+    opacity: 0.5;
+    top: 5em;
+    left: 1em;
+  }
+
+  &--2 {
+    position: absolute;
+    opacity: 1;
+    top: 22em;
+    left: 20em;
+  }
+
+  &--3 {
+    position: absolute;
+    opacity: 0.5;
+    top: 60%;
+    left: 50%;
+    // transform: translate(30%, -50%);
+    width: 100vw;
+    height: 80vh;
+    transform: translate(-50%, -60%);
+  }
+}
+
+.circle {
+  transform: translate(50%, -50%) rotate(0deg);
+  transform-origin: center;
+
+  &--ltblue {
+    $circle-unit: 20em;
+    height: $circle-unit;
+    width: $circle-unit;
+    border-radius: $circle-unit;
+    background: linear-gradient($light-light-blue, $blue-purple);
+  }
+}
+
+.hexagon {
+
+  &--1 {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+  }
+
+  &--2 {
+    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform-origin: 100% 60%;
+    -webkit-transform-origin: 100% 60%;
+  }
+
+  &--3 {
+    transform: scale(0.2);
+    -webkit-transform: scale(0.2);
+    transform-origin: 0% 0%;
+    -webkit-transform-origin: 0% 0%;
+  }
+
+  &--4 {
+    transform: scale(0.2);
+    -webkit-transform: scale(0.2);
+    transform-origin: 30% 5%;
+    -webkit-transform-origin: 30% 5%;
+  }
+
+  &--5 {
+    transform: scale(0.2);
+    -webkit-transform: scale(0.2);
+    transform-origin: 5% 12.5%;
+    -webkit-transform-origin: 5% 12.5%;
+  }
+}
+
+.backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  background-color: pink;
+}
+
+.dotted {
+  transform-origin: center center;
+  animation: rotation 38s linear infinite;
+}
+
+.dotted-hex {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1;
+  stroke-miterlimit: 10;
+  stroke-dasharray: 12.921,11.9271;
+  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+}
+
+// animations
+.draw-in {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 10;
+  animation: draw 15s ease-in-out alternate infinite;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.item-to {
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+}
+
+.bounce-1 {
+  animation-name: bounce-1;
+  animation-timing-function: ease;
+}
+
+.bounce-2 {
+  animation-name: bounce-2;
+  animation-timing-function: ease;
+}
+
+.bounce-3 {
+  animation-name: bounce-3;
+  animation-timing-function: ease;
+}
+
+@keyframes bounce-1 {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-2 {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-3 {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+// gradient fade
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradient-fade {
+  from {
+    transform: translate(10%, -10%) rotate(0deg);
+  }
+  to {
+    transform: translate(50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes gradient-fade-alt {
+  from {
+    transform: translate(-20%, 20%) rotate(0deg);
+  }
+  to {
+    transform: translate(-60%, 60%) rotate(360deg);
+  }
+}
