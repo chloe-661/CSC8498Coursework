@@ -109,6 +109,10 @@ a {
     font-family: $raleway;
 }
 
+.navbar-nav > p {
+    font-size: 0.75rem !important;
+}
+
 .navbar-brand {
     color: $forest-green !important;
     
@@ -130,10 +134,17 @@ a {
     background-image: url('../img/menu-icon-green.png') !important;
 }
 
+.nav-link {
+    font-size: 1rem !important;
+}
+
 .offcanvas {
     background-color: $gunmetal !important;
     text-align: left !important;
+    font-family: $raleway !important;
 }
+
+
 
 // Containers -----------------------------------------------------------------------------------------------------------------
 
@@ -172,7 +183,7 @@ a {
 }
 
 .home div {
-    min-height: 10px;
+    min-height: 10px; //A low enough value that the div sizes automatically to the content within it
 }
 
 // Buttons --------------------------------------------------------------------------------------------------
