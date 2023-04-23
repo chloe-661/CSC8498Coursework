@@ -16,7 +16,7 @@ function Minigames (){
 
         <div className="gameFrameContainer">
           <div className="gameFrame">  
-            <h1>Minigames</h1>
+            <h1>MINIGAMES</h1>
             {games.map(({ title, description, src, route }) => (
                     <MiniGameDisplayCard key={title} title={title} text={description} img={src} path={route} />
                 ))}
