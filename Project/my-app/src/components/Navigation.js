@@ -20,7 +20,7 @@ function Navigation(props) {
     <>
         <Navbar key={false} bg="light" expand={false} className="mb-3">
           <Container fluid>
-            <Navbar.Brand as={Link} to="/">INPUT_APP_NAME</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/"><img src={require('../assets/img/code-icon.png')} className="logo" />INPUT_APP_NAME</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${false}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${false}`}

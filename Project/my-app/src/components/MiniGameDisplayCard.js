@@ -2,17 +2,9 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 function MiniGameDisplayCard(props) {
-
-  const cardStyles = {
-    width: '18rem', 
-    color: 'black', 
-    display: 'inline-block', 
-    margin: '1rem',
-  }
-
   return (
-    <Card style={cardStyles}>
-      <Card.Img variant="top" src={props.src} />
+    <Card>
+      <Card.Img variant="top" src={props.img} />
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
         <Card.Text>

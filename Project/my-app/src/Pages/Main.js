@@ -1,11 +1,6 @@
 import React from 'react';
 import Background1 from '../components/Background1';
 
-//Components
-
-//Styles
-import '../assets/css/Styles.css';
-
 function Main (){
     return (
         <>

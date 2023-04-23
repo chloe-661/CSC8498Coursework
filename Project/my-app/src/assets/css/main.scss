@@ -1,3 +1,13 @@
+// This stylesheet contains styles for all basic elements and components that can appear in multiple places
+// such as headings, buttons, text and containers
+
+// These components use bootstrap as the basis and then these styles override some features to customise the application
+
+// See the specific style sheets for more the rest
+
+
+// Fonts -----------------------------------------------------------------------------------------------------------------
+
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 $raleway: 'Raleway';
 
@@ -14,11 +24,12 @@ $pigment-green: #2ba84aff;
 $gunmetal: #2d3a3aff;
 $baby-powder: #fcfffcff;
 
-// $rich-black: rgba(4, 15, 15, 1);
-// $forest-green: rgba(36, 130, 50, 1);
-// $pigment-green: rgba(43, 168, 74, 1);
-// $gunmetal: rgba(45, 58, 58, 1);
-// $baby-powder: rgba(252, 255, 252, 1);
+$rich-black-rgba: rgba(4, 15, 15, 1);
+$forest-green-rgba: rgba(36, 130, 50, 1);
+$pigment-green-rgba: rgba(43, 168, 74, 1);
+$gunmetal-rgba: rgba(45, 58, 58, 1);
+$baby-powder-rgba: rgba(252, 255, 252, 1);
+
 
 $black: #000501ff;
 $cambridge-blue: #73ab84ff;
@@ -26,11 +37,12 @@ $celadon: #99d19cff;
 $tiffany-blue: #79c7c5ff;
 $non-photo-blue: #ade1e5ff;
 
-// $black: rgba(0, 5, 1, 1);
-// $cambridge-blue: rgba(115, 171, 132, 1);
-// $celadon: rgba(153, 209, 156, 1);
-// $tiffany-blue: rgba(121, 199, 197, 1);
-// $non-photo-blue: rgba(173, 225, 229, 1);
+$black-rgba: rgba(0, 5, 1, 1);
+$cambridge-blue-rgba: rgba(115, 171, 132, 1);
+$celadon-rgba: rgba(153, 209, 156, 1);
+$tiffany-blue-rgba: rgba(121, 199, 197, 1);
+$non-photo-blue-rgba: rgba(173, 225, 229, 1);
+
 
 $night: #00120bff;
 $dark-slate-gray: #35605aff;
@@ -38,11 +50,12 @@ $slate-gray: #6b818cff;
 $lavender-web: #d8e4ffff;
 $spring-green: #31e981ff;
 
-// $night: rgba(0, 18, 11, 1);
-// $dark-slate-gray: rgba(53, 96, 90, 1);
-// $slate-gray: rgba(107, 129, 140, 1);
-// $lavender-web: rgba(216, 228, 255, 1);
-// $spring-green: rgba(49, 233, 129, 1);
+$night-rgba: rgba(0, 18, 11, 1);
+$dark-slate-gray-rgba: rgba(53, 96, 90, 1);
+$slate-gray-rgba: rgba(107, 129, 140, 1);
+$lavender-web-rgba: rgba(216, 228, 255, 1);
+$spring-green-rgba: rgba(49, 233, 129, 1);
+
 
 $light-blue: #67B7EE;
 $blue-purple: #6E78FF;
@@ -50,10 +63,6 @@ $light-light-blue: #61F4DE;
 $light-light-green: #7EF29D;
 
 // Text -----------------------------------------------------------------------------------------------------------------
-
-body {
-
-}
 
 h1 {
     color: $baby-powder;
@@ -96,7 +105,7 @@ p {
 }
 
 a {
-
+    font-family: $raleway;
 }
 
 // Navigation -----------------------------------------------------------------------------------------------------------------
@@ -119,6 +128,12 @@ a {
     &:hover {
         color: $baby-powder !important;
     }
+}
+
+.navbar-brand img.logo {
+    width: 15%;
+    padding-bottom: 0.2rem;
+    padding-right: 0.5rem;
 }
 
 .navbar-toggler {
@@ -192,9 +207,21 @@ a {
     background-color: $forest-green !important;
     border-color: $forest-green !important;
     color: $rich-black !important;
+    font-family: $raleway;
 
     &:hover {
         border-color: $baby-powder !important;
         background-color: $pigment-green !important;
     }
+}
+
+// Cards -----------------------------------------------------------------------------------------------------
+
+.card {
+    display: inline-block;
+    width: 18rem;
+    display: inline-block;
+    margin: 1rem;
+    background-color: $gunmetal;
+    font-family: $raleway;
 }

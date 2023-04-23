@@ -1,6 +1,9 @@
-// import './App.css';
+//Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/css/main.scss';
+import './assets/css/Main.scss';
+
+//Components
+import Navigation from './components/Navigation';
 
 //Navigation
 import { Routes, Route } from 'react-router-dom';
@@ -12,9 +15,6 @@ import MiniGame1 from './Pages/MiniGame1';
 import MiniGame2 from './Pages/MiniGame2';
 import Page404 from './Pages/Page404';
 import Test from './Pages/Test';
-
-//Components
-import Navigation from './components/Navigation';
 
 function App() {
   return (

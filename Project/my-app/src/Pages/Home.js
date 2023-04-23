@@ -1,9 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import {Link } from "react-router-dom";
-// import '../assets/css/BackgroundAnimation.scss';
 import '../assets/css/Background.scss';
-// import '../assets/css/main.scss'
 import Background1 from '../components/Background1';
 
 
