@@ -1,12 +1,65 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+
+//Styles
 import Button from 'react-bootstrap/Button';
+
+//Components
 import Background1 from '../components/Background1';
+import GameOptionsCard from '../components/GameOptionsCard';
 
 function Main (){
-    const options = {
-        solo: false,
-        coop: false,
-      }
+
+    const [gameMode, setGameMode] = useState(null); //Solo or Coop
+    const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
+    
+    const [sessionKey, setSessionKey] = useState(null); //e.g NHWUI91
+    const [sessionDuration, setSessionDuration] = useState(null); //e.g 02:34 (2mins, 34 seconds)
+
+    const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
+
+    useEffect(() => {
+        console.log(gameMode);
+    });    
+    
+    //Event Handlers --------------------------------------------------------------------------------------------
+    
+    function soloOrCoopButtonClick(e, mode) {
+        setGameMode(mode);
+    }
+
+    //Element Display Functions --------------------------------------------------------------------------------
+    function SoloOrCoop() {
+        if (gameMode == null){
+            return  (
+                <>
+                <GameOptionsCard img="" title="SOLO" text="Play by yourself" buttonText="Play">
+                    <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
+                </GameOptionsCard>
+                
+                <GameOptionsCard img="" title="CO-OP" text="Play with up to 4 other people in a team">
+                    <Button onClick={(e)=>soloOrCoopButtonClick(e, 'coop')}>Play</Button>
+                </GameOptionsCard>
+                </>
+            )
+        }
+    }
+
+    function StartOrJoinSession() {
+        if (gameMode == "coop"){
+            return  (
+                <>
+                <GameOptionsCard img="" title="Start" text="Play by yourself" buttonText="Play">
+                    <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
+                </GameOptionsCard>
+                
+                <GameOptionsCard img="" title="Join" text="Play with up to 4 other people in a team">
+                    <Button onClick={(e)=>soloOrCoopButtonClick(e, 'coop')}>Play</Button>
+                </GameOptionsCard>
+                </>
+            )
+        }
+    }
     
     return (
         <>
@@ -15,27 +68,14 @@ function Main (){
             <div className="gameFrame">  
                 <h1>Main Page</h1>
                 <div>
-                <SoloOrCoop options={options}/>
+                <SoloOrCoop/>
+                <StartOrJoinSession/>
                 </div>
                 <Button>How it works</Button>
             </div>
         </div>
         </>
     )
-}
-
-function SoloOrCoop(props) {
-    const isSolo = props.options.solo;
-    const isCoop = props.options.coop;
-    if (!isSolo && !isCoop){
-        return  (
-            <>
-            <h3>Play:</h3>
-            <Button>Solo</Button>
-            <Button>Coop</Button>
-            </>
-        )
-    }
 }
 
 export default Main;
