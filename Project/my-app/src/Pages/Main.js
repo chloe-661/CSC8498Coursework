@@ -42,7 +42,7 @@ function Main (){
         if (gameMode == null){
             return  (
                 <>
-                <GameOptionsCard img="" title="SOLO" text="Play by yourself" buttonText="Play">
+                <GameOptionsCard img="https://icons8.com/icon/83190/user" title="SOLO" text="Play by yourself" buttonText="Play">
                     <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
                 </GameOptionsCard>
                 

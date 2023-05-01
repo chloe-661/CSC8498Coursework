@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import "../assets/css/Dashboard.scss";
 import { auth, db, logout } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
+
+//Styles
+import Button from 'react-bootstrap/Button';
+
+//Components
+import Background1 from '../components/Background1';
 
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
@@ -27,16 +32,21 @@ function Dashboard() {
     fetchUserName();
   }, [user, loading]);
   return (
-    <div className="dashboard">
-       <div className="dashboard__container">
-        Logged in as
-         <div>{name}</div>
-         <div>{user?.email}</div>
-         <button className="dashboard__btn" onClick={logout}>
-          Logout
-         </button>
-       </div>
-     </div>
+    <>
+        <div className="dashboard">
+            <div className="dashboard__container">
+                <h2>Logged in as:</h2>
+                <div>
+                    <p>{name}</p>
+                    <p>{user?.email}</p>
+                </div>
+                <Button className="dashboard__btn" onClick={logout}>
+                Logout
+                </Button>
+            </div>
+        </div>
+        <Background1 />
+     </>
   );
 }
 export default Dashboard;
