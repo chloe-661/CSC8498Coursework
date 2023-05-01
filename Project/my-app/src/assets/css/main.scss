@@ -109,6 +109,10 @@ a {
     font-family: $raleway;
 }
 
+.greenText {
+    color: $pigment-green;
+}
+
 // Navigation -----------------------------------------------------------------------------------------------------------------
 
 .navbar {
@@ -131,7 +135,7 @@ a {
     }
 }
 
-.navbar-brand img.logo {
+.navbar-brand img.logo, .logoOffCanvas {
     width: 25%;
     padding-bottom: 0.2rem;
     padding-right: 0.5rem;
@@ -158,6 +162,7 @@ a {
     background-color: $gunmetal !important;
     text-align: left !important;
     font-family: $raleway !important;
+    width: 300px !important;
 }
 
 
@@ -205,7 +210,20 @@ a {
 // Buttons --------------------------------------------------------------------------------------------------
 
 .btn {
+    margin-bottom: 1rem;
     background-color: $forest-green !important;
+    border-color: $forest-green !important;
+    color: $rich-black !important;
+    font-family: $raleway;
+
+    &:hover {
+        border-color: $baby-powder !important;
+        background-color: $pigment-green !important;
+    }
+}
+
+.btn.red {
+    background-color: red !important;
     border-color: $forest-green !important;
     color: $rich-black !important;
     font-family: $raleway;

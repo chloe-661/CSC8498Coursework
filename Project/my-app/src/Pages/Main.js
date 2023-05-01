@@ -1,5 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
+import { auth} from "../firebase";
 
 //Styles
 import Button from 'react-bootstrap/Button';
@@ -9,7 +12,11 @@ import Background1 from '../components/Background1';
 import GameOptionsCard from '../components/GameOptionsCard';
 
 function Main (){
-
+    const [user, loading, error] = useAuthState(auth);
+    const navigate = useNavigate();
+    
+    
+    
     const [gameMode, setGameMode] = useState(null); //Solo or Coop
     const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
     
@@ -20,7 +27,9 @@ function Main (){
 
     useEffect(() => {
         console.log(gameMode);
-    });    
+        if (loading) return;
+        if (!user) return navigate("/login", {state:{previousPath: "/main"}});
+    });
     
     //Event Handlers --------------------------------------------------------------------------------------------
     
@@ -71,7 +80,7 @@ function Main (){
                 <SoloOrCoop/>
                 <StartOrJoinSession/>
                 </div>
-                <Button>How it works</Button>
+                <Button className="red">How it works</Button>
             </div>
         </div>
         </>

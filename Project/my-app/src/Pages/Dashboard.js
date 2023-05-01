@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "../assets/css/Dashboard.scss";
 import { auth, db, logout } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
+
 function Dashboard() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const navigate = useNavigate();
   const fetchUserName = async () => {
     try {
+        console.log("trying");
       const q = query(collection(db, "users"), where("uid", "==", user?.uid));
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
@@ -21,7 +23,7 @@ function Dashboard() {
   };
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate("/");
+    if (!user) return navigate("/login", {state:{previousPath: "/dashboard"}});
     fetchUserName();
   }, [user, loading]);
   return (

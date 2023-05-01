@@ -12,9 +12,9 @@ function Home (){
 
         <div className="gameFrameContainer home">
           <div className="gameFrame">  
-            <h1 className="title">HOME PAGE</h1>
+            <h1 className="title">DevWeb</h1>
             <h2>Lorem ipsum dolor sit amet. Et quae unde sit rerum pariatur qui enim dolorem in dignissimos magnam non internos nulla? Sed obcaecati voluptatem eum similique corrupti aut vero suscipit et dolorum impedit ea magni dolorum.</h2>
-            <Button>Get Started</Button>
+            <Button as={Link} to="/main">Get Stated</Button>
           </div>
         </div>
       </>

@@ -6,6 +6,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Link } from 'react-router-dom';
 
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db, logout } from "../firebase";
+import { query, collection, getDocs, where } from "firebase/firestore";
+
 // import '../assets/css/Navigation.scss';
 
 function Navigation(props) {
@@ -15,6 +20,46 @@ function Navigation(props) {
         { title: "Minigame2", route: "/minigame2" },
         { title: "Minigame3", route: "/minigame3" },
       ];
+
+  const [user, loading, error] = useAuthState(auth);
+  const [name, setName] = useState("");
+
+  const fetchUserName = async () => {
+    try {
+        console.log("trying");
+      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+      const doc = await getDocs(q);
+      const data = doc.docs[0].data();
+      setName(data.name);
+    } catch (err) {
+      console.error(err);
+      alert("An error occured while fetching user data");
+    }
+  };
+
+  useEffect(() => {
+    AuthentificationDisplays();
+  }, [user, loading]);
+
+  function AuthentificationDisplays() {
+    if (!user){
+        return  (
+          <>
+            <Button as={Link} to="/login">Log In</Button>
+            <Button as={Link} to="/register">Register</Button>
+          </>
+        )
+    }
+    else {
+      fetchUserName();
+        return  (
+            <>
+                <p><i>Logged in as: <span class="greenText">{name}</span></i></p>
+                <Button as={Link} to="/" onClick={() => logout()}>Logout</Button>
+            </>
+        )
+    }
+}
 
   return (
     <>
@@ -29,12 +74,14 @@ function Navigation(props) {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${false}`}>
-                  DevWeb
+                <img src={require('../assets/img/code-icon.png')} className="logoOffCanvas" />
+                DevWeb
                 </Offcanvas.Title>
               </Offcanvas.Header> 
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link as={Link} to="/">Home</Nav.Link>
+                  <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
                   <Nav.Link as={Link} to="/main">Main Game</Nav.Link>
                   <NavDropdown
                     title="Minigames"
@@ -50,7 +97,7 @@ function Navigation(props) {
                   </NavDropdown>
 
                     <hr/>
-                    <AuthentificationDisplays isLoggedIn={props.isLoggedIn} username={props.username}/>
+                    <AuthentificationDisplays />
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
@@ -58,23 +105,6 @@ function Navigation(props) {
         </Navbar>
     </>
   );
-}
-
-function AuthentificationDisplays(props) {
-    const isLoggedIn = props.isLoggedIn;
-    if (!isLoggedIn){
-        return  (
-            <Button as={Link} to="/login">Log In</Button>
-        )
-    }
-    else {
-        return  (
-            <>
-                <p><i>Logged in as: <b>{props.username}</b></i></p>
-                <Button as={Link} to="/">Logout</Button>
-            </>
-        )
-    }
 }
 
 export default Navigation;

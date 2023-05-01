@@ -12,6 +12,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import LogIn from './Pages/LogIn';
 import Register from './Pages/Register';
+import Dashboard from './Pages/Dashboard';
 import Reset from './Pages/Reset';
 import MainGame from './Pages/Main';
 import Minigames from './Pages/Minigames';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset" element={<Reset />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/main" element={<MainGame />} />
           <Route path="/minigames" element={<Minigames />} />
           <Route path="/minigame1" element={<MiniGame1 />} />
