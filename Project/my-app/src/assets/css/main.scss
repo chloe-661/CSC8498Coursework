@@ -74,6 +74,11 @@ h1.title {
     font-family: Exthing;
 }
 
+h1.title2 {
+    font-size: 70px;
+    font-family: Exthing;
+}
+
 h2 {
     color: $baby-powder;
     font-family: $raleway;
@@ -224,16 +229,11 @@ a {
     }
 }
 
-.btn.red {
-    background-color: red !important;
-    border-color: $forest-green !important;
+.btn-instructions {
+    background-color: $baby-powder !important;
+    border-color: $baby-powder !important;
     color: $rich-black !important;
     font-family: $raleway;
-
-    &:hover {
-        border-color: $baby-powder !important;
-        background-color: $pigment-green !important;
-    }
 }
 
 // Cards -----------------------------------------------------------------------------------------------------
@@ -241,9 +241,23 @@ a {
 .card {
     display: inline-block;
     width: 18rem;
-    display: inline-block;
     margin: 1rem;
     background-color: rgba(45, 58, 58, 0.5);
+    font-family: $raleway;
+    // min-height: 50vh;
+    vertical-align: top;
+}
+
+.instruction-panel {
+    position: absolute;
+    z-index: 50;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    margin: 1rem;
+    background-color: red;
     font-family: $raleway;
 }
 
@@ -251,6 +265,24 @@ a {
     color: white;
     font-size: 1rem;
     font-style: italic;
+}
+
+.card-options {
+    border: 1px dashed $pigment-green !important;
+    border-radius: 10px !important; 
+}
+
+.tinyText {
+    font-size: 0.75rem !important;
+}
+
+.bigNumber  {
+    font-size: 100px !important;
+}
+
+.bigSessionKey {
+    font-size: 50px !important;
+    color: $forest-green;
 }
 
 // Auth Forms -----------------------------------------------------------------------------------------------------------------
@@ -282,7 +314,7 @@ label {
     text-align: left;
 }
 
-.login__textBox, .register__textBox, .reset__textBox {
+.login__textBox, .register__textBox, .reset__textBox, .sessionKey__textBox {
     padding: 10px;
     font-size: 1rem;
     margin-bottom: 10px;
