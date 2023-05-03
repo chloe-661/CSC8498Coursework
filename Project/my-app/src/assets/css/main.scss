@@ -230,10 +230,26 @@ a {
 }
 
 .btn-instructions {
+    display: block;
+    margin: auto;
     background-color: $baby-powder !important;
     border-color: $baby-powder !important;
     color: $rich-black !important;
     font-family: $raleway;
+}
+
+.btn-back {
+    display: block;
+    margin: auto;
+    background-color: $gunmetal !important;
+    border-color: $gunmetal !important;
+    color: $baby-powder !important;
+    font-family: $raleway;
+
+    &:hover {
+        border-color: $gunmetal !important;
+        background-color: $rich-black !important;
+    }
 }
 
 // Cards -----------------------------------------------------------------------------------------------------
@@ -263,8 +279,7 @@ a {
 
 .card p {
     color: white;
-    font-size: 1rem;
-    font-style: italic;
+    font-size: 1rem !important;
 }
 
 .card-options {
@@ -272,17 +287,40 @@ a {
     border-radius: 10px !important; 
 }
 
-.tinyText {
-    font-size: 0.75rem !important;
-}
-
-.bigNumber  {
-    font-size: 100px !important;
-}
-
-.bigSessionKey {
-    font-size: 50px !important;
+.card-options .card-title {
     color: $forest-green;
+    font-weight: bold;
+}
+
+.card-options .card-text {
+    margin: 0 !important;
+}
+
+.card-options .tinyText {
+    font-size: 0.75rem !important;
+    font-style: italic !important;
+}
+
+.card-options .bigNumber  {
+    font-size: 100px !important;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-options .bigText, .card-options .bigSessionKey {
+    font-size: 50px !important;
+    // color: $forest-green;
+}
+
+.card-options .btn {
+    margin-bottom: 0;
+    margin-top: 1rem;
+}
+
+.card-options .sessionKey__textBox {
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 1rem;
 }
 
 // Auth Forms -----------------------------------------------------------------------------------------------------------------
@@ -314,7 +352,7 @@ label {
     text-align: left;
 }
 
-.login__textBox, .register__textBox, .reset__textBox, .sessionKey__textBox {
+.login__textBox, .register__textBox, .reset__textBox {
     padding: 10px;
     font-size: 1rem;
     margin-bottom: 10px;

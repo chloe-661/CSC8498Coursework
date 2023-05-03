@@ -7,12 +7,12 @@ function GameOptionsCard(props) {
       <Card.Img variant="top" src={props.img}/>
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
-        <Card.Title className="bigNumber">{props.number}</Card.Title>
-        <Card.Title className="bigSessionKey">{props.sessKey}</Card.Title>
+        <Card.Text>{props.topLine}</Card.Text>
+        <Card.Text className="bigNumber">{props.bigNumber}</Card.Text>
+        <Card.Text className="bigText bigSessionKey">{props.bigText}</Card.Text>
         <Card.Text className="tinyText">{props.tinyText}</Card.Text>
-        <Card.Text>
-          {props.text}
-        </Card.Text>
+        <Card.Text>{props.bottomLine}</Card.Text>
+        <Card.Text>{props.text}</Card.Text>
         {props.children}
       </Card.Body>
     </Card>

@@ -15,9 +15,10 @@ import Instructions from '../components/Instructions';
 function Main (){
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
+    const [modalShow, setModalShow] = useState(false);
     
     
-    
+    //Options to choose from before starting a game
     const [gameMode, setGameMode] = useState(null); //Solo or Coop
     const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
     
@@ -28,6 +29,8 @@ function Main (){
 
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
 
+
+    //Hooks -----------------------------------------------------------------------------------------------------
     useEffect(() => {
         console.log("gameMode: " + gameMode);
         console.log("inputtedSessionKey: " + inputtedSessionKey);
@@ -35,7 +38,13 @@ function Main (){
         console.log("sessionPeople: " + sessionPeople);
 
         if (loading) return;
-        if (!user) return navigate("/login", {state:{previousPath: "/main"}});
+        
+        //If the user is not logged in, it redirects to the login page
+        if (!user) {
+            return (
+                navigate("/login", {state:{previousPath: "/main"}})
+            )
+        }
     });
     
     //Event Handlers --------------------------------------------------------------------------------------------
@@ -53,97 +62,138 @@ function Main (){
         //NEED TO ADD SESSION KEY AUTH IN HERE AND RESET sessionKey if it is invalid
     }
 
+    //Resets the state if the user presses the go back button based on what section they were at
+    function goBackClick(e, num){
+        switch(num){
+            case 1:
+                setGameMode(null);
+                break;
+            case 2:
+                setSessionStartType(null);
+                setInputtedSessionKey(null);
+                setSessionKey(null);
+                setSessionPeople(null);
+                break;
+        }
+    }
+
     function beginGame(e) {
         console.log("beginning game");
     }
 
     //Element Display Functions --------------------------------------------------------------------------------
-    function SoloOrCoop() {
-        if (gameMode == null){
-            return  (
+    
+    function optionBoards(){
+        if (gameMode == null) {
+            return (
                 <>
-                <h1 class="title2">GAME MODE</h1>
-                <GameOptionsCard className="card-options" title="SOLO" text="Play by yourself and make it a challenge" img="https://raw.githubusercontent.com/chloe-661/CSC8498Coursework/main/Project/my-app/src/assets/img/solo-img.png?token=GHSAT0AAAAAACBJF5EI4SPDDXPU2IXCVI4YZCQJK4A">
-                    <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
-                </GameOptionsCard>
-                
-                <GameOptionsCard className="card-options" title="CO-OP" text="Play with up to 4 other people in a team" img="https://drive.google.com/file/d/1-7aiubacJspAAGAD5uELwfWJwBCX5tDI/preview">
-                    <Button onClick={(e)=>soloOrCoopButtonClick(e, 'coop')}>Play</Button>
-                </GameOptionsCard>
+                    <h1 class="title2">GAME MODE</h1>
+                    <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
+                    <GameOptionsCard className="card-options" title="SOLO" text="Play by yourself and make it a challenge" img="https://raw.githubusercontent.com/chloe-661/CSC8498Coursework/main/Project/my-app/src/assets/img/solo-img.png?token=GHSAT0AAAAAACBJF5EI4SPDDXPU2IXCVI4YZCQJK4A">
+                        <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
+                    </GameOptionsCard>
+                    
+                    <GameOptionsCard className="card-options" title="CO-OP" text="Play with up to 4 other people in a team" img="https://drive.google.com/file/d/1-7aiubacJspAAGAD5uELwfWJwBCX5tDI/preview">
+                        <Button onClick={(e)=>soloOrCoopButtonClick(e, 'coop')}>Play</Button>
+                    </GameOptionsCard>
                 </>
             )
+        }
+        else if (gameMode == "coop"){
+            if (sessionStartType == "start"){
+                startSession();
+                if (sessionKey == null) {
+                    generateKey();
+                }
+                return (
+                    <>
+                        <h1 class="title2">NEW SESSION</h1>
+                        <Button className="btn-instructions">Need Help?</Button>
+                        <GameOptionsCard className="card-options" 
+                            title="SESSION KEY"
+                            topLine="--------------------" 
+                            bigText={sessionKey} 
+                            bottomLine="--------------------" 
+                            text="&nbsp;&nbsp;&nbsp;Give your friends this code &nbsp;&nbsp;&nbsp; Ask them to input it in the “Join Group Session” section of the “Co-op” page" 
+                            >
+                        </GameOptionsCard>
+
+                        <GameOptionsCard className="card-options" 
+                            title="PEOPLE JOINED" 
+                            bigNumber={sessionPeople}
+                            tinyText="max: 4" 
+                            text="Wait until everyone has joined..."
+                            >
+                            <Button onClick={(e)=>beginGame(e)}>Start</Button>
+                        </GameOptionsCard>
+                        <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                    </>
+                )
+            }
+            else if (sessionStartType == "join"){
+                joinSession();
+                return (
+                    <>
+                        <h1 class="title2">JOINING SESSION</h1>
+                        <Button className="btn-instructions">Need Help?</Button>
+                        <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
+                        </GameOptionsCard>
+                        <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                    </>
+                )
+            }
+            else {
+                return (
+                    <>
+                        <h1 class="title2">CO-OP</h1>
+                        <Button className="btn-instructions">How it works</Button>
+                        <GameOptionsCard className="card-options" title="START A NEW SESSION" text="Start a new session for you and your friends" img="">
+                            <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Start</Button>
+                        </GameOptionsCard>
+                        
+                        <GameOptionsCard className="card-options" title="JOIN AN EXISTING SESSION" text="Join a friends session by entering the session key they gave you" img="">
+                            <div> 
+                                <input
+                                    type="text"
+                                    id="sessionKey"
+                                    className="sessionKey__textBox"
+                                    value={inputtedSessionKey}
+                                    onChange={(e) => setInputtedSessionKey(e.target.value)}
+                                    placeholder="E.g NH63HY"
+                                />
+                            </div>
+                            <Button onClick={(e) => startOrJoinClick(e, 'join')}>Join</Button>
+            
+                        </GameOptionsCard>
+                        <Button className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                    </>
+                )
+            }
+
+        }
+        else if (gameMode == "solo"){
+
         }
     }
 
-    function StartOrJoinSession() {
-        if (gameMode == "coop"){
-            return  (
-                <>
-                <h1 class="title2">CO-OP</h1>
-                <GameOptionsCard className="card-options" title="START A NEW SESSION" text="Start a new session for you and your friends" img="">
-                    <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Start</Button>
-                </GameOptionsCard>
-                
-                <GameOptionsCard className="card-options" title="JOIN AN EXISTING SESSION" text="Join a friends session by entering the session key they gave you" img="">
-                    <div> 
-                        <input
-                            type="text"
-                            id="sessionKey"
-                            className="sessionKey__textBox"
-                            value={inputtedSessionKey}
-                            onChange={(e) => setInputtedSessionKey(e.target.value)}
-                            placeholder="E.g NH63HY"
-                        />
-                    </div>
-                    <Button onClick={(e) => startOrJoinClick(e, 'join')}>Join</Button>
-    
-                </GameOptionsCard>
-                </>
-            )
-        }
+    function joinSession(){
+        console.log("Authentificating Key");
+    }
+
+    function startSession(){
+        console.log("Starting session");
+
+        generateKey();
     }
 
     function generateKey(){
         //CONTACT DB AND MAKE KEY
+        console.log("generating key");
         const key = "NHTWKU"
         if (!sessionKey) {
             setSessionKey(key);
         }
 
-    }
-
-    function StartSession(){
-        if (sessionStartType == "start"){
-            console.log("generating key");
-            if (sessionKey == null) {
-                generateKey();
-            }
-            return (
-                <>
-                    <h1 class="title2">NEW SESSION</h1>
-                    <GameOptionsCard className="card-options" title="SESSION KEY" sessKey={sessionKey} text="Give your friends this code and ask them to input it in the “Join Group Session” section of the “Co-op” page" img="">
-                    </GameOptionsCard>
-
-                    <GameOptionsCard className="card-options" title="PEOPLE JOINED" number={sessionPeople} tinyText="max: 4" text="Wait until everyone has joined..." img="">
-                        <Button onClick={(e)=>beginGame(e)}>Start</Button>
-                    </GameOptionsCard>
-                </>
-            )
-
-        }
-    }
-
-    function JoinAndWait(){
-        if (sessionStartType == "join"){
-            console.log("generating key");
-            return (
-                <>
-                    <h1 class="title2">JOINING SESSION</h1>
-                    <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
-                    </GameOptionsCard>
-                </>
-            )
-        }
     }
     
     return (
@@ -151,16 +201,11 @@ function Main (){
         <Background1 />
         <div className="gameFrameContainer">
             <div className="gameFrame">  
-                <div>
-                {/* <SoloOrCoop/> */}
-                {/* <StartOrJoinSession/> */}
-                {SoloOrCoop()}
-                {StartOrJoinSession()}
-                {StartSession()}
-                {JoinAndWait()}
-                </div>
-                <Button className="btn-instructions">How it works</Button>
-                {/* <Instructions /> */}
+                {optionBoards()}
+                <Instructions
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                />
             </div>
         </div>
         </>
