@@ -190,8 +190,8 @@ function Main (){
                 <>
                     {/* <SessionDurationStats sessionKey={sessionKey} sessionDuration={sessionDuration} /> */}
                     <SessionDurationStats sessionKey="NHYWID" sessionDuration="02:00" />
-                    <TaskListDashboard />
-                    {/* <TaskDashboard />   */}
+                    {/* <TaskListDashboard /> */}
+                    <TaskDashboard />  
                 </>
             )       
         }
