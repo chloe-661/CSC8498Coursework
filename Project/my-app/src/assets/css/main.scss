@@ -202,7 +202,8 @@ a {
 .gameFrame{
     padding: 1rem;
     min-width: 1080px;
-    min-height: 520px;
+    height: 90%;
+    min-height: 600px;
 }
 
 .home {
@@ -262,19 +263,6 @@ a {
     font-family: $raleway;
     // min-height: 50vh;
     vertical-align: top;
-}
-
-.instruction-panel {
-    position: absolute;
-    z-index: 50;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    margin: 1rem;
-    background-color: red;
-    font-family: $raleway;
 }
 
 .card p {
@@ -371,7 +359,7 @@ label {
     }
 }
 
-// Dashboard -----------------------------------------------------------------------------------------------------------------
+// Profile/Dashboard -----------------------------------------------------------------------------------------------------------------
 
 .dashboard {
     height: 100vh;
@@ -397,3 +385,270 @@ label {
   .dashboard div {
     margin-top: 7px;
   }
+  
+
+ // -----------------------------------------------------------------------------------------------------------
+ .taskListDashboard {
+    display: grid;
+    min-height: 100%;
+    max-height: 100%;
+    width: 100%;
+    // grid-template-columns: auto auto auto auto auto auto;
+    // grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 15% 15% auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto 10%;
+  }
+  
+ .taskListDashboard .grid-item__role {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    width: 100%;
+    padding-left: 1rem;
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskListDashboard .grid-item__stats {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 6;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskListDashboard .grid-item__tasks {
+    width: 100%;
+    grid-column-start: 3;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 7;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskListDashboard .grid-item__button {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: center;
+  }
+
+  .taskListDashboard .grid-item__button .btn{
+    margin-bottom: 0;
+    margin-right: 1rem;
+    display: inline-block !important
+  }
+
+  .taskDescription {
+    width: 100% !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 1rem !important; 
+  }
+
+  .taskDescription .grid-container {
+    display: grid;
+    min-height: 100%;
+    width: 100%;
+    grid-template-columns: 20% 42% 15% 15% !important;
+    column-gap: 2.5%;
+  }
+
+  .taskDescription .grid-item__title {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
+
+  .taskDescription .grid-item__description {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+
+  .taskDescription .grid-item__language {
+    grid-column-start: 3;
+    grid-column-end: 4;
+  }
+
+  .taskDescription .grid-item__button {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    text-align: right;
+  }
+
+  .taskDescription__img {
+    width: 10px;
+  }
+
+.userRole, .sessionStats {
+    min-height: 100%;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+.sessionDurationStats {
+    position: absolute;
+    z-index: 200;
+    top: 2rem;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.sessionDurationStats .sessionKey {
+    color: $forest-green;
+    font-weight: bold;
+    margin: 0;
+    font-size: 0.75rem !important;
+}
+
+.sessionDurationStats .sessionDuration {
+    color: $baby-powder;
+    font-weight: bold;
+}
+
+
+.taskDashboard {
+    display: grid;
+    min-height: 100%;
+    max-height: 100%;
+    width: 100%;
+    // grid-template-columns: auto auto auto auto auto auto;
+    // grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 15% 15% auto auto auto 17%;
+    grid-template-rows: 16% 19% 19% 19% 19% 10%;
+  }
+  
+ .taskDashboard .grid-item__name {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    width: 100%;
+    padding-left: 1rem;
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskDashboard .grid-item__description {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 6;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskDashboard .grid-item__hint {
+    width: 100%;
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskDashboard .grid-item__task {
+    width: 100%;
+    grid-column-start: 3;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 6;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskDashboard .grid-item__info {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskDashboard .grid-item__info .card-body {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .taskDashboard .grid-item__info .card-text {
+    font-size: 0.75rem !important;
+    padding: 0 !important;
+  }
+
+  .taskDashboard .grid-item__hint .card-body {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .taskDashboard .grid-item__hint .card-text {
+    font-size: 0.75rem !important;
+    color: $forest-green !important;
+    padding: 0 !important;
+  }
+
+  .taskDashboard .grid-item__button {
+    width: 100%;
+    grid-column-start: 6;
+    grid-column-end: 7;
+    grid-row-start: 6;
+    grid-row-end: 7;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: right;
+  }
+
+  .taskDashboard .grid-item__button .btn{
+    margin-bottom: 0;
+    margin-left: 1rem;
+  }
+
+
+  .taskDashboard .grid-item__button .btn-back {
+    display: inline-block !important;
+    margin-left: 0 !important;
+}
