@@ -28,6 +28,7 @@ function TaskListDashboard(props) {
         <div class="grid-item__button">
           <Button className="btn-back">Quit</Button>
           <Button className="btn-instructions">Need Help?</Button>
+          <Button className="btn-instructions">Refresh</Button>
         </div>   
       </div>
     </>

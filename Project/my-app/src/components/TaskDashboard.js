@@ -6,6 +6,10 @@ import SessionStats from './SessionStats';
 import UserRole from './UserRole';
 
 function TaskDashboard(props) {
+    const type = "1";
+    const language = "HTML";
+    const role = "Front-end Developer";
+
   return (
     <>
       <div class="taskDashboard grid-container">
@@ -23,7 +27,7 @@ function TaskDashboard(props) {
           <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/>
         </div>
         <div class="grid-item__info">
-          <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/>
+          <UserRole description={<>Type: {type} | Language: {language} | Role: {role}</>}/>
         </div>
         <div class="grid-item__button">
         <Button className="btn-back">Go Back</Button>
