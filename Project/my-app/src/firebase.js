@@ -12,10 +12,14 @@ import {
   import {
     getFirestore,
     query,
+    doc,
+    getDoc,
     getDocs,
     collection,
     where,
     addDoc,
+    updateDoc,
+    FieldValue,
   } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -219,10 +223,11 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
 
 // Sessions ----------------------------------------------------------------------------------------------------
 
-const startSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {      
+const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {      
     try {
         const dbRef = collection(db, "sessions");
         var tempId;
+        console.log(sessionKey);
         await addDoc(dbRef, {
             key: sessionKey,
             active: true,
@@ -248,6 +253,7 @@ const startSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
                     role: t.role,
                     taskDependancies: t.taskDependancies,
                     completed: false,
+                    inUse: false,
                 });
             });
         }
@@ -259,17 +265,52 @@ const startSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
 
 const joinSessionInDb = async (sessionKey, uid, userRole) => {   
     try {
-        const querySnapshot1 = await getDocs(collection(db, "sessions"), where("sessionKey", "==", sessionKey));
+        console.log(uid);
         var sessionId;
-        querySnapshot1.forEach((doc) => {
-            sessionId = doc.id;
-        });
-
-        const querySnapshot2 = await getDocs(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
-        
-        if (querySnapshot2.length == 0){
-            
+        const querySnapshot1 = await getDocs(collection(db, "sessions"), where("sessionKey", "==", sessionKey));
+        if (!querySnapshot1.empty){
+            querySnapshot1.forEach((doc) => {
+                sessionId = doc.id;
+                console.log(doc.data());
+            });
         }
+        else {
+            return false //Session doesn't exist
+        }
+
+        const q2 = query(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
+        const querySnapshot2 = await getDocs(q2);
+        if (querySnapshot2.empty){
+            console.log("1");
+            addDoc (collection(db, "sessions", sessionId, "users"), {
+                uid: uid,
+                role: userRole,
+                leader: false,
+            });
+        }
+        console.log("2");
+
+        return true //Session joined
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const startSessionInDb = async (sessionKey) => {
+    try {
+        var sessionId;
+        const querySnapshot = await getDocs(collection(db, "sessions"), where("sessionKey", "==", sessionKey));
+        if (!querySnapshot.empty){
+            querySnapshot.forEach((doc) => {
+                sessionId = doc.id;
+            });
+        }
+        
+        await updateDoc(doc(db, "sessions", sessionId), {
+            started: true,
+            startTime: (Date.now()).toString(),
+        });
     } catch (err) {
         console.error(err);
         alert(err.message);
@@ -291,5 +332,7 @@ export {
     getAllTaskSetsAndTasks,
     getAllTaskSetsIdsWithWebStack,
     getAllTaskswithinTaskSet,
+    startNewSessionInDb,
     startSessionInDb,
+    joinSessionInDb,
 };

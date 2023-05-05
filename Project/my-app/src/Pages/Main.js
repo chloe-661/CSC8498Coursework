@@ -9,7 +9,9 @@ import {
     getAllTaskSetsAndTasks, //Gets all sets + the tasks in them
     getAllTaskSetsIdsWithWebStack, //Gets all task set ids that match a webstack type
     getAllTaskswithinTaskSet, //Gets all the tasks within a task set but ONLY gets the task information
-    startSessionInDb
+    startNewSessionInDb, //Setup of the session
+    startSessionInDb, //Starts the session for all users
+    joinSessionInDb,
 } from "../firebase";
 
 //Styles
@@ -71,6 +73,10 @@ function Main (){
 
         if (type == "start"){
             setSessionPeople(1);
+            startSession();
+        }
+        else if (type == "join"){
+            joinSession();
         }
         //NEED TO ADD SESSION KEY AUTH IN HERE AND RESET sessionKey if it is invalid
     }
@@ -116,7 +122,6 @@ function Main (){
             }
             else if (gameMode == "coop"){
                 if (sessionStartType == "start"){
-                    startSession();
                     if (sessionKey == null) {
                         generateKey();
                     }
@@ -146,7 +151,6 @@ function Main (){
                     )
                 }
                 else if (sessionStartType == "join"){
-                    joinSession();
                     return (
                         <>
                             <h1 class="title2">JOINING SESSION</h1>
@@ -208,6 +212,8 @@ function Main (){
 
     function joinSession(){
         console.log("Authentificating Key");
+        joinSessionInDb(inputtedSessionKey, user.uid, "Front-End Developer")
+        setSessionKey(inputtedSessionKey);
     }
 
     function startSession(){
@@ -219,7 +225,9 @@ function Main (){
         console.log(getAllTaskSetsIdsWithWebStack("hOOK382sKTHDCyOaaV0m"));
         
         //--------------------------------------------------------------------
-        generateKey();
+        const key = generateKey();
+        console.log(key);
+        startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
     }
 
     function generateKey(){
@@ -228,13 +236,14 @@ function Main (){
         const key = "NHTWKU"
         if (!sessionKey) {
             setSessionKey(key);
+            return key;
         }
-
     }
 
     function beginGame(){
         setSessionStarted(true);
-        startSessionInDb(sessionKey, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
+        startSessionInDb(sessionKey);
+
     }
     
     return (
