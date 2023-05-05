@@ -98,6 +98,162 @@ const logout = () => {
     signOut(auth);
 };
 
+//Tasks ---------------------------------------------------------------------------------------------
+
+//Gets all the different webstacks available
+const getWebStacks = async () => {
+    var webStacks = [];
+    try {
+        const querySnapshot = await getDocs(collection(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "webStacks"));
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+            const x = {
+                id: doc.id,
+                languages: doc.data()
+            }
+            webStacks.push(x);
+        });
+        return webStacks;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+//Gets all task set ids that match a webstack type
+const getAllTaskSetsIdsWithWebStack = async (webStackId) => {
+    var taskSets = [];
+    try {
+        const q = query(collection(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets"), where("webStack", "==", webStackId));
+        const querySnapshot = await getDocs(q);
+        
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+            const x = {
+                id: doc.id,
+                webStackId: doc.data().webStack,
+            }
+            taskSets.push(x);
+        });
+        return taskSets;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+//Gets all task sets but NOT the tasks within
+const getAllTaskSets = async () => {
+    var taskSets = [];
+    try {
+        const querySnapshot = await getDocs(collection(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets"));
+        
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+            const x = {
+                id: doc.id,
+                roles: doc.data().roles,
+                senarioDescription: doc.data().senarioDescription,
+                webStackId: doc.data().webstack,
+            }
+            taskSets.push(x);
+        });
+        return taskSets;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+//Gets all sets + the tasks in them
+const getAllTaskSetsAndTasks = async () => {
+    var taskSets = [];
+    try {
+        const querySnapshot = await getDocs(collection(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets"));
+        
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+            const x = {
+                id: doc.id,
+                roles: doc.data().roles,
+                senarioDescription: doc.data().senarioDescription,
+                webStackId: doc.data().webstack,
+                tasks: getAllTaskswithinTaskSet(doc.id),
+            }
+            taskSets.push(x);
+        });
+        return taskSets;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+//Gets all the tasks within a task set
+//Only gets the task information
+const getAllTaskswithinTaskSet = async (taskSetId) => {
+    var tasks = [];
+    try {
+        const querySnapshot = await getDocs(collection(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", taskSetId, "tasks"));
+        
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+            const x = {
+                id: doc.id,
+                name: doc.data().name,
+                description: doc.data().description,
+                language: doc.data().language,
+                role: doc.data().role,
+                type: doc.data().type,
+                taskDependancies: doc.data().taskDependancies,
+                content: doc.data().content,
+            }
+            tasks.push(x);
+        });
+        return tasks;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+// Sessions
+
+const startNewSession = async (sessionKey, taskSetId, userId, userRole) => {      
+    try {
+        const dbRef = collection(db, "sessions");
+        var tempId;
+        await addDoc(dbRef, {
+            key: sessionKey,
+            active: true,
+            started: false,
+            taskSetId: taskSetId,
+        })
+        .then(dbRef => {
+            tempId=dbRef.id;
+        });
+
+        if (tempId != null){
+            await addDoc (collection(db, "sessions", tempId, "users"), {
+                userId: userId,
+                role: userRole,
+                leader: true,
+            });
+
+            const dbRef = collection(db, "sessions", tempId, "tasks")
+            await addDoc (dbRef, {
+                //TODO
+            });
+        }
+
+
+        
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+      }
+}
+
 //Exports all functions --------------------------------------------------------------------------------------------
 
 export {
@@ -108,4 +264,9 @@ export {
     registerWithEmailAndPassword,
     sendPasswordReset,
     logout,
+    getWebStacks,
+    getAllTaskSets,
+    getAllTaskSetsAndTasks,
+    getAllTaskSetsIdsWithWebStack,
+    getAllTaskswithinTaskSet
 };

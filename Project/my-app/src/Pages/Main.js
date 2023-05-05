@@ -2,7 +2,14 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { auth} from "../firebase";
+import { 
+    auth, 
+    getWebStacks, //Gets all the different webstacks available
+    getAllTaskSets, //Gets all task sets but NOT the tasks within
+    getAllTaskSetsAndTasks, //Gets all sets + the tasks in them
+    getAllTaskSetsIdsWithWebStack, //Gets all task set ids that match a webstack type
+    getAllTaskswithinTaskSet //Gets all the tasks within a task set but ONLY gets the task information
+} from "../firebase";
 
 //Styles
 import Button from 'react-bootstrap/Button';
@@ -204,7 +211,13 @@ function Main (){
 
     function startSession(){
         console.log("Starting session");
-
+        // Input board for choosing a webstack if more than one, for now ignore
+        console.log(getWebStacks());
+        console.log(getAllTaskswithinTaskSet("2rZdId43DTc2Mrgrt2kG"));
+        console.log(getAllTaskSetsAndTasks());
+        console.log(getAllTaskSetsIdsWithWebStack("hOOK382sKTHDCyOaaV0m"));
+        
+        //--------------------------------------------------------------------
         generateKey();
     }
 
