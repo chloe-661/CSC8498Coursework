@@ -8,7 +8,8 @@ import {
     getAllTaskSets, //Gets all task sets but NOT the tasks within
     getAllTaskSetsAndTasks, //Gets all sets + the tasks in them
     getAllTaskSetsIdsWithWebStack, //Gets all task set ids that match a webstack type
-    getAllTaskswithinTaskSet //Gets all the tasks within a task set but ONLY gets the task information
+    getAllTaskswithinTaskSet, //Gets all the tasks within a task set but ONLY gets the task information
+    startSessionInDb
 } from "../firebase";
 
 //Styles
@@ -233,6 +234,7 @@ function Main (){
 
     function beginGame(){
         setSessionStarted(true);
+        startSessionInDb(sessionKey, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
     }
     
     return (
