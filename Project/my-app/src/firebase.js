@@ -257,9 +257,19 @@ const startSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
       }
 }
 
-const joinSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {   
+const joinSessionInDb = async (sessionKey, uid, userRole) => {   
     try {
+        const querySnapshot1 = await getDocs(collection(db, "sessions"), where("sessionKey", "==", sessionKey));
+        var sessionId;
+        querySnapshot1.forEach((doc) => {
+            sessionId = doc.id;
+        });
 
+        const querySnapshot2 = await getDocs(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
+        
+        if (querySnapshot2.length == 0){
+            
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
