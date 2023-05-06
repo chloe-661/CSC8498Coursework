@@ -1,11 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useState, useEffect } from 'react';
 
 import TaskDescription from './TaskDescription';
 import SessionStats from './SessionStats';
 import UserRole from './UserRole';
+import Instructions from '../components/Instructions';
 
 function TaskListDashboard(props) {
+  const [modalShow, setModalShow] = useState(false);
+
   return (
     <>
       <div class="taskListDashboard grid-container">
@@ -27,10 +31,13 @@ function TaskListDashboard(props) {
         </div>
         <div class="grid-item__button">
           <Button className="btn-back">Quit</Button>
-          <Button className="btn-instructions">Need Help?</Button>
-          <Button className="btn-instructions">Refresh</Button>
+          <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
         </div>   
       </div>
+      <Instructions
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+        />
     </>
   );
 }

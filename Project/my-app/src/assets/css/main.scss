@@ -293,11 +293,18 @@ a {
     font-size: 100px !important;
     font-weight: bold;
     margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .card-options .bigText, .card-options .bigSessionKey {
     font-size: 50px !important;
     // color: $forest-green;
+}
+
+.card-options .bigSessionKey {
+    font-size: 50px !important;
+    // color: $forest-green;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .card-options .btn {
@@ -309,6 +316,7 @@ a {
     padding: 10px;
     font-size: 1rem;
     margin-top: 1rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 // Auth Forms -----------------------------------------------------------------------------------------------------------------
@@ -524,6 +532,7 @@ label {
 .sessionDurationStats .sessionDuration {
     color: $baby-powder;
     font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 

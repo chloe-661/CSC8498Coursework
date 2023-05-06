@@ -15,6 +15,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    deleteDoc,
     collection,
     where,
     addDoc,
@@ -226,8 +227,37 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
 const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {      
     try {
         const dbRef = collection(db, "sessions");
+
+        const q = query(collection(db, "sessions"), where("key", "==", sessionKey));
+        const querySnapshot = await getDocs(q);
+
+        let result = {
+            success: true
+        };
+
+        //If the session key already exists in the database
+        //It will delete all session that are no longer active
+        //Or it will tell us that it already exists
+        if (!querySnapshot.empty){
+            querySnapshot.forEach((d) => {
+                if (!d.data().active){
+                    //Cleans up
+                    deleteDoc(doc(db, "sessions", d.id));
+                }
+                else {
+                    result.success = false;
+                    result.errMes = "Key is already in use";
+                }
+            });
+        }
+
+        //If we now know that there is an active session using this key
+        if (!result.success){
+            return result;
+        }
+
+        //Otherwise, go ahead and make the session
         var tempId;
-        console.log(sessionKey);
         await addDoc(dbRef, {
             key: sessionKey,
             active: true,
@@ -257,7 +287,6 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
                 });
             });
         }
-
         return {
             success: true,
             sessionId: tempId,
@@ -265,7 +294,7 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
     } catch (err) {
         console.error(err);
         alert(err.message);
-      }
+    }
 }
 
 const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {   
@@ -336,11 +365,56 @@ const startSessionInDb = async (sessionId) => {
             started: true,
             startTime: (Date.now()).toString(),
         });
+
+        return {
+            success: true
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
     }
+}
 
+const endSessionInDb = async(sessionId) => {
+    try {
+        await updateDoc(doc(db, "sessions", sessionId), {
+            active: false,
+            endTime: (Date.now()).toString(),
+        });
+
+        return {
+            success: true
+        }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const deleteSessionInDb = async(sessionId) => {
+    try {
+        const request = await deleteDoc(doc(db, "sessions", sessionId));
+
+        return {
+            success: true
+        }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const deleteUserInSessionInDb = async(sessionId, userId) => {
+    try {
+        const request = await deleteDoc(doc(db, "sessions", sessionId, "users", userId));
+
+        return {
+            success: true
+        }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
 }
 
 //Exports all functions --------------------------------------------------------------------------------------------
@@ -361,4 +435,7 @@ export {
     startNewSessionInDb,
     startSessionInDb,
     joinSessionInDb,
+    deleteSessionInDb,
+    deleteUserInSessionInDb,
+    endSessionInDb,
 };

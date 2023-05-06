@@ -25,6 +25,9 @@ import {
     startNewSessionInDb, //Setup of the session
     startSessionInDb, //Starts the session for all users
     joinSessionInDb,
+    deleteSessionInDb,
+    deleteUserInSessionInDb,
+    endSessionInDb,
 } from "../firebase";
 
 //Styles
@@ -34,6 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Background1 from '../components/Background1';
 import GameOptionsCard from '../components/GameOptionsCard';
 import Instructions from '../components/Instructions';
+import QuitWarning from '../components/QuitWarning';
 import TaskListDashboard from '../components/TaskListDashboard';
 import SessionDurationStats from '../components/SessionDurationStats';
 import TaskDashboard from '../components/TaskDashboard';
@@ -42,8 +46,9 @@ function Main (){
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     const [modalShow, setModalShow] = useState(false);
+    const [quitWarningShow, setQuitWarningShow] = useState(false);
 
-    const [sessionDbData, setSessionDbData] = useState(null);
+    const [sessionDbData, setSessionDbData] = useState({started: false});
     const [sessionDbTaskData, setSessionDbTaskData] = useState(null);
     const [sessionDbUserData, setSessionDbUserData] = useState(null);
     
@@ -61,20 +66,7 @@ function Main (){
 
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
 
-
-    // onSnapshot ((collection(db, "sessions"), where("sessionKey", "==", "NHTWKU")), (snapShot) => {
-    //     console.log("testingSnapShot1")
-    //     let x = [];
-    //     snapShot.docs.forEach((doc) => {
-    //         x.push(doc.id)
-    //     })
-    //     console.log("testingSnapShot1")
-    //     console.log(x);
-    //     setSessionDbData(x);
-    // })
-
     //Database SnapShots
-
     const snap = (sessionId) => {
         const q1 = query(doc(db, "sessions", sessionId));
         onSnapshot(q1, (snapshot) => {
@@ -125,39 +117,7 @@ function Main (){
             console.log("taskData= " + x[0].id);
             setSessionDbTaskData(x);
         });
-
     }
-        
-    // const q1 = query(collection(db, "sessions"), where("key", "==", null));
-    // onSnapshot(q1, (snapshot) => {
-        //     let x = [];
-        //     snapshot.docs.forEach((doc) => {
-        //         x.push({
-        //             sessionId: doc.id,
-        //             active: doc.data().active,
-        //             key: doc.data().key,
-        //             started: doc.data().started,
-        //             taskSetId: doc.data().taskSetId,
-        //             startTime: doc.data().startTime,
-        //         });
-        //     })
-        //     console.log(1);
-        //     // setSessionDbData(x);
-        // });
-
-        // const q2 = query(collection(db, "sessions", sessionDbData[0].sessionId, "users"));
-        // onSnapshot(q2, (snapshot) => {
-        //     let x = [];
-        //     snapshot.docs.forEach((doc) => {
-        //         x.push({
-        //             userId: doc.id,
-        //             uid: doc.data().uid,
-        //             leader: doc.data().leader,
-        //             role: doc.data().role,
-        //         });
-        //     })
-        //     // setSessionDbUserData(x);
-        // });
 
     //Hooks -----------------------------------------------------------------------------------------------------
     useEffect(() => {
@@ -165,6 +125,8 @@ function Main (){
         console.log("inputtedSessionKey: " + inputtedSessionKey);
         console.log("sessionKey: " + sessionKey);
         console.log("sessionPeople: " + sessionPeople);
+        console.log("sessionDbData: " + sessionDbData);
+        console.log("sessionDbTaskData: " + sessionDbData);
         console.log("sessionDbData: " + sessionDbData);
 
         if (loading) return;
@@ -240,11 +202,11 @@ function Main (){
                 // If start a session is chosen
                 if (sessionStartType == "start"){
                     //Will only display when the session exists in the database
-                    if (sessionKey != null) {
+                    if (sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
                                 <h1 class="title2">NEW SESSION</h1>
-                                <Button className="btn-instructions">Need Help?</Button>
+                                <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                 <GameOptionsCard className="card-options" 
                                     title="SESSION KEY"
                                     topLine="--------------------" 
@@ -262,7 +224,8 @@ function Main (){
                                     >
                                     <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
                                 </GameOptionsCard>
-                                <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                                {/* <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Quit</Button> */}
+                                <Button className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
                             </>
                         )
                     }
@@ -270,11 +233,11 @@ function Main (){
                 //If join a session is chosen
                 else if (sessionStartType == "join"){
                     //Will only display when the session exists in the database and they have successfully joined
-                    if (sessionKey != null) {
+                    if (sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
                                 <h1 class="title2">JOINING SESSION</h1>
-                                <Button className="btn-instructions">Need Help?</Button>
+                                <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                 <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
                                 </GameOptionsCard>
                                 <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
@@ -287,7 +250,7 @@ function Main (){
                     return (
                         <>
                             <h1 class="title2">CO-OP</h1>
-                            <Button className="btn-instructions">How it works</Button>
+                            <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
                             <GameOptionsCard className="card-options" title="START A NEW SESSION" text="Start a new session for you and your friends" img="">
                                 <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Start</Button>
                             </GameOptionsCard>
@@ -320,13 +283,12 @@ function Main (){
     }
 
     function taskBoards(){
-        if (sessionStarted){
+        if (sessionDbData.started){
             return (
                 <>
-                    {/* <SessionDurationStats sessionKey={sessionKey} sessionDuration={sessionDuration} /> */}
-                    <SessionDurationStats sessionKey="NHYWID" sessionDuration="02:00" />
-                    {/* <TaskListDashboard /> */}
-                    <TaskDashboard />  
+                    <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />
+                    <TaskListDashboard />
+                    {/* <TaskDashboard />   */}
                 </>
             )       
         }
@@ -360,23 +322,75 @@ function Main (){
         if (request.success){
             setSessionKey(key);
             snap(request.sessionId);
-            // setSessionPeople(1);
+        }
+        else {
+            console.log(request.errMes);
+            //Input a try again thing...
+        }
+    }
+
+    const beginGame = async () => {
+        const request = await startSessionInDb(sessionDbData.sessionId);
+
+        if (request.success){
+            
         }
     }
 
     function generateKey(){
         //CONTACT DB AND MAKE KEY
         console.log("generating key");
-        const key = "NHTWKU"
+
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const charactersLength = characters.length;
+        let key = '';
+        let counter = 0;
+        let keyLength = 6
+        while (counter < keyLength) {
+            key += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+    
         if (sessionKey == null) {
             return key;
         }
     }
 
-    function beginGame(){
-        setSessionStarted(true);
-        startSessionInDb(sessionDbData.sessionId);
+    const quit = () => {
+        console.log("starting quit");
+        sessionDbUserData.forEach((u) => {
+            if (u.uid == user.uid){
+                if (u.leader){
+                    //Delete the session
+                    // deleteSessionInDb(sessionDbData.sessionId);
+                    
+                    
+                    //Set the session to inactive
+                    endSessionInDb(sessionDbData.sessionId);
+                }
+                else {
+                    //Delete only the user from that session
+                    deleteUserInSessionInDb(sessionDbData.sessionId, u.userId);
+                }
+            }
+        });
+        setQuitWarningShow(false);
+        resetAllStates();
+        console.log("ending quit");
+    }
 
+    function resetAllStates() {
+        setSessionDbData({started: false});
+        setSessionDbTaskData(null);
+        setSessionDbUserData(null);
+        setGameMode(null); //Solo or Coop
+        setSessionStartType(null); //Start a new session or join an existing one
+        setInputtedSessionKey(null); //e.g The users attempt to add a session key
+        setSessionKey(null); //A valid session that can be joined
+        setSessionPeople(null); //How many people in the group
+        setSessionDuration(null); //e.g 02:34 (2mins, 34 seconds)
+        setSessionStarted(false); //e.g 02:34 (2mins, 34 seconds)
+        setUserRole(null); //e.g Builder, Styler, Database, etc
     }
     
     return (
@@ -390,9 +404,12 @@ function Main (){
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                 />
+                <QuitWarning 
+                    show={quitWarningShow}
+                    onHide={() => setQuitWarningShow(false)}
+                    onQuit={quit}
+                />
             </div>
-
-
         </div>
         </>
     )
