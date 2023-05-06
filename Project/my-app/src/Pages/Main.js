@@ -72,7 +72,6 @@ function Main (){
         setSessionStartType(type);
 
         if (type == "start"){
-            setSessionPeople(1);
             startSession();
         }
         else if (type == "join"){
@@ -105,6 +104,7 @@ function Main (){
     
     function optionBoards(){
         if (!sessionStarted) {
+            //Solo or Coop options
             if (gameMode == null) {
                 return (
                     <>
@@ -120,47 +120,54 @@ function Main (){
                     </>
                 )
             }
+            //Coop
             else if (gameMode == "coop"){
+                // If start a session is chosen
                 if (sessionStartType == "start"){
-                    if (sessionKey == null) {
-                        generateKey();
+                    //Will only display when the session exists in the database
+                    if (sessionKey != null) {
+                        return (
+                            <>
+                                <h1 class="title2">NEW SESSION</h1>
+                                <Button className="btn-instructions">Need Help?</Button>
+                                <GameOptionsCard className="card-options" 
+                                    title="SESSION KEY"
+                                    topLine="--------------------" 
+                                    bigText={sessionKey} 
+                                    bottomLine="--------------------" 
+                                    text="&nbsp;&nbsp;&nbsp;Give your friends this code &nbsp;&nbsp;&nbsp; Ask them to input it in the “Join Group Session” section of the “Co-op” page" 
+                                    >
+                                </GameOptionsCard>
+    
+                                <GameOptionsCard className="card-options" 
+                                    title="PEOPLE JOINED" 
+                                    bigNumber={sessionPeople}
+                                    tinyText="max: 4" 
+                                    text="Wait until everyone has joined..."
+                                    >
+                                    <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
+                                </GameOptionsCard>
+                                <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                            </>
+                        )
                     }
-                    return (
-                        <>
-                            <h1 class="title2">NEW SESSION</h1>
-                            <Button className="btn-instructions">Need Help?</Button>
-                            <GameOptionsCard className="card-options" 
-                                title="SESSION KEY"
-                                topLine="--------------------" 
-                                bigText={sessionKey} 
-                                bottomLine="--------------------" 
-                                text="&nbsp;&nbsp;&nbsp;Give your friends this code &nbsp;&nbsp;&nbsp; Ask them to input it in the “Join Group Session” section of the “Co-op” page" 
-                                >
-                            </GameOptionsCard>
-
-                            <GameOptionsCard className="card-options" 
-                                title="PEOPLE JOINED" 
-                                bigNumber={sessionPeople}
-                                tinyText="max: 4" 
-                                text="Wait until everyone has joined..."
-                                >
-                                <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
-                            </GameOptionsCard>
-                            <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
-                        </>
-                    )
                 }
+                //If join a session is chosen
                 else if (sessionStartType == "join"){
-                    return (
-                        <>
-                            <h1 class="title2">JOINING SESSION</h1>
-                            <Button className="btn-instructions">Need Help?</Button>
-                            <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
-                            </GameOptionsCard>
-                            <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
-                        </>
-                    )
+                    //Will only display when the session exists in the database and they have successfully joined
+                    if (sessionKey != null) {
+                        return (
+                            <>
+                                <h1 class="title2">JOINING SESSION</h1>
+                                <Button className="btn-instructions">Need Help?</Button>
+                                <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
+                                </GameOptionsCard>
+                                <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                            </>
+                        )
+                    }
                 }
+                //Start or Join a session options
                 else {
                     return (
                         <>
@@ -190,6 +197,7 @@ function Main (){
                 }
 
             }
+            //Solo
             else if (gameMode == "solo"){
 
             }
@@ -210,13 +218,18 @@ function Main (){
 
     }
 
-    function joinSession(){
-        console.log("Authentificating Key");
-        joinSessionInDb(inputtedSessionKey, user.uid, "Front-End Developer")
-        setSessionKey(inputtedSessionKey);
-    }
+    const joinSession = async () => {
+        const request = await joinSessionInDb(inputtedSessionKey, user.uid, "Front-End Developer");
 
-    function startSession(){
+        if (request.success){
+            setSessionKey(inputtedSessionKey);
+        }
+        else {
+            console.log(request.errMes);
+        }
+    };
+
+    const startSession= async () => {
         console.log("Starting session");
         // Input board for choosing a webstack if more than one, for now ignore
         console.log(getWebStacks());
@@ -227,7 +240,11 @@ function Main (){
         //--------------------------------------------------------------------
         const key = generateKey();
         console.log(key);
-        startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
+        const request = await startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
+        if (request.success){
+            setSessionKey(key);
+            setSessionPeople(1);
+        }
     }
 
     function generateKey(){
@@ -235,7 +252,6 @@ function Main (){
         console.log("generating key");
         const key = "NHTWKU"
         if (!sessionKey) {
-            setSessionKey(key);
             return key;
         }
     }

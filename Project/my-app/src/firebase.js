@@ -257,27 +257,56 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
                 });
             });
         }
+
+        return {
+            success: true,
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
       }
 }
 
-const joinSessionInDb = async (sessionKey, uid, userRole) => {   
+const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {   
     try {
         console.log(uid);
+        console.log(inputtedSessionKey);
         var sessionId;
-        const querySnapshot1 = await getDocs(collection(db, "sessions"), where("sessionKey", "==", sessionKey));
+        
+        //Checks for the session
+        const q = query(collection(db, "sessions"), where("key", "==", inputtedSessionKey));
+        const querySnapshot1 = await getDocs(q);
         if (!querySnapshot1.empty){
+            console.log(querySnapshot1.size);
             querySnapshot1.forEach((doc) => {
-                sessionId = doc.id;
+                if (!doc.data().active){
+                    console.log("session isn't active");
+                    return {
+                        success: false,
+                        errMes: "The session doesn't exist"
+                    }  
+                }
+                else if (doc.data().started){
+                    console.log("session is started");
+                    return {
+                        success: false,
+                        errMes: "You can't join a session that has been started by the leader"
+                    }
+                }
+                else {
+                    sessionId = doc.id;
+                }
                 console.log(doc.data());
             });
         }
         else {
-            return false //Session doesn't exist
+            return {
+                success: false,
+                errMes: "The session doesn't exist"
+            }
         }
 
+        //Checks to see if the user is already in the session
         const q2 = query(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
         const querySnapshot2 = await getDocs(q2);
         if (querySnapshot2.empty){
@@ -290,7 +319,9 @@ const joinSessionInDb = async (sessionKey, uid, userRole) => {
         }
         console.log("2");
 
-        return true //Session joined
+        return {
+            success: true //Session joined
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
