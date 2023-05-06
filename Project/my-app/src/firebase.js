@@ -19,7 +19,7 @@ import {
     where,
     addDoc,
     updateDoc,
-    FieldValue,
+    onSnapshot,
   } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -260,6 +260,7 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
 
         return {
             success: true,
+            sessionId: tempId,
         }
     } catch (err) {
         console.error(err);
@@ -328,16 +329,26 @@ const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {
     }
 }
 
-const startSessionInDb = async (sessionKey) => {
-    try {
-        var sessionId;
-        const querySnapshot = await getDocs(collection(db, "sessions"), where("sessionKey", "==", sessionKey));
-        if (!querySnapshot.empty){
-            querySnapshot.forEach((doc) => {
-                sessionId = doc.id;
-            });
-        }
+const startSessionInDb = async (sessionId) => {
+    // try {
+    //     var sessionId;
+    //     const querySnapshot = await getDocs(collection(db, "sessions"), where("key", "==", sessionKey));
+    //     if (!querySnapshot.empty){
+    //         querySnapshot.forEach((doc) => {
+    //             sessionId = doc.id;
+    //         });
+    //     }
         
+    //     await updateDoc(doc(db, "sessions", sessionId), {
+    //         started: true,
+    //         startTime: (Date.now()).toString(),
+    //     });
+    // } catch (err) {
+    //     console.error(err);
+    //     alert(err.message);
+    // }
+
+    try {      
         await updateDoc(doc(db, "sessions", sessionId), {
             started: true,
             startTime: (Date.now()).toString(),
@@ -346,6 +357,7 @@ const startSessionInDb = async (sessionKey) => {
         console.error(err);
         alert(err.message);
     }
+
 }
 
 //Exports all functions --------------------------------------------------------------------------------------------

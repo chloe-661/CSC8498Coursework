@@ -2,7 +2,20 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import {
+    getFirestore,
+    query,
+    doc,
+    getDoc,
+    getDocs,
+    collection,
+    where,
+    addDoc,
+    updateDoc,
+    onSnapshot,
+} from "firebase/firestore";
 import { 
+    db,
     auth, 
     getWebStacks, //Gets all the different webstacks available
     getAllTaskSets, //Gets all task sets but NOT the tasks within
@@ -29,6 +42,10 @@ function Main (){
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     const [modalShow, setModalShow] = useState(false);
+
+    const [sessionDbData, setSessionDbData] = useState(null);
+    const [sessionDbTaskData, setSessionDbTaskData] = useState(null);
+    const [sessionDbUserData, setSessionDbUserData] = useState(null);
     
     
     //Options to choose from before starting a game
@@ -45,12 +62,89 @@ function Main (){
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
 
 
+    // onSnapshot ((collection(db, "sessions"), where("sessionKey", "==", "NHTWKU")), (snapShot) => {
+    //     console.log("testingSnapShot1")
+    //     let x = [];
+    //     snapShot.docs.forEach((doc) => {
+    //         x.push(doc.id)
+    //     })
+    //     console.log("testingSnapShot1")
+    //     console.log(x);
+    //     setSessionDbData(x);
+    // })
+
+    //Database SnapShots
+
+    const snap = (sessionId) => {
+        const q1 = query(doc(db, "sessions", sessionId));
+        onSnapshot(q1, (snapshot) => {
+            console.log("test: " + snapshot.id);
+            let x = {
+                sessionId: snapshot.id,
+                active: snapshot.data().active,
+                key: snapshot.data().key,
+                started: snapshot.data().started,
+                taskSetId: snapshot.data().taskSetId,
+                startTime: snapshot.data().startTime,
+            }
+            setSessionDbData(x);
+        });
+
+        const q2 = query(collection(db, "sessions", sessionId, "users"));
+        onSnapshot(q2, (snapshot) => {
+            let x = [];
+
+            snapshot.docs.forEach((doc) => {
+                x.push({
+                    userId: doc.id,
+                    uid: doc.data().uid,
+                    leader: doc.data().leader,
+                    role: doc.data().role,
+                });
+            })
+            console.log("userData= " + x);
+        });
+
+    }
+        
+    // const q1 = query(collection(db, "sessions"), where("key", "==", null));
+    // onSnapshot(q1, (snapshot) => {
+        //     let x = [];
+        //     snapshot.docs.forEach((doc) => {
+        //         x.push({
+        //             sessionId: doc.id,
+        //             active: doc.data().active,
+        //             key: doc.data().key,
+        //             started: doc.data().started,
+        //             taskSetId: doc.data().taskSetId,
+        //             startTime: doc.data().startTime,
+        //         });
+        //     })
+        //     console.log(1);
+        //     // setSessionDbData(x);
+        // });
+
+        // const q2 = query(collection(db, "sessions", sessionDbData[0].sessionId, "users"));
+        // onSnapshot(q2, (snapshot) => {
+        //     let x = [];
+        //     snapshot.docs.forEach((doc) => {
+        //         x.push({
+        //             userId: doc.id,
+        //             uid: doc.data().uid,
+        //             leader: doc.data().leader,
+        //             role: doc.data().role,
+        //         });
+        //     })
+        //     // setSessionDbUserData(x);
+        // });
+
     //Hooks -----------------------------------------------------------------------------------------------------
     useEffect(() => {
         console.log("gameMode: " + gameMode);
         console.log("inputtedSessionKey: " + inputtedSessionKey);
         console.log("sessionKey: " + sessionKey);
         console.log("sessionPeople: " + sessionPeople);
+        console.log("sessionDbData: " + sessionDbData);
 
         if (loading) return;
         
@@ -243,6 +337,7 @@ function Main (){
         const request = await startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
         if (request.success){
             setSessionKey(key);
+            snap(request.sessionId);
             setSessionPeople(1);
         }
     }
@@ -251,14 +346,14 @@ function Main (){
         //CONTACT DB AND MAKE KEY
         console.log("generating key");
         const key = "NHTWKU"
-        if (!sessionKey) {
+        if (sessionKey == null) {
             return key;
         }
     }
 
     function beginGame(){
         setSessionStarted(true);
-        startSessionInDb(sessionKey);
+        startSessionInDb(sessionDbData.sessionId);
 
     }
     
