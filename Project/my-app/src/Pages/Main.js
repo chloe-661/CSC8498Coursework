@@ -103,6 +103,27 @@ function Main (){
                 });
             })
             console.log("userData= " + x);
+            setSessionDbUserData(x);
+            setSessionPeople(x.length);
+        });
+
+        const q3 = query(collection(db, "sessions", sessionId, "tasks"));
+        onSnapshot(q3, (snapshot) => {
+            let x = [];
+
+            snapshot.docs.forEach((doc) => {
+                x.push({
+                    id: doc.id,
+                    taskId: doc.data().taskId,
+                    completed: doc.data().completed,
+                    inUse: doc.data().inUse,
+                    role: doc.data().role,
+                    taskDependancies: doc.data().taskDependancies,
+                    
+                });
+            })
+            console.log("taskData= " + x[0].id);
+            setSessionDbTaskData(x);
         });
 
     }
@@ -317,6 +338,7 @@ function Main (){
 
         if (request.success){
             setSessionKey(inputtedSessionKey);
+            snap(request.sessionId);
         }
         else {
             console.log(request.errMes);
@@ -338,7 +360,7 @@ function Main (){
         if (request.success){
             setSessionKey(key);
             snap(request.sessionId);
-            setSessionPeople(1);
+            // setSessionPeople(1);
         }
     }
 

@@ -321,7 +321,8 @@ const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {
         console.log("2");
 
         return {
-            success: true //Session joined
+            success: true, //Session joined
+            sessionId: sessionId,
         }
     } catch (err) {
         console.error(err);
@@ -330,24 +331,6 @@ const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {
 }
 
 const startSessionInDb = async (sessionId) => {
-    // try {
-    //     var sessionId;
-    //     const querySnapshot = await getDocs(collection(db, "sessions"), where("key", "==", sessionKey));
-    //     if (!querySnapshot.empty){
-    //         querySnapshot.forEach((doc) => {
-    //             sessionId = doc.id;
-    //         });
-    //     }
-        
-    //     await updateDoc(doc(db, "sessions", sessionId), {
-    //         started: true,
-    //         startTime: (Date.now()).toString(),
-    //     });
-    // } catch (err) {
-    //     console.error(err);
-    //     alert(err.message);
-    // }
-
     try {      
         await updateDoc(doc(db, "sessions", sessionId), {
             started: true,
