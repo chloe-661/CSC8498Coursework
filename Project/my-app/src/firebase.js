@@ -336,16 +336,21 @@ const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {
             }
         }
 
-        //Checks to see if the user is already in the session
-        const q2 = query(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
+        const q2 = query(collection(db, "sessions", sessionId, "users"));
         const querySnapshot2 = await getDocs(q2);
-        if (querySnapshot2.empty){
+
+        //Checks to see if the user is already in the session
+        const q3 = query(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
+        const querySnapshot3 = await getDocs(q2);
+        if (querySnapshot3.empty){
             console.log("1");
-            addDoc (collection(db, "sessions", sessionId, "users"), {
-                uid: uid,
-                role: userRole,
-                leader: false,
-            });
+            if (querySnapshot2.size < 5) {
+                addDoc (collection(db, "sessions", sessionId, "users"), {
+                    uid: uid,
+                    role: userRole,
+                    leader: false,
+                });
+            }
         }
         console.log("2");
 

@@ -51,6 +51,7 @@ function Main (){
     const [sessionDbData, setSessionDbData] = useState({started: false});
     const [sessionDbTaskData, setSessionDbTaskData] = useState(null);
     const [sessionDbUserData, setSessionDbUserData] = useState(null);
+    const [sessionDbThisUserData, setSessionDbThisUserData] = useState(null);
     
     
     //Options to choose from before starting a game
@@ -67,9 +68,8 @@ function Main (){
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
 
     //Database SnapShots
-    const snap = (sessionId) => {
-        const q1 = query(doc(db, "sessions", sessionId));
-        onSnapshot(q1, (snapshot) => {
+    const snap = (sessionId, subscribe) => {
+        const snap1 = onSnapshot(query(doc(db, "sessions", sessionId)), (snapshot) => {
             console.log("test: " + snapshot.id);
             let x = {
                 sessionId: snapshot.id,
@@ -82,9 +82,9 @@ function Main (){
             setSessionDbData(x);
         });
 
-        const q2 = query(collection(db, "sessions", sessionId, "users"));
-        onSnapshot(q2, (snapshot) => {
+        const snap2 = onSnapshot(query(collection(db, "sessions", sessionId, "users")), (snapshot) => {
             let x = [];
+            let y = {};
 
             snapshot.docs.forEach((doc) => {
                 x.push({
@@ -93,14 +93,23 @@ function Main (){
                     leader: doc.data().leader,
                     role: doc.data().role,
                 });
+
+                if (doc.data().uid == user.uid){
+                    y = {
+                        userId: doc.id,
+                        uid: doc.data().uid,
+                        leader: doc.data().leader,
+                        role: doc.data().role,
+                    };
+                }
             })
             console.log("userData= " + x);
             setSessionDbUserData(x);
+            setSessionDbThisUserData(y);
             setSessionPeople(x.length);
         });
 
-        const q3 = query(collection(db, "sessions", sessionId, "tasks"));
-        onSnapshot(q3, (snapshot) => {
+        const snap3 = onSnapshot(query(collection(db, "sessions", sessionId, "tasks")), (snapshot) => {
             let x = [];
 
             snapshot.docs.forEach((doc) => {
@@ -117,6 +126,15 @@ function Main (){
             console.log("taskData= " + x[0].id);
             setSessionDbTaskData(x);
         });
+
+        //Unsubscribes when a user quits the session
+        //Doesn't work for some reason.......
+        if (subscribe == false){
+            console.log("Unsubscribing");
+            snap1()
+            snap2()
+            snap3()
+        }
     }
 
     //Hooks -----------------------------------------------------------------------------------------------------
@@ -287,7 +305,7 @@ function Main (){
             return (
                 <>
                     <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />
-                    <TaskListDashboard />
+                    <TaskListDashboard sessionDetails={sessionDbData} userDetails={sessionDbThisUserData} taskDetails={sessionDbTaskData}/>
                     {/* <TaskDashboard />   */}
                 </>
             )       
@@ -300,7 +318,8 @@ function Main (){
 
         if (request.success){
             setSessionKey(inputtedSessionKey);
-            snap(request.sessionId);
+            console.log("123");
+            snap(request.sessionId, true);
         }
         else {
             console.log(request.errMes);
@@ -321,7 +340,8 @@ function Main (){
         const request = await startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
         if (request.success){
             setSessionKey(key);
-            snap(request.sessionId);
+            console.log("456");
+            snap(request.sessionId, true);
         }
         else {
             console.log(request.errMes);
@@ -374,15 +394,18 @@ function Main (){
                 }
             }
         });
+        snap(sessionDbData.sessionId, false);
         setQuitWarningShow(false);
         resetAllStates();
         console.log("ending quit");
     }
 
     function resetAllStates() {
+        setSessionDbData(null);
         setSessionDbData({started: false});
         setSessionDbTaskData(null);
         setSessionDbUserData(null);
+        setSessionDbThisUserData(null);
         setGameMode(null); //Solo or Coop
         setSessionStartType(null); //Start a new session or join an existing one
         setInputtedSessionKey(null); //e.g The users attempt to add a session key
