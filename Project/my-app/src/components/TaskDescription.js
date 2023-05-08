@@ -3,15 +3,22 @@ import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
 
 function TaskDescription(props) {
-
-    const [locked, setLocked] = useState(props.isLocked);
-
     function taskLocked (){
-        if (locked){
+        if (props.completed){
             return (
                 <>
-                    <Card.Img className="taskDescription__img" src={props.img}/>
-                    <Button>Go</Button>
+                    <Button disabled={true} className="taskDone__btn">Done</Button>
+                </>
+            )
+        }
+        else if (props.isLockedByDependancies || props.inUse){
+            return (
+                <>
+                    <Button className="locked-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                        </svg>
+                    </Button>
                 </>
             )
         }

@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 function GameOptionsCard(props) {
   return (
     <Card className={props.className}>
-      <Card.Img variant="top" src={props.img}/>
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
         <Card.Text>{props.topLine}</Card.Text>

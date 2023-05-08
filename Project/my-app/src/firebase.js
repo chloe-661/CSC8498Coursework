@@ -280,6 +280,11 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
             tasks.forEach((t) => {
                 addDoc (dbRef, {
                     taskId: t.taskId,
+                    content: t.content,
+                    description: t.description,
+                    language: t.language,
+                    name: t.name,
+                    type: t.type,
                     role: t.role,
                     taskDependancies: t.taskDependancies,
                     completed: false,

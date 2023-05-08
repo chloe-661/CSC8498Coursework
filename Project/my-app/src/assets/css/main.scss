@@ -253,6 +253,28 @@ a {
     }
 }
 
+.quitWarning-btn {
+    background-color: red !important;
+    border-color: red !important;
+    color: $baby-powder !important;
+    font-family: $raleway;
+
+    &:hover {
+        border-color: $gunmetal !important;
+        background-color: $rich-black !important;
+    }
+}
+
+.taskDone__btn {
+  background-color: grey !important;
+  border-color: grey !important;
+  color: $baby-powder !important;
+}
+
+.locked-btn {
+  width: 46.5px !important;
+}
+
 // Cards -----------------------------------------------------------------------------------------------------
 
 .card {
@@ -479,32 +501,48 @@ label {
     display: grid;
     min-height: 100%;
     width: 100%;
-    grid-template-columns: 20% 42% 15% 15% !important;
+    grid-template-columns: 150px auto 100px 70px !important;
     column-gap: 2.5%;
   }
 
   .taskDescription .grid-item__title {
     grid-column-start: 1;
     grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
   }
 
   .taskDescription .grid-item__description {
     grid-column-start: 2;
     grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
   }
 
   .taskDescription .grid-item__language {
     grid-column-start: 3;
     grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    text-align: center;
   }
 
   .taskDescription .grid-item__button {
     grid-column-start: 4;
     grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
     text-align: right;
+    display: inline-block;
+    padding: 0;
+  }
+
+  .taskDescription .grid-item__button .btn {
+    margin: 0 !important;
   }
 
   .taskDescription__img {
+    visibility: visible;
     width: 10px;
   }
 
@@ -660,4 +698,25 @@ label {
   .taskDashboard .grid-item__button .btn-back {
     display: inline-block !important;
     margin-left: 0 !important;
+}
+
+// Modals
+
+.modal-quitWarning .modal-title{
+  color: red !important;
+  font-weight: bold;
+  font-family: $raleway !important;
+}
+
+.modal-quitWarning .modal-body h4 {
+  color: $gunmetal !important;
+  font-weight: bold;
+  font-family: $raleway !important;
+  text-align: left;
+}
+
+.modal-quitWarning .modal-body p {
+  color: $gunmetal !important;
+  font-family: $raleway !important;
+  text-align: left;
 }

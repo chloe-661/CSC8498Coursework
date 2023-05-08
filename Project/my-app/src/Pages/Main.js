@@ -45,27 +45,29 @@ import TaskDashboard from '../components/TaskDashboard';
 function Main (){
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
+
+    //Modals
     const [modalShow, setModalShow] = useState(false);
     const [quitWarningShow, setQuitWarningShow] = useState(false);
 
+    //Options to choose from before starting a game
+    const [gameMode, setGameMode] = useState(null); //Solo or Coop
+    const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
+    const [inputtedSessionKey, setInputtedSessionKey] = useState(null); //e.g The users attempt to add a session key
+
+    //Session Data
+    const [isQuitting, setIsQuitting] = useState(false);
     const [sessionDbData, setSessionDbData] = useState({started: false});
     const [sessionDbTaskData, setSessionDbTaskData] = useState(null);
     const [sessionDbUserData, setSessionDbUserData] = useState(null);
     const [sessionDbThisUserData, setSessionDbThisUserData] = useState(null);
-    
-    
-    //Options to choose from before starting a game
-    const [gameMode, setGameMode] = useState(null); //Solo or Coop
-    const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
-    
-    const [inputtedSessionKey, setInputtedSessionKey] = useState(null); //e.g The users attempt to add a session key
     const [sessionKey, setSessionKey] = useState(null); //A valid session that can be joined
     const [sessionPeople, setSessionPeople] = useState(null); //How many people in the group
-
     const [sessionDuration, setSessionDuration] = useState(null); //e.g 02:34 (2mins, 34 seconds)
     const [sessionStarted, setSessionStarted] = useState(false); //e.g 02:34 (2mins, 34 seconds)
-
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
+    const [showTask, setShowTask] = useState(null); 
+    const [showTaskList, setShowTaskList] = useState(null); 
 
     //Database SnapShots
     const snap = (sessionId, subscribe) => {
@@ -113,6 +115,7 @@ function Main (){
             let x = [];
 
             snapshot.docs.forEach((doc) => {
+                
                 x.push({
                     id: doc.id,
                     taskId: doc.data().taskId,
@@ -120,10 +123,34 @@ function Main (){
                     inUse: doc.data().inUse,
                     role: doc.data().role,
                     taskDependancies: doc.data().taskDependancies,
-                    
+                    content: doc.data().content,
+                    description: doc.data().description,
+                    language: doc.data().language,
+                    title: doc.data().name,
+                    type: doc.data().type,
+                    isLockedByDependancies: false,  
                 });
             })
             console.log("taskData= " + x[0].id);
+
+            x.forEach(task => {
+                let locked = false;
+                if (task.taskDependancies.length > 1 ){
+                    task.taskDependancies.forEach(dep => {
+                        x.forEach(task2 => {
+                            if (dep != task.taskId && dep == task2.taskId){
+                                if (task2.completed){
+                                locked = false;
+                                }
+                                else {
+                                locked = true;
+                                }
+                            }
+                        });
+                    });
+                }
+                task.isLockedByDependancies = locked
+            });
             setSessionDbTaskData(x);
         });
 
@@ -153,6 +180,12 @@ function Main (){
         if (!user) {
             return (
                 navigate("/login", {state:{previousPath: "/main"}})
+            )
+        }
+        
+        if (isQuitting){
+            return (
+                navigate("/dashboard", {state:{previousPath: "/main"}})
             )
         }
     });
@@ -301,16 +334,38 @@ function Main (){
     }
 
     function taskBoards(){
+        const stats = <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />;
+        const taskList = <TaskListDashboard 
+                            sessionDetails={sessionDbData} 
+                            userDetails={sessionDbThisUserData} 
+                            taskDetails={sessionDbTaskData}
+                            showInstructions={modalShow}
+                            showQuitWarning={quitWarningShow}
+                            onShowInstructions={() => setModalShow(true)}
+                            onHideInstructions={() => setModalShow(false)}
+                            onShowQuitWarning={() => setQuitWarningShow(true)}
+                            onHideQuitWarning={() => setQuitWarningShow(false)}
+                            onQuit={quit}
+                            />;
+        const task = <TaskDashboard />;
         if (sessionDbData.started){
-            return (
-                <>
-                    <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />
-                    <TaskListDashboard sessionDetails={sessionDbData} userDetails={sessionDbThisUserData} taskDetails={sessionDbTaskData}/>
-                    {/* <TaskDashboard />   */}
-                </>
-            )       
+            if (showTaskList){
+                return (
+                    <>
+                        {stats}
+                        {taskList}
+                    </>
+                )       
+            }
+            else if (showTask){
+                return (
+                    <>
+                        {stats}
+                        {task}
+                    </>
+                )  
+            }     
         }
-
     }
 
     const joinSession = async () => {
@@ -353,7 +408,7 @@ function Main (){
         const request = await startSessionInDb(sessionDbData.sessionId);
 
         if (request.success){
-            
+            setShowTaskList(true);
         }
     }
 
@@ -398,6 +453,8 @@ function Main (){
         setQuitWarningShow(false);
         resetAllStates();
         console.log("ending quit");
+        setIsQuitting(true);
+
     }
 
     function resetAllStates() {
