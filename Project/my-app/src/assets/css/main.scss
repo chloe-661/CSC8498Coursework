@@ -239,6 +239,11 @@ a {
     font-family: $raleway;
 }
 
+.closeButton__text {
+  color: $baby-powder !important;
+  // border-color: $gunmetal !important;
+}
+
 .btn-back {
     display: block;
     margin: auto;
@@ -260,8 +265,7 @@ a {
     font-family: $raleway;
 
     &:hover {
-        border-color: $gunmetal !important;
-        background-color: $rich-black !important;
+        background-color: $pigment-green !important;
     }
 }
 
@@ -702,21 +706,33 @@ label {
 
 // Modals
 
-.modal-quitWarning .modal-title{
+.modal-body h4 {
+  color: $gunmetal !important;
+  font-weight: bold;
+  font-family: $raleway !important;
+  text-align: left;
+}
+
+.modal-body p {
+  color: $gunmetal !important;
+  font-family: $raleway !important;
+  text-align: left;
+}
+
+.modal-instructions .modal-title {
+  color: $forest-green !important;
+  font-weight: bold;
+  font-family: $raleway !important;
+}
+
+.modal-taskLocked .modal-title {
   color: red !important;
   font-weight: bold;
   font-family: $raleway !important;
 }
 
-.modal-quitWarning .modal-body h4 {
-  color: $gunmetal !important;
+.modal-quitWarning .modal-title{
+  color: red !important;
   font-weight: bold;
   font-family: $raleway !important;
-  text-align: left;
-}
-
-.modal-quitWarning .modal-body p {
-  color: $gunmetal !important;
-  font-family: $raleway !important;
-  text-align: left;
 }

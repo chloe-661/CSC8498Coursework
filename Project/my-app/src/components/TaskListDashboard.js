@@ -22,162 +22,26 @@ import SessionStats from './SessionStats';
 import UserRole from './UserRole';
 import Instructions from '../components/Instructions';
 import QuitWarning from '../components/QuitWarning';
+import ReasonsLocked from '../components/ReasonsLocked';
 
 function TaskListDashboard(props) {
 
-  const test2 = () => {
+  const [showLockedReasons, setShowLockedReasons] = useState(false);
+
+  const displayTasks = () => {
     return (
       <>
         {props.taskDetails.map(({title, description, language, completed, inUse, isLockedByDependancies}) => (
-          <TaskDescription title={title} description={description} languages={language} completed={completed} inUse={inUse} isLockedByDependancies={isLockedByDependancies} />
-        ))}
-      </>
-    )
-
-  }
-  
-  const test = () => {
-    let t = []
-    props.taskDetails.forEach(task => {
-      if (task.completed){
-        const x = task;
-        x.isLocked = false;
-        t.push(x);
-      }
-      else if (!task.completed && !task.inUse){
-        const x = task;
-        x.isLocked = false;
-        t.push(x);
-      }
-      else {
-        let locked = false;
-        if (task.taskDependancies.length > 1 ){
-          task.taskDependancies.forEach(dep => {
-            props.taskDetails.forEach(task2 => {
-              if (dep != task.taskId && dep == task2.taskId){
-                if (task2.completed){
-                  locked = false;
-                }
-                else {
-                  locked = true;
-                }
-              }
-            })
-          })
-        }
-        
-        if (!locked){
-          const x = task;
-          x.isLocked = false;
-          t.push(x);
-        }
-
-        if (locked){
-          const x = task;
-          x.isLocked = true;
-          t.push(x);
-        }
-      }
-    });
-
-    return (
-      <>
-        {t.map(({title, description, language, completed, inUse, isLocked}) => (
-          <TaskDescription title={title} description={description} languages={language} completed={completed} inUse={inUse} isLocked={isLocked} />
-        ))}
-      </>
-    )
-
-  }
-
-  const displayTasks = () => {
-    let t = [];
-    props.taskDetails.forEach(task => {
-      if (!task.completed && !task.inUse){
-        t.push(task);
-      }
-      else {
-        let locked = false;
-        if (task.taskDependancies.length > 1 ){
-          task.taskDependancies.forEach(dep => {
-            props.taskDetails.forEach(task2 => {
-              if (dep != task.taskId && dep == task2.taskId){
-                if (task2.completed){
-                  locked = false;
-                }
-                else {
-                  locked = true;
-                }
-              }
-            })
-          })
-        }
-        
-        if (!locked){
-          t.push(task);
-        }
-      }
-    });
-
-    return (
-      <>
-        {t.map(({title, description, language, completed, inUse}) => (
-          <TaskDescription title={title} description={description} languages={language} completed={completed} inUse={inUse} isLocked={false} />
-        ))}
-      </>
-    )
-  }
-
-  const displayLockedTasks = () => {
-    let t = [];
-    props.taskDetails.forEach(task => {
-      if (task.inUse){
-        t.push(task);
-      }
-      else {
-        let locked = false;
-        if (task.taskDependancies.length > 1 ){
-          task.taskDependancies.forEach(dep => {
-            props.taskDetails.forEach(task2 => {
-              if (dep != task.taskId && dep == task2.taskId){
-                if (task2.completed){
-                  locked = false;
-                }
-                else {
-                  locked = true;
-                }
-              }
-            })
-          })
-        }
-        
-        if (locked){
-          t.push(task);
-        }
-      }
-    });
-
-    return (
-      <>
-        {t.map(({title, description, language, completed, inUse}) => (
-          <TaskDescription title={title} description={description} languages={language} completed={completed} inUse={inUse} isLocked={true} />
-        ))}
-      </>
-    )
-  }
-
-  const displayDoneTasks = () => {
-    let t = [];
-    props.taskDetails.forEach(task => {
-      if (task.completed){
-        t.push(task);
-      }
-    });
-
-    return (
-      <>
-        {t.map(({title, description, language, completed, inUse}) => (
-          <TaskDescription title={title} description={description} languages={language} completed={completed} inUse={inUse} isLocked={false} />
+          <TaskDescription 
+            title={title} 
+            description={description} 
+            languages={language} 
+            completed={completed} 
+            inUse={inUse} 
+            isLockedByDependancies={isLockedByDependancies}
+            onShow={() => setShowLockedReasons(true)}
+            onHide={() => setShowLockedReasons(false)}
+          />
         ))}
       </>
     )
@@ -193,10 +57,7 @@ function TaskListDashboard(props) {
           <SessionStats title="SESSION STATS:" description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl" />
         </div>
         <div class="grid-item__tasks">
-        {test2()}
-        {/* {displayTasks()}
-        {displayLockedTasks()}
-        {displayDoneTasks()} */}
+        {displayTasks()}
         </div>
         <div class="grid-item__button">
           <Button className="btn-back" onClick={props.onShowQuitWarning}>Quit</Button>
@@ -204,13 +65,17 @@ function TaskListDashboard(props) {
         </div>   
       </div>
       <Instructions
-            show={props.showInstructions}
-            onHide={props.onHideIntructions}
+        show={props.showInstructions}
+        onHide={props.onHideIntructions}
         />
       <QuitWarning 
         show={props.showQuitWarning}
         onHide={props.onHideQuitWarning}
         onQuit={props.onQuit}
+        />
+      <ReasonsLocked 
+        show={showLockedReasons}
+        onHide={() => setShowLockedReasons(false)}
         />
       </>
   );
