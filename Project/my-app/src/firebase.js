@@ -295,6 +295,7 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
             key: sessionKey,
             active: true,
             started: false,
+            ended: false,
             taskSetId: taskSetId,
         })
         .then(dbRef => {

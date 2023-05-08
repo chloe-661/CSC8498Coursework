@@ -7,12 +7,14 @@ function TaskDescription(props) {
 
     useEffect(() => {
         checkRole();
-    }, [])
+    })
 
     function checkRole() {
-
+        console.log("checking role");
         let show = false;
         props.userDetails.role.forEach(r => {
+            console.log("r: " + r);
+            console.log("taskRole: " + props.title + " " + props.role);
             if (r == props.role){
                 show = true;
             }

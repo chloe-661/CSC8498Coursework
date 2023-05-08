@@ -80,6 +80,7 @@ function Main (){
                 active: snapshot.data().active,
                 key: snapshot.data().key,
                 started: snapshot.data().started,
+                finished: snapshot.data().finished,
                 taskSetId: snapshot.data().taskSetId,
                 startTime: snapshot.data().startTime,
             }
@@ -384,7 +385,8 @@ function Main (){
                             onQuit={quit}
                             />;
         const task = <TaskDashboard />;
-        if (sessionDbData.started){
+        const forceQuit = <h1>The leader left this session, it therefore has been ended</h1>
+        if (sessionDbData.started && !sessionDbData.ended && sessionDbData.active){
             if (showTaskList){
                 return (
                     <>
@@ -402,6 +404,13 @@ function Main (){
                 )  
             }     
         }
+        else if (sessionDbData.started && !sessionDbData.ended && !sessionDbData.active){
+            return (
+                <>
+                    {forceQuit}
+                </>
+            )
+        }
     }
 
     const joinSession = async () => {
@@ -411,6 +420,7 @@ function Main (){
             setSessionKey(inputtedSessionKey);
             console.log("123");
             snap(request.sessionId, true);
+            setShowTaskList(true);
         }
         else {
             console.log(request.errMes);
