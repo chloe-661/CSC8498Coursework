@@ -21,6 +21,8 @@ import {
     addDoc,
     updateDoc,
     onSnapshot,
+    arrayUnion, 
+    arrayRemove, 
   } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -174,20 +176,30 @@ const getAllTaskSets = async () => {
 const getTaskSet = async (taskSetId) => {
     let taskSet;
     try {
-        const querySnapshot = await getDocs(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", taskSetId));
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            taskSet = {
-                taskId: doc.id,
-                roles: doc.data().roles,
-                senarioDescription: doc.data().senarioDescription,
-                webStackId: doc.data().webStackId,
-            }
-        });
+        const q = query(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", "2rZdId43DTc2Mrgrt2kG"));
+        const querySnapshot = await getDoc(q);
+
+        taskSet = {
+            taskId: querySnapshot.id,
+            roles: querySnapshot.data().roles,
+            senarioDescription: querySnapshot.data().senarioDescription,
+            webStackId: querySnapshot.data().webStackId,
+        }
+        
+        // querySnapshot.forEach((doc) => {
+        //     // doc.data() is never undefined for query doc snapshots
+        //     console.log("loop");
+        //     taskSet = {
+        //         taskId: doc.id,
+        //         roles: doc.data().roles,
+        //         senarioDescription: doc.data().senarioDescription,
+        //         webStackId: doc.data().webStackId,
+        //     }
+        // });
         return taskSet;
     } catch (err) {
         console.error(err);
-        alert(err.message);
+        // alert(err.message);
     }
 }
 
@@ -293,6 +305,7 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
             await addDoc (collection(db, "sessions", tempId, "users"), {
                 uid: uid,
                 leader: true,
+                role: [],
             });
 
             const dbRef = collection(db, "sessions", tempId, "tasks")
@@ -318,11 +331,10 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
-const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {   
+const joinSessionInDb = async (inputtedSessionKey, uid) => {   
     try {
         console.log(uid);
         console.log(inputtedSessionKey);
@@ -366,14 +378,15 @@ const joinSessionInDb = async (inputtedSessionKey, uid, userRole) => {
 
         //Checks to see if the user is already in the session
         const q3 = query(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
-        const querySnapshot3 = await getDocs(q2);
+        const querySnapshot3 = await getDocs(q3);
         if (querySnapshot3.empty){
             console.log("1");
             if (querySnapshot2.size < 5) {
+                console.log("helllllllllllllllllllllllllll");
                 addDoc (collection(db, "sessions", sessionId, "users"), {
                     uid: uid,
-                    role: userRole,
                     leader: false,
+                    role: [],
                 });
             }
         }
@@ -449,8 +462,10 @@ const deleteUserInSessionInDb = async(sessionId, userId) => {
 
 const setUserRoleInDb = async(sessionId, userId, role) => {
     try {
+        console.log("user: " + userId);
+        console.log("role: " + role);
         await updateDoc(doc(db, "sessions", sessionId, "users", userId), {
-            role: role,
+            role: arrayUnion(role),
         });
 
         return {

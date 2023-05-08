@@ -368,6 +368,8 @@ function Main (){
     }
 
     function taskBoards(){
+        console.log("HELLLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPP");
+        console.log("started: " + sessionDbData.started);
         const stats = <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />;
         const taskList = <TaskListDashboard 
                             sessionDetails={sessionDbData} 
@@ -409,12 +411,86 @@ function Main (){
             setSessionKey(inputtedSessionKey);
             console.log("123");
             snap(request.sessionId, true);
-            assignRole();
         }
         else {
             console.log(request.errMes);
         }
     };
+
+    function test(){
+        console.log("123456789");
+    }
+
+    const pickTaskSet = async () => {
+        const request = await getAllTaskSetsIdsWithWebStack("hOOK382sKTHDCyOaaV0m");
+        const rnd = Math.floor(Math.random() * request.length);
+        const choice = request[rnd].taskSetId;
+        console.log("set: " + choice);
+        return choice;
+    }
+
+    const assignRoles = async (sessionId, taskSetId) => {
+        const request = await getTaskSet("2rZdId43DTc2Mrgrt2kG");
+        console.log("assigning roles");
+        let roles = request.roles;
+        console.log("roles.length " + roles.length);
+        console.log("users.length " + sessionDbUserData.length);
+
+        // for(let i = 0; i < roles.length; i++){
+        //     let roleTaken = false;
+        //     console.log(sessionDbUserData[0].uid);
+        //     sessionDbUserData.forEach(u => {
+        //         if (u.role == roles[i]){
+        //             roleTaken = true;
+        //         }
+        //     });
+
+        //     if (!roleTaken){
+        //         setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData.userId, roles[i])
+        //         console.log("role is: " + roles[i]);
+        //         break;
+        //     }
+        // };
+
+        if (roles.length == sessionDbUserData.length){
+            for (let i = 0; i < roles.length; i++){
+                setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[i]);
+            }
+        }
+        else if (roles.length < sessionDbUserData.length){
+            let counter = 0;
+            for (let i = 0; i < sessionDbUserData.length; i++){
+                if (counter < roles.length){
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[counter]);
+                    counter++;
+                }
+                else {
+                    counter = 0;
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[counter]);
+                    counter++;
+                }
+            }
+
+        }
+        else if (roles.length > sessionDbUserData.length){
+            console.log("entering");
+
+
+            let counter = 0;
+            for (let i = 0; i < roles.length; i++){
+                console.log("Counter:" + counter)
+                if (counter < sessionDbUserData.length){
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[counter].userId, roles[i]);
+                    counter++;
+                }
+                else {
+                    counter = 0;
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[counter].userId, roles[i]);
+                    counter++;
+                }
+            }
+        }
+    }
 
     const startSession = async () => {
         console.log("Starting session");
@@ -422,13 +498,17 @@ function Main (){
         //--------------------------------------------------------------------
         const key = generateKey();
         console.log(key);
-        const request = await startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid);
+
+        const taskSet = await pickTaskSet();
+        console.log("setttt " + taskSet)
+
+        const request = await startNewSessionInDb(key, taskSet, user.uid);
+        console.log("request " + request);
+        console.log("567: " + request.sessionId);
         if (request.success){
             setSessionKey(key);
             console.log("456");
             snap(request.sessionId, true);
-            console.log("before");
-            assignRole();
         }
         else {
             console.log(request.errMes);
@@ -437,6 +517,7 @@ function Main (){
     }
 
     const beginGame = async () => {
+        assignRoles(sessionDbData.sessionId, sessionDbData.taskSetId);
         const request = await startSessionInDb(sessionDbData.sessionId);
 
         if (request.success){
@@ -461,27 +542,6 @@ function Main (){
         if (sessionKey == null) {
             return key;
         }
-    }
-
-    const assignRole = async () => {
-        console.log("Assigning Roles")
-        const request = await getTaskSet(sessionDbData.taskSetId);
-        let roles = request.roles;
-
-        for(let i = 0; i < roles.length; i++){
-            let roleTaken = false;
-            sessionDbUserData.forEach(u => {
-                if (u.role == roles[i]){
-                    roleTaken = true;
-                }
-            });
-
-            if (!roleTaken){
-                setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData.userId, roles[i])
-                console.log("role is: " + roles[i]);
-                break;
-            }
-        };
     }
 
     const quit = () => {

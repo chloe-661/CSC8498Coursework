@@ -10,7 +10,15 @@ function TaskDescription(props) {
     }, [])
 
     function checkRole() {
-        if (props.userDetails.role == props.role){
+
+        let show = false;
+        props.userDetails.role.forEach(r => {
+            if (r == props.role){
+                show = true;
+            }
+        });
+
+        if (show){
             setVisible(true);
         }
         else {
