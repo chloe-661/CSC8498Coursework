@@ -17,8 +17,11 @@ function QuitWarning(props) {
       </Modal.Header>
       <Modal.Body>
         <h4>Are you sure you want to quit?</h4>
-        <p>!!! You will NOT be able to rejoin the session you were in</p>
-        <p>!!! If you are the leader of your session, quitting will end the session for EVERYONE</p>
+        <h6>SOLO:</h6>
+        <p><em>!!! You will loose all progress</em></p>
+        <h6>CO-OP:</h6>
+        <p><em>!!! You will NOT be able to rejoin the session you were in</em></p>
+        <p><em>!!! If you are the leader of your session, quitting will end the session for EVERYONE</em></p>
       </Modal.Body>
       <Modal.Footer>
         {/* <Button onClick={props.onHide}>Close</Button> */}

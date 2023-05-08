@@ -3,6 +3,21 @@ import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
 
 function TaskDescription(props) {
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        checkRole();
+    }, [])
+
+    function checkRole() {
+        if (props.userDetails.role == props.role){
+            setVisible(true);
+        }
+        else {
+            setVisible(false);
+        }
+    }
+
     function taskLocked (){
         if (props.completed){
             return (
@@ -32,24 +47,27 @@ function TaskDescription(props) {
     }
 
     return (
-        <Card className="taskDescription">
-        <Card.Body>
-            <div class="grid-container">
-                <div class="grid-item__title">
-                    <Card.Title className="taskDescription__title">{props.title}</Card.Title>
-                </div>
-                <div class="grid-item__description">
-                    <Card.Text className="taskDescription__description">{props.description}</Card.Text>
-                </div>
-                <div class="grid-item__language">
-                    <Card.Text className="taskDescription__languages">{props.languages}</Card.Text>
-                </div>
-                <div class="grid-item__button">
-                    {taskLocked()}
-                </div>  
-           </div>
-        </Card.Body>
-        </Card>
+        <>
+            <Card className= {"taskDescription " + (visible ? 'visible' : 'd-none')}>
+            <Card.Body>
+                <div class="grid-container">
+                    <div class="grid-item__title">
+                        <Card.Title className="taskDescription__title">{props.title}</Card.Title>
+                    </div>
+                    <div class="grid-item__description">
+                        <Card.Text className="taskDescription__description">{props.description}</Card.Text>
+                    </div>
+                    <div class="grid-item__language">
+                        <Card.Text className="taskDescription__languages">{props.languages}</Card.Text>
+                    </div>
+                    <div class="grid-item__button">
+                        {taskLocked()}
+                    </div>  
+            </div>
+            </Card.Body>
+            </Card>
+        </>
+        
     );
 }
 

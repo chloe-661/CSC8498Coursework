@@ -18,6 +18,7 @@ import {
     db,
     auth, 
     getWebStacks, //Gets all the different webstacks available
+    getTaskSet, //Gets the info for a task set but NOT the tasks within it
     getAllTaskSets, //Gets all task sets but NOT the tasks within
     getAllTaskSetsAndTasks, //Gets all sets + the tasks in them
     getAllTaskSetsIdsWithWebStack, //Gets all task set ids that match a webstack type
@@ -28,6 +29,7 @@ import {
     deleteSessionInDb,
     deleteUserInSessionInDb,
     endSessionInDb,
+    setUserRoleInDb,
 } from "../firebase";
 
 //Styles
@@ -328,7 +330,39 @@ function Main (){
             }
             //Solo
             else if (gameMode == "solo"){
-
+                if (sessionStartType == "start"){
+                    //Will only display when the session exists in the database
+                    if (sessionKey != null && !sessionDbData.started) {
+                        return (
+                            <>
+                                <h1 class="title2">SOLO</h1>
+                                <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
+                                <GameOptionsCard className="card-options" 
+                                    title="SESSION KEY"
+                                    topLine="--------------------" 
+                                    bigText={sessionKey} 
+                                    bottomLine="--------------------" 
+                                    >
+                                    <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
+                                </GameOptionsCard>
+                                <Button className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                            </>
+                        )
+                    }
+                }
+                //Start or Join a session options
+                else {
+                    return (
+                        <>
+                            <h1 class="title2">SOLO</h1>
+                            <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
+                            <GameOptionsCard className="card-options" title="Are you sure?" text="You will take on up to 4 roles by yourself" img="">
+                                <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Continue</Button>
+                            </GameOptionsCard>
+                            <Button className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                        </>
+                    )
+                }
             }
         }
     }
@@ -369,34 +403,32 @@ function Main (){
     }
 
     const joinSession = async () => {
-        const request = await joinSessionInDb(inputtedSessionKey, user.uid, "Front-End Developer");
+        const request = await joinSessionInDb(inputtedSessionKey, user.uid);
 
         if (request.success){
             setSessionKey(inputtedSessionKey);
             console.log("123");
             snap(request.sessionId, true);
+            assignRole();
         }
         else {
             console.log(request.errMes);
         }
     };
 
-    const startSession= async () => {
+    const startSession = async () => {
         console.log("Starting session");
-        // Input board for choosing a webstack if more than one, for now ignore
-        console.log(getWebStacks());
-        console.log(getAllTaskswithinTaskSet("2rZdId43DTc2Mrgrt2kG"));
-        console.log(getAllTaskSetsAndTasks());
-        console.log(getAllTaskSetsIdsWithWebStack("hOOK382sKTHDCyOaaV0m"));
-        
+     
         //--------------------------------------------------------------------
         const key = generateKey();
         console.log(key);
-        const request = await startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid, "Front-End Developer");
+        const request = await startNewSessionInDb(key, "2rZdId43DTc2Mrgrt2kG", user.uid);
         if (request.success){
             setSessionKey(key);
             console.log("456");
             snap(request.sessionId, true);
+            console.log("before");
+            assignRole();
         }
         else {
             console.log(request.errMes);
@@ -429,6 +461,27 @@ function Main (){
         if (sessionKey == null) {
             return key;
         }
+    }
+
+    const assignRole = async () => {
+        console.log("Assigning Roles")
+        const request = await getTaskSet(sessionDbData.taskSetId);
+        let roles = request.roles;
+
+        for(let i = 0; i < roles.length; i++){
+            let roleTaken = false;
+            sessionDbUserData.forEach(u => {
+                if (u.role == roles[i]){
+                    roleTaken = true;
+                }
+            });
+
+            if (!roleTaken){
+                setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData.userId, roles[i])
+                console.log("role is: " + roles[i]);
+                break;
+            }
+        };
     }
 
     const quit = () => {

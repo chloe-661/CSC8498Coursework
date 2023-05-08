@@ -31,16 +31,18 @@ function TaskListDashboard(props) {
   const displayTasks = () => {
     return (
       <>
-        {props.taskDetails.map(({title, description, language, completed, inUse, isLockedByDependancies}) => (
+        {props.taskDetails.map(({title, description, role, language, completed, inUse, isLockedByDependancies}) => (
           <TaskDescription 
             title={title} 
-            description={description} 
+            description={description}
+            role={role} 
             languages={language} 
             completed={completed} 
             inUse={inUse} 
             isLockedByDependancies={isLockedByDependancies}
             onShow={() => setShowLockedReasons(true)}
             onHide={() => setShowLockedReasons(false)}
+            userDetails={props.userDetails}
           />
         ))}
       </>

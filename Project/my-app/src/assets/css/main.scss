@@ -713,6 +713,14 @@ label {
   text-align: left;
 }
 
+.modal-body h6 {
+  color: $gunmetal !important;
+  font-weight: bold;
+  font-family: $raleway !important;
+  text-align: left;
+  text-decoration: underline;
+}
+
 .modal-body p {
   color: $gunmetal !important;
   font-family: $raleway !important;

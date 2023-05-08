@@ -170,6 +170,27 @@ const getAllTaskSets = async () => {
     }
 }
 
+//Gets taskSet info using TaskSetId
+const getTaskSet = async (taskSetId) => {
+    let taskSet;
+    try {
+        const querySnapshot = await getDocs(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", taskSetId));
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            taskSet = {
+                taskId: doc.id,
+                roles: doc.data().roles,
+                senarioDescription: doc.data().senarioDescription,
+                webStackId: doc.data().webStackId,
+            }
+        });
+        return taskSet;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
 //Gets all sets + the tasks in them
 const getAllTaskSetsAndTasks = async () => {
     var taskSets = [];
@@ -224,7 +245,7 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
 
 // Sessions ----------------------------------------------------------------------------------------------------
 
-const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {      
+const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {      
     try {
         const dbRef = collection(db, "sessions");
 
@@ -271,7 +292,6 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid, userRole) => {
         if (tempId != null){
             await addDoc (collection(db, "sessions", tempId, "users"), {
                 uid: uid,
-                role: userRole,
                 leader: true,
             });
 
@@ -427,6 +447,22 @@ const deleteUserInSessionInDb = async(sessionId, userId) => {
     }
 }
 
+const setUserRoleInDb = async(sessionId, userId, role) => {
+    try {
+        await updateDoc(doc(db, "sessions", sessionId, "users", userId), {
+            role: role,
+        });
+
+        return {
+            success: true
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
 //Exports all functions --------------------------------------------------------------------------------------------
 
 export {
@@ -438,6 +474,7 @@ export {
     sendPasswordReset,
     logout,
     getWebStacks,
+    getTaskSet,
     getAllTaskSets,
     getAllTaskSetsAndTasks,
     getAllTaskSetsIdsWithWebStack,
@@ -448,4 +485,5 @@ export {
     deleteSessionInDb,
     deleteUserInSessionInDb,
     endSessionInDb,
+    setUserRoleInDb,
 };
