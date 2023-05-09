@@ -430,19 +430,19 @@ label {
     // grid-template-columns: auto auto auto auto auto auto;
     // grid-template-rows: auto auto auto auto auto auto;
     grid-template-columns: 15% 15% auto auto auto auto;
-    grid-template-rows: auto auto auto auto auto 10%;
+    grid-template-rows: 200px auto auto auto auto 10%;
   }
   
  .taskListDashboard .grid-item__role {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 3;
+    grid-row-end: 2;
     width: 100%;
     padding-left: 1rem;
     padding-top: 0;
-    padding-bottom: 0.5rem;
     max-height: 100%;
+    padding-bottom: 0.5rem;
     overflow-y: auto;
     text-align: left;
   }
@@ -451,7 +451,7 @@ label {
     width: 100%;
     grid-column-start: 1;
     grid-column-end: 3;
-    grid-row-start: 3;
+    grid-row-start: 2;
     grid-row-end: 6;
     padding-left: 1rem;
     padding-top: 0.5rem;
@@ -555,6 +555,10 @@ label {
     margin: 0 !important;
     width: 100% !important;
   }
+
+.userRole__description {
+  margin-bottom: 0.5rem;
+}
 
 .sessionDurationStats {
     position: absolute;

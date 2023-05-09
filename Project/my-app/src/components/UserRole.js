@@ -7,7 +7,9 @@ function UserRole(props) {
         <Card className="userRole">
         <Card.Body>
             <Card.Title className="userRole__title">{props.title}</Card.Title>
-            <Card.Text className="userRole__description">{props.description}</Card.Text>
+            {props.role.map((role) => (
+                <Card.Text className="userRole__description">{role}</Card.Text>
+            ))}
         </Card.Body>
         </Card>
     );

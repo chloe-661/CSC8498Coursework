@@ -294,7 +294,8 @@ function Main (){
                                 <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                 <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
                                 </GameOptionsCard>
-                                <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                                {/* <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button> */}
+                                <Button className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
                             </>
                         )
                     }
@@ -373,9 +374,10 @@ function Main (){
         console.log("started: " + sessionDbData.started);
         const stats = <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />;
         const taskList = <TaskListDashboard 
-                            sessionDetails={sessionDbData} 
+                            sessionDetails={sessionDbData}
                             userDetails={sessionDbThisUserData} 
                             taskDetails={sessionDbTaskData}
+                            sessionPeople={sessionPeople}
                             showInstructions={modalShow}
                             showQuitWarning={quitWarningShow}
                             onShowInstructions={() => setModalShow(true)}
@@ -384,7 +386,15 @@ function Main (){
                             onHideQuitWarning={() => setQuitWarningShow(false)}
                             onQuit={quit}
                             />;
-        const task = <TaskDashboard />;
+        const task = <TaskDashboard
+                            showInstructions={modalShow}
+                            showQuitWarning={quitWarningShow}
+                            onShowInstructions={() => setModalShow(true)}
+                            onHideInstructions={() => setModalShow(false)}
+                            onShowQuitWarning={() => setQuitWarningShow(true)}
+                            onHideQuitWarning={() => setQuitWarningShow(false)}
+                            onQuit={quit} 
+        />;
         const forceQuit = <h1>The leader left this session, it therefore has been ended</h1>
         if (sessionDbData.started && !sessionDbData.ended && sessionDbData.active){
             if (showTaskList){
@@ -568,7 +578,11 @@ function Main (){
                 }
                 else {
                     //Delete only the user from that session
+                    const role = u.role;
                     deleteUserInSessionInDb(sessionDbData.sessionId, u.userId);
+                    role.forEach(r => {
+                        setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[0].userId, r);
+                    })
                 }
             }
         });

@@ -450,6 +450,7 @@ const deleteSessionInDb = async(sessionId) => {
 
 const deleteUserInSessionInDb = async(sessionId, userId) => {
     try {
+        console.log("Deleting");
         const request = await deleteDoc(doc(db, "sessions", sessionId, "users", userId));
 
         return {

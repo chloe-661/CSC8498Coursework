@@ -4,11 +4,10 @@ import Card from 'react-bootstrap/Card';
 import TaskDescription from './TaskDescription';
 import SessionStats from './SessionStats';
 import UserRole from './UserRole';
+import Instructions from '../components/Instructions';
+import QuitWarning from '../components/QuitWarning';
 
 function TaskDashboard(props) {
-    const type = "1";
-    const language = "HTML";
-    const role = "Front-end Developer";
 
   return (
     <>
@@ -27,13 +26,22 @@ function TaskDashboard(props) {
           <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/>
         </div>
         <div class="grid-item__info">
-          <UserRole description={<>Type: {type} | Language: {language} | Role: {role}</>}/>
+          <UserRole description={<>Type: {props.type} | Language: {props.language} | Role: {props.userDetails.role}</>}/>
         </div>
         <div class="grid-item__button">
-        <Button className="btn-back">Go Back</Button>
+        <Button className="btn-back" onClick={props.onShowQuitWarning}>Quit</Button>
         <Button>Submit</Button>
         </div>    
       </div>
+      <Instructions
+        show={props.showInstructions}
+        onHide={props.onHideIntructions}
+        />
+      <QuitWarning 
+        show={props.showQuitWarning}
+        onHide={props.onHideQuitWarning}
+        onQuit={props.onQuit}
+        />
     </>
   );
 }

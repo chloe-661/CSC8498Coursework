@@ -53,10 +53,10 @@ function TaskListDashboard(props) {
     <>
       <div class="taskListDashboard grid-container">
         <div class="grid-item__role">
-        <UserRole title="USER ROLE:" description={props.userDetails.role}/>
+        <UserRole title="USER ROLE:" role={props.userDetails.role}/>
         </div>
         <div class="grid-item__stats">
-          <SessionStats title="SESSION STATS:" description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl" />
+          <SessionStats title="SESSION STATS:" sessionPeople={props.sessionPeople} taskDetails={props.taskDetails}/>
         </div>
         <div class="grid-item__tasks">
         {displayTasks()}
