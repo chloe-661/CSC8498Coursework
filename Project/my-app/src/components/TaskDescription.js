@@ -50,7 +50,7 @@ function TaskDescription(props) {
         else {
             return (
                 <>
-                    <Button>Go</Button>
+                    <Button onClick={() => props.onOpenTask(props.taskId)}>Go</Button>
                 </>
             )
         }

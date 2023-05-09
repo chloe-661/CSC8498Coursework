@@ -480,6 +480,55 @@ const setUserRoleInDb = async(sessionId, userId, role) => {
     }
 }
 
+const openTaskInDb = async (sessionId, taskId) => {
+    try {
+        await updateDoc(doc(db, "sessions", sessionId, "tasks", taskId), {
+            inUse: true
+        });
+
+        return {
+            success: true
+        }
+
+    } catch (err) {
+        console.error(err);
+        // alert(err.message);
+    }
+}
+
+const closeTaskInDb = async (sessionId, taskId) => {
+    try {
+        await updateDoc(doc(db, "sessions", sessionId, "tasks", taskId), {
+            inUse: false
+        });
+
+        return {
+            success: true
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const completeTaskInDb = async (sessionId, taskId) => {
+    try {
+        await updateDoc(doc(db, "sessions", sessionId, "tasks", taskId), {
+            inUse: false,
+            completed: true
+        });
+
+        return {
+            success: true
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
 //Exports all functions --------------------------------------------------------------------------------------------
 
 export {
@@ -503,4 +552,7 @@ export {
     deleteUserInSessionInDb,
     endSessionInDb,
     setUserRoleInDb,
+    openTaskInDb,
+    closeTaskInDb,
+    completeTaskInDb,
 };

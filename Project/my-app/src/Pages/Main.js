@@ -30,6 +30,9 @@ import {
     deleteUserInSessionInDb,
     endSessionInDb,
     setUserRoleInDb,
+    openTaskInDb,
+    closeTaskInDb,
+    completeTaskInDb,
 } from "../firebase";
 
 //Styles
@@ -51,6 +54,7 @@ function Main (){
     //Modals
     const [modalShow, setModalShow] = useState(false);
     const [quitWarningShow, setQuitWarningShow] = useState(false);
+    const [goBackWarningShow, setGoBackWarningShow] = useState(false);
 
     //Options to choose from before starting a game
     const [gameMode, setGameMode] = useState(null); //Solo or Coop
@@ -80,7 +84,7 @@ function Main (){
                 active: snapshot.data().active,
                 key: snapshot.data().key,
                 started: snapshot.data().started,
-                finished: snapshot.data().finished,
+                ended: snapshot.data().ended,
                 taskSetId: snapshot.data().taskSetId,
                 startTime: snapshot.data().startTime,
             }
@@ -385,15 +389,26 @@ function Main (){
                             onShowQuitWarning={() => setQuitWarningShow(true)}
                             onHideQuitWarning={() => setQuitWarningShow(false)}
                             onQuit={quit}
+                            onOpenTask={openTask}
                             />;
         const task = <TaskDashboard
+                            sessionDetails={sessionDbData}
+                            userDetails={sessionDbThisUserData} 
+                            taskDetails={sessionDbTaskData}
+                            sessionPeople={sessionPeople}
                             showInstructions={modalShow}
                             showQuitWarning={quitWarningShow}
+                            showGoBackWarning={goBackWarningShow}
                             onShowInstructions={() => setModalShow(true)}
                             onHideInstructions={() => setModalShow(false)}
                             onShowQuitWarning={() => setQuitWarningShow(true)}
                             onHideQuitWarning={() => setQuitWarningShow(false)}
-                            onQuit={quit} 
+                            onShowGoBackWarning={() => setGoBackWarningShow(true)}
+                            onHideGoBackWarning={() => setGoBackWarningShow(false)}
+                            onQuit={quit}
+                            onGoBack={goBack}
+                            taskId={showTask}
+                            onOpenTask={openTask}
         />;
         const forceQuit = <h1>The leader left this session, it therefore has been ended</h1>
         if (sessionDbData.started && !sessionDbData.ended && sessionDbData.active){
@@ -405,7 +420,7 @@ function Main (){
                     </>
                 )       
             }
-            else if (showTask){
+            else{
                 return (
                     <>
                         {stats}
@@ -421,6 +436,21 @@ function Main (){
                 </>
             )
         }
+    }
+
+    const openTask = async (taskId) => {
+        console.log("OPENING TASK: " + taskId);
+        const request = await openTaskInDb(sessionDbData.sessionId, taskId);
+        setShowTaskList(false);
+        setShowTask(taskId);
+    }
+
+    const goBack = async (taskId) => {
+        console.log("GOING BACK: " + taskId);
+        const request = await closeTaskInDb(sessionDbData.sessionId, taskId);
+        setGoBackWarningShow(false);
+        setShowTaskList(true);
+        setShowTask(null);
     }
 
     const joinSession = async () => {
