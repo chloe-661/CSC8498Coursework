@@ -58,7 +58,7 @@ function TaskListDashboard(props) {
         <UserRole title="USER ROLE:" role={props.userDetails.role}/>
         </div>
         <div class="grid-item__stats">
-          <SessionStats title="SESSION STATS:" sessionPeople={props.sessionPeople} taskDetails={props.taskDetails}/>
+          <SessionStats title="SESSION STATS:" sessionDetails={props.sessionDetails} sessionPeople={props.sessionPeople} taskDetails={props.taskDetails}/>
         </div>
         <div class="grid-item__tasks">
         {displayTasks()}

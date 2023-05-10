@@ -1,6 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
+import { 
+    getTaskSet, //Gets the info for a task set but NOT the tasks within it
+} from "../firebase";
 
 function SessionStats(props) {
 
@@ -30,10 +33,19 @@ function SessionStats(props) {
         return tasksCompleted;
     }
 
+    function getSenarioDescription(){
+        // const request = getTaskSet(props.sessionDetails.taskSetId);
+        // return request.senarioDescription;
+    }
+
     return (
         <Card className="sessionStats">
         <Card.Body>
             <Card.Title className="sessionStats__title">{props.title}</Card.Title>
+            <p className="sessionStats__description">Aim: &nbsp;
+                <span class="greenText">{getSenarioDescription()}</span>
+            </p>
+            
             <p className="sessionStats__description">Tasks Completed: &nbsp;
                 <span class="greenText"></span>
             </p>

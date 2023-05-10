@@ -253,7 +253,7 @@ a {
     font-family: $raleway;
 
     &:hover {
-        border-color: $gunmetal !important;
+        border-color: $pigment-green !important;
         background-color: $rich-black !important;
     }
 }
@@ -550,11 +550,15 @@ label {
     width: 10px;
   }
 
-.userRole, .sessionStats {
+.userRole, .sessionStats, .taskDashboardStats {
     min-height: 100%;
     margin: 0 !important;
     width: 100% !important;
   }
+
+.userRole .card-title, .sessionStats .card-title , .taskDashboardStats .card-title {
+  text-decoration: underline;
+}
 
 .userRole__description {
   margin-bottom: 0.5rem;
@@ -589,13 +593,13 @@ label {
     width: 100%;
     // grid-template-columns: auto auto auto auto auto auto;
     // grid-template-rows: auto auto auto auto auto auto;
-    grid-template-columns: 15% 15% auto auto auto 17%;
+    grid-template-columns: 20% auto auto auto auto 30%;
     grid-template-rows: 16% 19% 19% 19% 19% 10%;
   }
   
  .taskDashboard .grid-item__name {
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 2;
     grid-row-start: 1;
     grid-row-end: 2;
     width: 100%;
@@ -610,7 +614,7 @@ label {
   .taskDashboard .grid-item__description {
     width: 100%;
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 6;
     padding-left: 1rem;
@@ -621,26 +625,27 @@ label {
     text-align: left;
   }
 
-  .taskDashboard .grid-item__hint {
+  .taskDashboard .grid-item__task {
     width: 100%;
-    grid-column-start: 5;
+    grid-column-start: 2;
     grid-column-end: 6;
-    grid-row-start: 6;
-    grid-row-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 6;
     padding-left: 1rem;
-    padding-top: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
   }
 
-  .taskDashboard .grid-item__task {
+  .taskDashboard .grid-item__answers {
     width: 100%;
-    grid-column-start: 3;
+    grid-column-start: 6;
     grid-column-end: 7;
     grid-row-start: 1;
     grid-row-end: 6;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     padding-right: 1rem;
     padding-bottom: 0.5rem;
     max-height: 100%;
@@ -685,7 +690,7 @@ label {
 
   .taskDashboard .grid-item__button {
     width: 100%;
-    grid-column-start: 6;
+    grid-column-start: 5;
     grid-column-end: 7;
     grid-row-start: 6;
     grid-row-end: 7;
@@ -695,18 +700,28 @@ label {
     max-height: 100%;
     overflow-y: auto;
     text-align: right;
+    display: inline-block !important;
   }
 
   .taskDashboard .grid-item__button .btn{
     margin-bottom: 0;
-    margin-left: 1rem;
+    display: inline-block !important;
+    margin-left: 1rem !important;
   }
 
+  .taskDashboard__title {
+    font-size: 30px;
+  }
 
-  .taskDashboard .grid-item__button .btn-back {
-    display: inline-block !important;
-    margin-left: 0 !important;
-}
+  .task, .answers {
+    min-height: 100%;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .task .card-text {
+    color: $pigment-green !important;
+  }
 
 // Modals
 
