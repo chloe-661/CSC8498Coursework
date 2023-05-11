@@ -27,7 +27,7 @@ function TaskDashboardStats(props) {
             <Card.Title class={props.extraClass}>{props.title}</Card.Title>
             <Card.Text>
                 {splitDescription()}
-                {description.map(line => (<p>{line}</p>))}
+                {description.map((line, index) => (<p key={index}>{line}</p>))}
                 {props.description}
             </Card.Text>
         </Card.Body>

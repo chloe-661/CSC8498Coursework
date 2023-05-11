@@ -727,6 +727,8 @@ label {
 
   .taskDashboard__title {
     font-size: 25px;
+    margin: 0 !important;
+    text-decoration: none !important;
   }
 
   .task, .answers {

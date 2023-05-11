@@ -23,10 +23,67 @@ import {
 function TaskDashboard(props) {
 
   const [task, setTask] = useState(null);
+  const [inputs, setInputs] = useState(null);
+  const [test, setTest] = useState({
+    lineNum: "",
+    correction: "",
+  })
+
+  const handleChange = (value, index, type) => {
+    console.log(value);
+    console.log(type);
+    const values = [...inputs];
+    const t = test;
+    if (type == "lineNum"){
+      console.log("inLine")
+      values[index].lineNum = value;
+      t.lineNum = value;
+      console.log(values[index].lineNum);
+    }
+    else if (type == "correction") {
+      console.log("inCorrection")
+      values[index].correction = value;
+      t.correction = value;
+      console.log(values[index].correction);
+    }
+    console.log("beforeSet");
+    setInputs(values);
+    setTest(t);
+    console.log("afterSet");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(inputs);
+  }
+
 
     useEffect(() => {
         getTask();
     })
+
+    useEffect(() => {
+      if (inputs != null){
+        console.log("UseEffectI: " + inputs[0].lineNum + ", " + inputs[0].correction);
+      }
+    })
+
+    useEffect(() => {
+      if (test != null){
+        console.log("UseEffectT: " + test.lineNum + ", " + test.correction);
+      }
+    })
+
+    function initaliseFormInputs(){
+      let arr = []
+      task.answerLines.forEach(item => {
+        arr.push({
+          lineNum: "",
+          correction: "",
+        })
+      })
+      setInputs(arr);
+    }
 
     function getTask(){
         props.taskDetails.forEach(t => {
@@ -50,37 +107,44 @@ function TaskDashboard(props) {
     function formatAnswers(){
       if (task != null){
         if (task.type == "find-the-errors"){
-          return (
-            <>
-              <hr />
-              {task.answerLines.map(item => (
-                <>
-                <div className="answersForm-container ">
-                  <div className="grid-container">
-                    <label className="grid-item__text" for="answer-LineNum">Line Number:</label>
-                    <input className="grid-item__input" type="text" placeholder="e.g 1" name="answer-LineNum" required></input>
+          if (inputs == null) {
+            initaliseFormInputs();
+          }
+
+          if (inputs != null){
+            console.log("inputs:" + inputs[0].lineNum);
+            return (
+              <>
+                <hr />
+                {task.answerLines.map((item, index) => (
+                  <>
+                  <div className="answersForm-container" key={index}>
+                    <div className="grid-container">
+                      <label className="grid-item__text">Line Number:</label>
+                      <input className="grid-item__input" type="text" placeholder="e.g 1" value={inputs[index].lineNum || ""} onChange={(e) => handleChange(e.target.value, index, "lineNum")} required></input>
+                    </div>
+                    <div className="grid-container">
+                      <label className="grid-item__text">Correction:</label>
+                      <input className="grid-item__input" type="text" placeholder="e.g body" value={test.correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
+                    </div>
+                    <hr />
                   </div>
-                  <div className="grid-container">
-                    <label className="grid-item__text" for="answer-Correction">Correction:</label>
-                    <input className="grid-item__input" type="text" placeholder="e.g body" name="answer-Correction" required></input>
-                  </div>
-                  <hr />
-                </div>
-                </>
-              ))}
-            </>
-          )
+                  </>
+                ))}
+              </>
+            )
+          }
         }
         if (task.type == "fill-in-the-blanks"){
           return (
             <>
               <hr />
-              {task.answerLines.map(item => (
+              {task.answerLines.map((item) => (
                 <>
-                <div className="answersForm-container ">
+                <div className="answersForm-container">
                   <div className="grid-container">
-                    <label className="grid-item__text" for="answer-Correction">Line {item}:</label>
-                    <input className="grid-item__input" type="text" placeholder="e.g body" name="answer-Correction" required></input>
+                    <label className="grid-item__text" >Line {item}:</label>
+                    <input className="grid-item__input" type="text" placeholder="e.g body" required></input>
                   </div>
                   <hr />
                 </div>
@@ -144,7 +208,13 @@ function TaskDashboard(props) {
     function displayTitleCard(){
       if (task != null){
         return (
-          <TaskDashboardStats extraClass="taskDashboard__title" title={task.title} />
+          <>
+            <Card className="taskDashboardStats">
+              <Card.Body>
+                <Card.Title className="taskDashboard__title">{task.title}</Card.Title>
+              </Card.Body>
+            </Card>
+          </>
         )
       }
     }
@@ -161,7 +231,7 @@ function TaskDashboard(props) {
       if (task != null){
         return (
           <>
-             <Card className="taskDashboardStats">
+            <Card className="taskDashboardStats">
             <Card.Body>
               <Card.Title></Card.Title>
                 <Card.Text>
@@ -203,7 +273,7 @@ function TaskDashboard(props) {
                 <Card.Title>Put your answers here:</Card.Title>
                 <Card.Text>
                   <form>
-                    {formatAnswers()}
+                    {task ? formatAnswers() : <p>TESTING</p>}
                   </form>
                 </Card.Text>
             </Card.Body>

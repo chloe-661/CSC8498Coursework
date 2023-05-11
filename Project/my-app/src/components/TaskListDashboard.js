@@ -32,7 +32,8 @@ function TaskListDashboard(props) {
     return (
       <>
         {props.taskDetails.map(({id, title, description, role, language, completed, inUse, isLockedByDependancies}) => (
-          <TaskDescription 
+          <TaskDescription
+            key={id}
             taskId={id}
             title={title} 
             description={description}

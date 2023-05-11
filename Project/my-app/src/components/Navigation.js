@@ -87,8 +87,8 @@ function Navigation(props) {
                     title="Minigames"
                     id={`offcanvasNavbarDropdown-expand-${false}`}
                   >
-                    {minigames.map(({ title, route }) => (
-                        <NavDropdown.Item as={Link} to={route}>{title}</NavDropdown.Item>
+                    {minigames.map(({ title, route }, index) => (
+                        <NavDropdown.Item key={index} as={Link} to={route}>{title}</NavDropdown.Item>
                     ))}
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/minigames" >
