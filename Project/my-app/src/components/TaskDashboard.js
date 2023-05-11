@@ -24,10 +24,6 @@ function TaskDashboard(props) {
 
   const [task, setTask] = useState(null);
   const [inputs, setInputs] = useState(null);
-  const [test, setTest] = useState({
-    lineNum: "",
-    correction: "",
-  })
 
   const handleChange = (value, index, type) => {
     const values = [...inputs];
@@ -42,7 +38,6 @@ function TaskDashboard(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputs);
     checkAnswers();
   }
 
@@ -57,6 +52,39 @@ function TaskDashboard(props) {
         else {
           errors.push ({
             lineNum: inputs[i].lineNum,
+            correction: inputs[i].correction,
+          })
+        }
+      }
+
+      if (numCorrect == task.answers.length){
+        console.log("Got all them right")
+        return {
+          success: true,
+          correct: numCorrect,
+        }
+      }
+      else {
+        console.log("Got some wrong");
+        return {
+          sucess: false,
+          correct: numCorrect,
+          wrong: errors.length,
+          err: errors,
+        }
+      }
+    }
+
+    if (task.type == "find-in-the-blanks"){
+      let numCorrect = 0;
+      let errors = [];
+      for (let i = 0; i < task.answerLines.length; i++){
+        if (inputs[i].correction == task.answers[i]){
+          numCorrect++;
+        }
+        else {
+          errors.push ({
+            lineNum: task.answerLines[i],
             correction: inputs[i].correction,
           })
         }
@@ -133,11 +161,11 @@ function TaskDashboard(props) {
                   <div className="answersForm-container" key={index}>
                     <div className="grid-container">
                       <label className="grid-item__text">Line Number:</label>
-                      <input className="grid-item__input" type="text" placeholder="e.g 1" value={inputs[index].lineNum || ""} onChange={(e) => handleChange(e.target.value, index, "lineNum")} required></input>
+                      <input className="grid-item__input" type="text"  value={inputs[index].lineNum || ""} onChange={(e) => handleChange(e.target.value, index, "lineNum")} required></input>
                     </div>
                     <div className="grid-container">
                       <label className="grid-item__text">Correction:</label>
-                      <input className="grid-item__input" type="text" placeholder="e.g body" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
+                      <input className="grid-item__input" type="text" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
                     </div>
                     <hr />
                   </div>
@@ -148,22 +176,28 @@ function TaskDashboard(props) {
           }
         }
         if (task.type == "fill-in-the-blanks"){
-          return (
-            <>
-              <hr />
-              {task.answerLines.map((item) => (
-                <>
-                <div className="answersForm-container">
-                  <div className="grid-container">
-                    <label className="grid-item__text" >Line {item}:</label>
-                    <input className="grid-item__input" type="text" placeholder="e.g body" required></input>
+          if (inputs == null) {
+            initaliseFormInputs();
+          }
+
+          if (inputs != null){
+            return (
+              <>
+                <hr />
+                {task.answerLines.map((item, index) => (
+                  <>
+                  <div className="answersForm-container">
+                    <div className="grid-container">
+                      <label className="grid-item__text" >Line {item}:</label>
+                      <input className="grid-item__input" type="text" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
+                    </div>
+                    <hr />
                   </div>
-                  <hr />
-                </div>
-                </>
-              ))}
-            </>
-          )
+                  </>
+                ))}
+              </>
+            )
+          }
         }
       }
     }
