@@ -33,6 +33,7 @@ import {
     openTaskInDb,
     closeTaskInDb,
     completeTaskInDb,
+    cleanUpSessions
 } from "../firebase";
 
 //Styles
@@ -135,7 +136,12 @@ function Main (){
                     language: doc.data().language,
                     title: doc.data().name,
                     type: doc.data().type,
-                    isLockedByDependancies: false,  
+                    isLockedByDependancies: false,
+                    questions: doc.data().questions,
+                    answers: doc.data().questions,
+                    answerLines: doc.data().answerLines,
+                    longDescription: doc.data().longDescription,
+                      
                 });
             })
             console.log("taskData= " + x[0].id);

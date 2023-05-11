@@ -9,7 +9,6 @@ import {
 
 function Task(props) {
     const [task, setTask] = useState(null);
-    const answerLines = [4, 10];
 
     useEffect(() => {
         getTask();
@@ -38,6 +37,7 @@ function Task(props) {
         if (task != null){
             if (task.type == "find-the-errors"){
                 const code = getCodeSnippet(task.title);
+
                 return (
                     <>
                         <SyntaxHighlighter  wrapLines={true} 
@@ -62,7 +62,7 @@ function Task(props) {
                                             wrapLongLines={true} 
                                             lineProps={lineNumber => {
                                                 let style = { display: 'block' };
-                                                if (answerLines.includes(lineNumber)) {
+                                                if (task.answerLines.includes(lineNumber)) {
                                                     style.backgroundColor = '#2d3a3aff';
                                                 }
                                                 return { style };

@@ -245,6 +245,10 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
                 type: doc.data().type,
                 taskDependancies: doc.data().taskDependancies,
                 content: doc.data().content,
+                questions: doc.data().questions,
+                answers: doc.data().questions,
+                answerLines: doc.data().answerLines,
+                longDescription: doc.data().longDescription,
             }
             tasks.push(x);
         });
@@ -323,6 +327,10 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
                     taskDependancies: t.taskDependancies,
                     completed: false,
                     inUse: false,
+                    questions: t.questions,
+                    answers: t.questions,
+                    answerLines: t.answerLines,
+                    longDescription: t.longDescription,
                 });
             });
         }
@@ -448,6 +456,17 @@ const deleteSessionInDb = async(sessionId) => {
     }
 }
 
+const getUsersInSessionInDb = async(sessionId) => {
+    try {
+        const request = await getDocs(collection(db, "sessions", sessionId, "users"));
+
+        return request;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
 const deleteUserInSessionInDb = async(sessionId, userId) => {
     try {
         console.log("Deleting");
@@ -529,6 +548,35 @@ const completeTaskInDb = async (sessionId, taskId) => {
     }
 }
 
+const cleanUpSessions = async () => {
+    try {
+        // const q = query(collection(db, "sessions"));
+        // const querySnapshot = await getDocs(q);
+        // let ids = []
+
+        // querySnapshot.forEach(d => {
+        //     if (!d.data().active){
+        //         const users = getUsersInSessionInDb(d.id) 
+        //         users.forEach(u => {
+        //             deleteDoc(doc(db, "sessions", d.id, "users", u.id));
+        //         })
+                
+        //     }
+        // })
+
+        // const q2 = query(collection(db, "sessions", d.id, "users"));
+        // const querySnapshot2 = getDocs(q2);
+
+        // deleteDoc(doc(db, "sessions", d.id));
+
+
+        console.log("RUNNING DATABASE CLEAN UP");
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
 //Exports all functions --------------------------------------------------------------------------------------------
 
 export {
@@ -555,4 +603,5 @@ export {
     openTaskInDb,
     closeTaskInDb,
     completeTaskInDb,
+    cleanUpSessions,
 };

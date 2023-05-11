@@ -24,18 +24,19 @@ const setupThePage =
 </html>`;
 
 const styleThePage = 
-`body {
+`bodie {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
 }
 
 header {
     background-color: grey;
-    padding: 10px;
-    text-align: left;
+    padding: 10;
+    text-align: center;
     font-size: 16px;
-    color: white;
+    colour: white;
     margin-bottom: 8px;
+	width: 100%
 }
 
 header h3 {
@@ -45,13 +46,13 @@ header h3 {
 footer {
     background-color: #f1f1f1;
     padding: 10px;
-    text-align: center;
-    color: green;
+    text-align: right;
+    color: grey;
     margin-top: 8px;
-    position: fixed;
+    position: relative;
     left: 0;
     bottom: 0;
-    width: 100%;
+    width: 50%;
   }
 
 footer p {

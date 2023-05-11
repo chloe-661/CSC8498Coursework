@@ -10,49 +10,208 @@ import GoBackWarning from '../components/GoBackWarning';
 import TaskDashboardStats from '../components/TaskDashboardStats';
 import Task from '../components/Task';
 import Answers from '../components/Answers';
+import { 
+  getTaskLongDescription
+} from "../taskLongDescriptions";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useState, useEffect } from 'react';
+import { 
+    getCodeSnippet
+} from "../codeSnippets";
 
 function TaskDashboard(props) {
 
-  let title;
-  let description;
-  let type;
-  let language;
-  let role;
+  const [task, setTask] = useState(null);
 
-  function getTaskDetails(){
-    props.taskDetails.forEach(t => {
-      if (t.id == props.taskId){
-        title = t.title;
-        description = t.description;
-        type = t.type;
-        language = t.language;
-        role = t.role;
-      }
+    useEffect(() => {
+        getTask();
     })
-  }
-    
+
+    function getTask(){
+        props.taskDetails.forEach(t => {
+            if (t.id == props.taskId){
+                setTask(t);
+            }
+        })
+    }
+
+    function getLanguage(){
+        switch (task.language){
+            case "HTML":
+                return "xml";
+            case "CSS":
+                return "css";
+            case "Javascript":
+                return "javascript";
+        }
+    }
+
+    function formatAnswers(){
+      if (task != null){
+        if (task.type == "find-the-errors"){
+          return (
+            <>
+              <hr />
+              {task.answerLines.map(item => (
+                <>
+                <div className="answersForm-container ">
+                  <div className="grid-container">
+                    <label className="grid-item__text" for="answer-LineNum">Line Number:</label>
+                    <input className="grid-item__input" type="text" placeholder="e.g 1" name="answer-LineNum" required></input>
+                  </div>
+                  <div className="grid-container">
+                    <label className="grid-item__text" for="answer-Correction">Correction:</label>
+                    <input className="grid-item__input" type="text" placeholder="e.g body" name="answer-Correction" required></input>
+                  </div>
+                  <hr />
+                </div>
+                </>
+              ))}
+            </>
+          )
+        }
+        if (task.type == "fill-in-the-blanks"){
+          return (
+            <>
+              <hr />
+              {task.answerLines.map(item => (
+                <>
+                <div className="answersForm-container ">
+                  <div className="grid-container">
+                    <label className="grid-item__text" for="answer-Correction">Line {item}:</label>
+                    <input className="grid-item__input" type="text" placeholder="e.g body" name="answer-Correction" required></input>
+                  </div>
+                  <hr />
+                </div>
+                </>
+              ))}
+            </>
+          )
+        }
+      }
+    }
+
+    function formatTask(){
+        if (task != null){
+            if (task.type == "find-the-errors"){
+                const code = getCodeSnippet(task.title);
+
+                return (
+                    <>
+                        <SyntaxHighlighter  wrapLines={true} 
+                                            wrapLongLines={true} 
+                                            customStyle={{ 
+                                                fontSize: 13.5, 
+                                                backgroundColor: 'transparent', 
+                                                padding: 0, 
+                                                margin: 0 }}
+                                            showLineNumbers={true} 
+                                            language={getLanguage()} 
+                                            style={dracula}
+                                            children={code} />
+                    </>
+                )
+            }
+            if (task.type == "fill-in-the-blanks"){
+                const code = getCodeSnippet(task.title);
+                return (
+                    <>
+                        <SyntaxHighlighter  wrapLines={true} 
+                                            wrapLongLines={true} 
+                                            lineProps={lineNumber => {
+                                                let style = { display: 'block' };
+                                                if (task.answerLines.includes(lineNumber)) {
+                                                    style.backgroundColor = '#2d3a3aff';
+                                                }
+                                                return { style };
+                                                }} 
+                                            customStyle={{ 
+                                                fontSize: 13.5, 
+                                                backgroundColor: 'transparent', 
+                                                padding: 0, 
+                                                margin: 0 }}
+                                            showLineNumbers={true} 
+                                            language={getLanguage()} 
+                                            style={dracula}
+                                            children={code} />
+                    </>
+                )
+            }
+        }
+    } 
+
+    function displayTitleCard(){
+      if (task != null){
+        return (
+          <TaskDashboardStats extraClass="taskDashboard__title" title={task.title} />
+        )
+      }
+    }
+
+    function displayDescriptionCard(){
+      if (task != null){
+        return (
+          <TaskDashboardStats title="DESCRIPTION" originalTaskId={task.taskId} />
+        )
+      }
+    }
+
+    function displayInfoCard(){
+      if (task != null){
+        return (
+          <>
+             <Card className="taskDashboardStats">
+            <Card.Body>
+              <Card.Title></Card.Title>
+                <Card.Text>
+                {<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}
+                </Card.Text>
+            </Card.Body>
+            </Card>
+          </>
+          // <TaskDashboardStats description={<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}/>
+        )
+      }
+    }
 
   return (
     <>
-    {getTaskDetails()}
       <div class="taskDashboard grid-container">
         <div class="grid-item__name">
-            <TaskDashboardStats extraClass="taskDashboard__title" title={title} />
+            {/* <TaskDashboardStats extraClass="taskDashboard__title" title={task.title} /> */}
+            {displayTitleCard()}
         </div>
         <div class="grid-item__description">
-          <TaskDashboardStats title="DESCRIPTION" description={description} />
-
+          {/* <TaskDashboardStats title="DESCRIPTION" originalTaskId={task.taskId} /> */}
+          {displayDescriptionCard()}
         </div>
         <div class="grid-item__task">
-          <Task taskDetails={props.taskDetails} taskId={props.taskId}/>
+          <Card className="task">
+            <Card.Body>
+                {formatTask()}
+            </Card.Body>
+          </Card>
+          {/* <Task taskDetails={props.taskDetails} taskId={props.taskId}/> */}
           {/* <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/> */}
         </div>
         <div class="grid-item__answers">
-          <Answers />
+          {/* <Answers taskDetails={props.taskDetails} taskId={props.taskId}/> */}
           {/* <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/> */}
+          <Card className="answers">
+            <Card.Body>
+                <Card.Title>Put your answers here:</Card.Title>
+                <Card.Text>
+                  <form>
+                    {formatAnswers()}
+                  </form>
+                </Card.Text>
+            </Card.Body>
+            </Card>
         </div>
         <div class="grid-item__info">
-          <TaskDashboardStats description={<>Type: &nbsp; {type} &nbsp;&nbsp; | &nbsp;&nbsp; Language: &nbsp; {language} &nbsp;&nbsp; | &nbsp;&nbsp; Role: &nbsp; {role}</>}/>
+          {/* <TaskDashboardStats description={<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}/> */}
+          {displayInfoCard()}
         </div>
         <div class="grid-item__button">
           <Button className="btn-hint" >Hint?</Button>

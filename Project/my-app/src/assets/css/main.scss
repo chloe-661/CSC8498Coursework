@@ -560,6 +560,10 @@ label {
   text-decoration: underline;
 }
 
+.taskDashboardStats .card-text p {
+  font-size: 13.5px !important;
+}
+
 .userRole__description {
   margin-bottom: 0.5rem;
 }
@@ -605,12 +609,19 @@ label {
     width: 100%;
     padding-left: 1rem;
     padding-top: 0;
-    padding-bottom: 0.5rem;
+    // padding-bottom: 0.5rem;
+    padding-bottom: 0;
+    margin-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
   }
 
+  .taskDashboard .grid-item__info .taskDashboardStats .card-body {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  
   .taskDashboard .grid-item__description {
     width: 100%;
     grid-column-start: 1;
@@ -618,8 +629,11 @@ label {
     grid-row-start: 2;
     grid-row-end: 6;
     padding-left: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    // padding-top: 0.5rem;
+    padding-top: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    // padding-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
@@ -633,7 +647,8 @@ label {
     grid-row-end: 6;
     padding-left: 1rem;
     padding-right: 0.5rem;
-    padding-bottom: 0.5rem;
+    // padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
@@ -647,7 +662,8 @@ label {
     grid-row-end: 6;
     padding-left: 0.5rem;
     padding-right: 1rem;
-    padding-bottom: 0.5rem;
+    // padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
@@ -710,7 +726,7 @@ label {
   }
 
   .taskDashboard__title {
-    font-size: 30px;
+    font-size: 25px;
   }
 
   .task, .answers {
@@ -721,6 +737,62 @@ label {
 
   .task .card-text {
     color: $pigment-green !important;
+  }
+
+  .answersForm-container {
+    margin-bottom: 1rem !important;
+  }
+
+  .answersForm-container > .grid-container {
+    display: grid;
+    min-height: 100%;
+    max-height: 100%;
+    width: 100%;
+    // grid-template-columns: auto auto auto auto auto auto;
+    // grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 40% auto;
+    margin-bottom: 0.5rem;
+  }
+  
+ .answersForm-container .grid-container .grid-item__text {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    width: 100%;
+    // padding-left: 1rem;
+    // padding-top: 0;
+    // padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 13.5px !important;
+  }
+
+  .answersForm-container .grid-container .grid-item__input {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    width: 100%;
+    // padding-left: 1rem;
+    // padding-top: 0;
+    // padding-bottom: 0.5rem;
+    // max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 13.5px !important;
+  }
+
+  .answersForm-container input {
+    background-color: transparent !important;
+    border: 1px solid $forest-green !important;
+    box-shadow: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    color: $pigment-green !important;
+    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+
+    &:focus {
+      border: 1px solid $baby-powder !important;
+    }
   }
 
 // Modals
@@ -762,4 +834,8 @@ label {
   color: red !important;
   font-weight: bold;
   font-family: $raleway !important;
+}
+
+.answersForm-container {
+  margin-bottom: 1rem;
 }
