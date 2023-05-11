@@ -138,7 +138,7 @@ function Main (){
                     type: doc.data().type,
                     isLockedByDependancies: false,
                     questions: doc.data().questions,
-                    answers: doc.data().questions,
+                    answers: doc.data().answers,
                     answerLines: doc.data().answerLines,
                     longDescription: doc.data().longDescription,
                       

@@ -30,48 +30,60 @@ function TaskDashboard(props) {
   })
 
   const handleChange = (value, index, type) => {
-    console.log(value);
-    console.log(type);
     const values = [...inputs];
-    const t = test;
     if (type == "lineNum"){
-      console.log("inLine")
       values[index].lineNum = value;
-      t.lineNum = value;
-      console.log(values[index].lineNum);
     }
     else if (type == "correction") {
-      console.log("inCorrection")
       values[index].correction = value;
-      t.correction = value;
-      console.log(values[index].correction);
     }
-    console.log("beforeSet");
     setInputs(values);
-    setTest(t);
-    console.log("afterSet");
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(inputs);
+    checkAnswers();
+  }
+
+  function checkAnswers(){
+    if (task.type == "find-the-errors"){
+      let numCorrect = 0;
+      let errors = [];
+      for (let i = 0; i < task.answerLines.length; i++){
+        if (inputs[i].lineNum == task.answerLines[i] && inputs[i].correction == task.answers[i]){
+          numCorrect++;
+        }
+        else {
+          errors.push ({
+            lineNum: inputs[i].lineNum,
+            correction: inputs[i].correction,
+          })
+        }
+      }
+
+      if (numCorrect == task.answers.length){
+        console.log("Got all them right")
+        return {
+          success: true,
+          correct: numCorrect,
+        }
+      }
+      else {
+        console.log("Got some wrong");
+        return {
+          sucess: false,
+          correct: numCorrect,
+          wrong: errors.length,
+          err: errors,
+        }
+      }
+    }
   }
 
 
     useEffect(() => {
         getTask();
-    })
-
-    useEffect(() => {
-      if (inputs != null){
-        console.log("UseEffectI: " + inputs[0].lineNum + ", " + inputs[0].correction);
-      }
-    })
-
-    useEffect(() => {
-      if (test != null){
-        console.log("UseEffectT: " + test.lineNum + ", " + test.correction);
-      }
     })
 
     function initaliseFormInputs(){
@@ -125,7 +137,7 @@ function TaskDashboard(props) {
                     </div>
                     <div className="grid-container">
                       <label className="grid-item__text">Correction:</label>
-                      <input className="grid-item__input" type="text" placeholder="e.g body" value={test.correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
+                      <input className="grid-item__input" type="text" placeholder="e.g body" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
                     </div>
                     <hr />
                   </div>
@@ -287,7 +299,7 @@ function TaskDashboard(props) {
           <Button className="btn-hint" >Hint?</Button>
           <Button className="btn-back" onClick={props.onShowQuitWarning}>Quit</Button>
           <Button className="btn-back" onClick={props.onShowGoBackWarning}>Go Back</Button>
-          <Button>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>    
       </div>
       <Instructions

@@ -246,7 +246,7 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
                 taskDependancies: doc.data().taskDependancies,
                 content: doc.data().content,
                 questions: doc.data().questions,
-                answers: doc.data().questions,
+                answers: doc.data().answers,
                 answerLines: doc.data().answerLines,
                 longDescription: doc.data().longDescription,
             }
@@ -328,7 +328,7 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
                     completed: false,
                     inUse: false,
                     questions: t.questions,
-                    answers: t.questions,
+                    answers: t.answers,
                     answerLines: t.answerLines,
                     longDescription: t.longDescription,
                 });
