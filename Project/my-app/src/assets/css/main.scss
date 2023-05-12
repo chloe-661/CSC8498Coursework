@@ -116,7 +116,7 @@ a {
 }
 
 .greenText {
-    color: $pigment-green;
+    color: $pigment-green !important;
 }
 
 // Navigation -----------------------------------------------------------------------------------------------------------------
@@ -313,6 +313,11 @@ a {
 .card-options .tinyText {
     font-size: 0.75rem !important;
     font-style: italic !important;
+}
+
+.tinyText {
+  font-size: 0.75rem !important;
+  font-style: italic !important;
 }
 
 .card-options .bigNumber  {
@@ -725,6 +730,19 @@ label {
     margin-left: 1rem !important;
   }
 
+  .taskDashboard .grid-item__completed {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 7;
+    padding: 1rem;
+    // max-height: 100%;
+    overflow-y: auto;
+    text-align: right;
+    display: inline-block !important;
+  }
+
   .taskDashboard__title {
     font-size: 25px;
     margin: 0 !important;
@@ -815,9 +833,13 @@ label {
 }
 
 .modal-body p {
-  color: $gunmetal !important;
+  color: $gunmetal;
   font-family: $raleway !important;
   text-align: left;
+}
+
+.modal-body hr {
+  color: black !important;
 }
 
 .modal-instructions .modal-title {
@@ -825,6 +847,25 @@ label {
   font-weight: bold;
   font-family: $raleway !important;
 }
+
+.modal-wrongAnswer .modal-title {
+  color: red !important;
+  font-weight: bold;
+  font-family: $raleway !important;
+}
+
+.modal-wrongAnswer .greenText {
+  color: $forest-green !important;
+}
+
+.modal-wrongAnswer .listP {
+  margin-bottom: 0.25rem;
+}
+
+.modal-wrongAnswer .bold {
+  font-weight: bold;
+}
+
 
 .modal-taskLocked .modal-title {
   color: red !important;

@@ -1,29 +1,50 @@
+//Bootstrap
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-import TaskDescription from './TaskDescription';
-import SessionStats from './SessionStats';
-import UserRole from './UserRole';
+//React-Syntax-Highlighter
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+//Components
 import Instructions from '../components/Instructions';
 import QuitWarning from '../components/QuitWarning';
 import GoBackWarning from '../components/GoBackWarning';
 import TaskDashboardStats from '../components/TaskDashboardStats';
-import Task from '../components/Task';
-import Answers from '../components/Answers';
-import { 
-  getTaskLongDescription
-} from "../taskLongDescriptions";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import WrongAnswerModal from './wrongAnswerModal';
+import HintModal from './HintModal';
+
+//Text
+import { getCodeSnippet } from "../codeSnippets";
+
+//Hooks
 import { useState, useEffect } from 'react';
-import { 
-    getCodeSnippet
-} from "../codeSnippets";
+
+//Database
+import { completeTaskInDb } from "../firebase";
 
 function TaskDashboard(props) {
 
-  const [task, setTask] = useState(null);
-  const [inputs, setInputs] = useState(null);
+  //State ------------------------------------------------------------------------------------------------------------------------
+
+  const [task, setTask] = useState(null); //The task and all it's details
+  const [showWrongAnswerModal, setShowWrongAnswerModal] = useState(false); //Modal popup that shows which answers were wrong
+  const [showHintModal, setShowHintModal] = useState(false); //Modal popup that shows some hints for the task
+  const [inputs, setInputs] = useState(null); //The answers the user has inputted/submitted
+  const [submitAnswers, setSubmitAnswers] = useState({ //The outcome of the answers the user has submitted
+    success: false,
+    correct: 0,
+    wrong: 0,
+    err: [],
+  });
+
+  //Hooks ------------------------------------------------------------------------------------------------------------------------
+  
+  useEffect(() => {
+    getTask();
+  })
+
+  //Event Handlers ------------------------------------------------------------------------------------------------------------------------
 
   const handleChange = (value, index, type) => {
     const values = [...inputs];
@@ -41,6 +62,49 @@ function TaskDashboard(props) {
     checkAnswers();
   }
 
+  const handleCompleted = async (event) => {
+    event.preventDefault();
+    const result = await completeTaskInDb(props.sessionDetails.sessionId, props.taskId);
+
+    if (result.success){
+      props.onGoBack(props.taskId);
+    }
+  }
+
+  //Initalisations ------------------------------------------------------------------------------------------------------------------------
+
+  function initaliseFormInputs(){
+    let arr = []
+    task.answerLines.forEach(item => {
+      arr.push({
+        lineNum: "",
+        correction: "",
+      })
+    })
+    setInputs(arr);
+  }
+
+  function getTask(){
+      props.taskDetails.forEach(t => {
+          if (t.id == props.taskId){
+              setTask(t);
+          }
+      })
+  }
+
+  function getLanguage(){
+      switch (task.language){
+          case "HTML":
+              return "xml";
+          case "CSS":
+              return "css";
+          case "Javascript":
+              return "javascript";
+      }
+  }
+
+  //Answer Verification ------------------------------------------------------------------------------------------------------------------------
+
   function checkAnswers(){
     if (task.type == "find-the-errors"){
       let numCorrect = 0;
@@ -57,21 +121,26 @@ function TaskDashboard(props) {
         }
       }
 
-      if (numCorrect == task.answers.length){
-        console.log("Got all them right")
-        return {
+      if (numCorrect == task.answers.length){        
+        const result = {
           success: true,
-          correct: numCorrect,
-        }
-      }
-      else {
-        console.log("Got some wrong");
-        return {
-          sucess: false,
           correct: numCorrect,
           wrong: errors.length,
           err: errors,
         }
+        
+        setSubmitAnswers(result);
+      }
+      else {
+        const result = {
+          success: false,
+          correct: numCorrect,
+          wrong: errors.length,
+          err: errors,
+        }
+
+        setSubmitAnswers(result);
+        setShowWrongAnswerModal(true);
       }
     }
 
@@ -90,251 +159,272 @@ function TaskDashboard(props) {
         }
       }
 
-      if (numCorrect == task.answers.length){
-        console.log("Got all them right")
-        return {
+      if (numCorrect == task.answers.length){        
+        const result = {
           success: true,
-          correct: numCorrect,
-        }
-      }
-      else {
-        console.log("Got some wrong");
-        return {
-          sucess: false,
           correct: numCorrect,
           wrong: errors.length,
           err: errors,
+        }
+        
+        setSubmitAnswers(result);
+      }
+      else {
+        const result = {
+          success: false,
+          correct: numCorrect,
+          wrong: errors.length,
+          err: errors,
+        }
+
+        setSubmitAnswers(result);
+        setShowWrongAnswerModal(true);
+      }
+    }
+  }
+
+  //Formatting & Display -----------------------------------------------------------------------------------------------------------------------
+
+  function formatAnswers(){
+    if (task != null && submitAnswers.success == false){
+      if (task.type == "find-the-errors"){
+        if (inputs == null) {
+          initaliseFormInputs();
+        }
+
+        if (inputs != null){
+          return (
+            <>
+              <hr />
+              {task.answerLines.map((item, index) => (
+                <>
+                <div className="answersForm-container" key={index}>
+                  <div className="grid-container">
+                    <label className="grid-item__text">Line Number:</label>
+                    <input className="grid-item__input" type="text"  value={inputs[index].lineNum || ""} onChange={(e) => handleChange(e.target.value, index, "lineNum")} required></input>
+                  </div>
+                  <div className="grid-container">
+                    <label className="grid-item__text">Correction:</label>
+                    <input className="grid-item__input" type="text" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
+                  </div>
+                  <hr />
+                </div>
+                </>
+              ))}
+            </>
+          )
+        }
+      }
+      if (task.type == "fill-in-the-blanks"){
+        if (inputs == null) {
+          initaliseFormInputs();
+        }
+
+        if (inputs != null){
+          return (
+            <>
+              <hr />
+              {task.answerLines.map((item, index) => (
+                <>
+                <div className="answersForm-container">
+                  <div className="grid-container">
+                    <label className="grid-item__text" >Line {item}:</label>
+                    <input className="grid-item__input" type="text" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
+                  </div>
+                  <hr />
+                </div>
+                </>
+              ))}
+            </>
+          )
         }
       }
     }
   }
 
+  function formatTask(){
+      if (task != null && submitAnswers.success == false){
+          if (task.type == "find-the-errors"){
+              const code = getCodeSnippet(task.title);
 
-    useEffect(() => {
-        getTask();
-    })
-
-    function initaliseFormInputs(){
-      let arr = []
-      task.answerLines.forEach(item => {
-        arr.push({
-          lineNum: "",
-          correction: "",
-        })
-      })
-      setInputs(arr);
-    }
-
-    function getTask(){
-        props.taskDetails.forEach(t => {
-            if (t.id == props.taskId){
-                setTask(t);
-            }
-        })
-    }
-
-    function getLanguage(){
-        switch (task.language){
-            case "HTML":
-                return "xml";
-            case "CSS":
-                return "css";
-            case "Javascript":
-                return "javascript";
-        }
-    }
-
-    function formatAnswers(){
-      if (task != null){
-        if (task.type == "find-the-errors"){
-          if (inputs == null) {
-            initaliseFormInputs();
-          }
-
-          if (inputs != null){
-            console.log("inputs:" + inputs[0].lineNum);
-            return (
-              <>
-                <hr />
-                {task.answerLines.map((item, index) => (
+              return (
                   <>
-                  <div className="answersForm-container" key={index}>
-                    <div className="grid-container">
-                      <label className="grid-item__text">Line Number:</label>
-                      <input className="grid-item__input" type="text"  value={inputs[index].lineNum || ""} onChange={(e) => handleChange(e.target.value, index, "lineNum")} required></input>
-                    </div>
-                    <div className="grid-container">
-                      <label className="grid-item__text">Correction:</label>
-                      <input className="grid-item__input" type="text" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
-                    </div>
-                    <hr />
-                  </div>
+                      <SyntaxHighlighter  wrapLines={true} 
+                                          wrapLongLines={true} 
+                                          customStyle={{ 
+                                              fontSize: 13.5, 
+                                              backgroundColor: 'transparent', 
+                                              padding: 0, 
+                                              margin: 0 }}
+                                          showLineNumbers={true} 
+                                          language={getLanguage()} 
+                                          style={dracula}
+                                          children={code} />
                   </>
-                ))}
-              </>
-            )
+              )
           }
-        }
-        if (task.type == "fill-in-the-blanks"){
-          if (inputs == null) {
-            initaliseFormInputs();
-          }
-
-          if (inputs != null){
-            return (
-              <>
-                <hr />
-                {task.answerLines.map((item, index) => (
+          if (task.type == "fill-in-the-blanks"){
+              const code = getCodeSnippet(task.title);
+              return (
                   <>
-                  <div className="answersForm-container">
-                    <div className="grid-container">
-                      <label className="grid-item__text" >Line {item}:</label>
-                      <input className="grid-item__input" type="text" value={inputs[index].correction} onChange={(e) => handleChange(e.target.value, index, "correction")} required></input>
-                    </div>
-                    <hr />
-                  </div>
+                      <SyntaxHighlighter  wrapLines={true} 
+                                          wrapLongLines={true} 
+                                          lineProps={lineNumber => {
+                                              let style = { display: 'block' };
+                                              if (task.answerLines.includes(lineNumber)) {
+                                                  style.backgroundColor = '#2d3a3aff';
+                                              }
+                                              return { style };
+                                              }} 
+                                          customStyle={{ 
+                                              fontSize: 13.5, 
+                                              backgroundColor: 'transparent', 
+                                              padding: 0, 
+                                              margin: 0 }}
+                                          showLineNumbers={true} 
+                                          language={getLanguage()} 
+                                          style={dracula}
+                                          children={code} />
                   </>
-                ))}
-              </>
-            )
+              )
           }
-        }
       }
-    }
+  } 
 
-    function formatTask(){
-        if (task != null){
-            if (task.type == "find-the-errors"){
-                const code = getCodeSnippet(task.title);
-
-                return (
-                    <>
-                        <SyntaxHighlighter  wrapLines={true} 
-                                            wrapLongLines={true} 
-                                            customStyle={{ 
-                                                fontSize: 13.5, 
-                                                backgroundColor: 'transparent', 
-                                                padding: 0, 
-                                                margin: 0 }}
-                                            showLineNumbers={true} 
-                                            language={getLanguage()} 
-                                            style={dracula}
-                                            children={code} />
-                    </>
-                )
-            }
-            if (task.type == "fill-in-the-blanks"){
-                const code = getCodeSnippet(task.title);
-                return (
-                    <>
-                        <SyntaxHighlighter  wrapLines={true} 
-                                            wrapLongLines={true} 
-                                            lineProps={lineNumber => {
-                                                let style = { display: 'block' };
-                                                if (task.answerLines.includes(lineNumber)) {
-                                                    style.backgroundColor = '#2d3a3aff';
-                                                }
-                                                return { style };
-                                                }} 
-                                            customStyle={{ 
-                                                fontSize: 13.5, 
-                                                backgroundColor: 'transparent', 
-                                                padding: 0, 
-                                                margin: 0 }}
-                                            showLineNumbers={true} 
-                                            language={getLanguage()} 
-                                            style={dracula}
-                                            children={code} />
-                    </>
-                )
-            }
-        }
-    } 
-
-    function displayTitleCard(){
-      if (task != null){
+  function displayTaskCompletedCard(){
+    if (task != null){
+      if (submitAnswers.success){
         return (
           <>
-            <Card className="taskDashboardStats">
+            <h1 class="title2">SUCCESS</h1>
+            <Card>
               <Card.Body>
-                <Card.Title className="taskDashboard__title">{task.title}</Card.Title>
+                <Card.Title className="taskDashboard__title">TASK COMPLETED</Card.Title>
+                <br />
+                <Card.Text>Congradulations, you got all the answers correct</Card.Text>
+                <Card.Text>TIME</Card.Text>
+                <hr />
+                <Card.Text>Type: &nbsp; {task.type} </Card.Text>
+                <Card.Text>Language: &nbsp; {task.language} </Card.Text>
+                <Card.Text>Role: &nbsp; {task.role}</Card.Text>
+                <Button onClick={handleCompleted}>Continue</Button>
               </Card.Body>
             </Card>
           </>
         )
       }
     }
+  }
 
-    function displayDescriptionCard(){
-      if (task != null){
-        return (
-          <TaskDashboardStats title="DESCRIPTION" originalTaskId={task.taskId} />
-        )
-      }
-    }
-
-    function displayInfoCard(){
-      if (task != null){
-        return (
-          <>
-            <Card className="taskDashboardStats">
+  function displayTitleCard(){
+    if (task != null && submitAnswers.success == false){
+      return (
+        <>
+          <Card className="taskDashboardStats">
             <Card.Body>
-              <Card.Title></Card.Title>
-                <Card.Text>
-                {<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}
-                </Card.Text>
+              <Card.Title className="taskDashboard__title">{task.title}</Card.Title>
             </Card.Body>
-            </Card>
-          </>
-          // <TaskDashboardStats description={<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}/>
-        )
-      }
+          </Card>
+        </>
+      )
     }
+  }
 
-  return (
-    <>
-      <div class="taskDashboard grid-container">
-        <div class="grid-item__name">
-            {/* <TaskDashboardStats extraClass="taskDashboard__title" title={task.title} /> */}
-            {displayTitleCard()}
-        </div>
-        <div class="grid-item__description">
-          {/* <TaskDashboardStats title="DESCRIPTION" originalTaskId={task.taskId} /> */}
-          {displayDescriptionCard()}
-        </div>
-        <div class="grid-item__task">
+  function displayDescriptionCard(){
+    if (task != null && submitAnswers.success == false){
+      return (
+        <TaskDashboardStats title="DESCRIPTION" originalTaskId={task.taskId} />
+      )
+    }
+  }
+
+  function displayInfoCard(){
+    if (task != null && submitAnswers.success == false){
+      return (
+        <>
+          <Card className="taskDashboardStats">
+          <Card.Body>
+            <Card.Title></Card.Title>
+              <Card.Text>
+              {<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}
+              </Card.Text>
+          </Card.Body>
+          </Card>
+        </>
+      )
+    }
+  }
+
+  function displayTaskCard(){
+    if (task != null && submitAnswers.success == false){
+      return (
+        <>
           <Card className="task">
             <Card.Body>
                 {formatTask()}
             </Card.Body>
           </Card>
-          {/* <Task taskDetails={props.taskDetails} taskId={props.taskId}/> */}
-          {/* <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/> */}
-        </div>
-        <div class="grid-item__answers">
-          {/* <Answers taskDetails={props.taskDetails} taskId={props.taskId}/> */}
-          {/* <UserRole description="hnfdvjl fndvfn jlavnfdl vngfj rjgf vnileagfv rnae hrf abgvpd janl"/> */}
+        </>
+      )
+    }
+  }
+
+  function displayAnswerCard(){
+    if (task != null && submitAnswers.success == false){
+      return (
+        <>
           <Card className="answers">
             <Card.Body>
                 <Card.Title>Put your answers here:</Card.Title>
                 <Card.Text>
                   <form>
-                    {task ? formatAnswers() : <p>TESTING</p>}
+                    {task ? formatAnswers() : <p>Loading...</p>}
                   </form>
                 </Card.Text>
             </Card.Body>
-            </Card>
-        </div>
-        <div class="grid-item__info">
-          {/* <TaskDashboardStats description={<>Type: &nbsp; {task.type} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: &nbsp; {task.language} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role: &nbsp; {task.role}</>}/> */}
-          {displayInfoCard()}
-        </div>
-        <div class="grid-item__button">
-          <Button className="btn-hint" >Hint?</Button>
+          </Card>
+        </>
+      )
+    }
+  }
+
+  function displayButtons(){
+    if (task != null && submitAnswers.success == false){
+      return (
+        <>
+          <Button className="btn-hint" onClick={() => setShowHintModal(true)}>Hint?</Button>
           <Button className="btn-back" onClick={props.onShowQuitWarning}>Quit</Button>
           <Button className="btn-back" onClick={props.onShowGoBackWarning}>Go Back</Button>
           <Button onClick={handleSubmit}>Submit</Button>
-        </div>    
+        </>
+      )
+    }
+  }
+
+//Render ---------------------------------------------------------------------------------------------------------------------------
+
+  return (
+    <>
+      {displayTaskCompletedCard()}    
+      <div class="taskDashboard grid-container">
+        <div class="grid-item__name">
+            {displayTitleCard()}
+        </div>
+        <div class="grid-item__description">
+          {displayDescriptionCard()}
+        </div>
+        <div class="grid-item__task">
+          {displayTaskCard()}
+        </div>
+        <div class="grid-item__answers">
+          {displayAnswerCard()}
+        </div>
+        <div class="grid-item__info">
+          {displayInfoCard()}
+        </div>
+        <div class="grid-item__button">
+          {displayButtons()}
+        </div>
       </div>
       <Instructions
         show={props.showInstructions}
@@ -350,6 +440,16 @@ function TaskDashboard(props) {
         onHide={props.onHideGoBackWarning}
         onGoBack={props.onGoBack}
         taskId={props.taskId}
+        />
+      <WrongAnswerModal 
+        show={showWrongAnswerModal}
+        onHide={() => setShowWrongAnswerModal(false)}
+        errors={submitAnswers}
+        />
+      <HintModal 
+        show={showHintModal}
+        onHide={() => setShowHintModal(false)}
+        hints={task != null ? task.hints : []}
         />
     </>
   );

@@ -249,10 +249,26 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
                 answers: doc.data().answers,
                 answerLines: doc.data().answerLines,
                 longDescription: doc.data().longDescription,
+                hints: doc.data().hints,
             }
             tasks.push(x);
         });
         return tasks;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const getTaskName = async (taskSetId, taskId) => {
+    var tasks = [];
+    try {
+        const querySnapshot = await getDoc(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", taskSetId, "tasks", taskId));
+        const resultName = querySnapshot.data().name;
+        return {
+            success: true,
+            name: resultName,
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);
@@ -331,6 +347,7 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
                     answers: t.answers,
                     answerLines: t.answerLines,
                     longDescription: t.longDescription,
+                    hints: t.hints,
                 });
             });
         }
@@ -604,4 +621,5 @@ export {
     closeTaskInDb,
     completeTaskInDb,
     cleanUpSessions,
+    getTaskName,
 };

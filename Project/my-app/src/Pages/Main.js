@@ -141,6 +141,7 @@ function Main (){
                     answers: doc.data().answers,
                     answerLines: doc.data().answerLines,
                     longDescription: doc.data().longDescription,
+                    hints: doc.data().hints,
                       
                 });
             })

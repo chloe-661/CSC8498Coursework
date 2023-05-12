@@ -15,6 +15,7 @@ import {
   deleteSessionInDb,
   deleteUserInSessionInDb,
   endSessionInDb,
+  getTaskName,
 } from "../firebase";
 
 import TaskDescription from './TaskDescription';
@@ -27,6 +28,10 @@ import ReasonsLocked from '../components/ReasonsLocked';
 function TaskListDashboard(props) {
 
   const [showLockedReasons, setShowLockedReasons] = useState(false);
+
+  const getTaskDependanciesNames = async () => {
+    
+  }
 
   const displayTasks = () => {
     return (
