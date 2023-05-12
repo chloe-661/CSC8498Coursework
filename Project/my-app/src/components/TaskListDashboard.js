@@ -32,8 +32,6 @@ function TaskListDashboard(props) {
   const [lockedReasons, setLockedReasons] = useState(null);
 
   const prepareReasonsLocked = async (reason, dependancies) => {
-    // const request = await getTaskDependanciesDetails(props.sessionDetails.taskSetId, dependancies);
-
     if (reason == "dep"){
       let arr = []
       for (let i = 1; i < dependancies.length; i++){
@@ -51,30 +49,19 @@ function TaskListDashboard(props) {
       })
     }
     setShowLockedReasons(true);
-    
-    
-    
-    
-    // if (reason == "use"){
-    //   setLockedReasons({
-    //     message: "someone else is currently attempting to do this task",
-    //     tasks: [],
-    //   })
-    // }
-    // else if (reason == "dep"){
-    //   console.log("dep");
-    //   let text = [];
-    //   dependancies.forEach(d => {
-    //     const x = getTaskName(props.sessionDetails.taskSetId, d);
-    //     text.push(x.data);
-    //   });
+  }
 
-    //   setLockedReasons({
-    //     message: "these tasks need to be completed first:",
-    //     tasks: text,
-    //   })
-    // }
-    // setShowLockedReasons(true);
+  function checkCompleted(){
+    let completed = true;
+    props.taskDetails.forEach(t => {
+      if (!t.completed){
+        completed = false;
+      }
+    });
+
+    if (completed){
+      props.onCompleted();
+    }
   }
 
   const displayTasks = () => {
@@ -113,6 +100,7 @@ function TaskListDashboard(props) {
         </div>
         <div class="grid-item__tasks">
         {displayTasks()}
+        {checkCompleted()}
         </div>
         <div class="grid-item__button">
           <Button className="btn-back" onClick={props.onShowQuitWarning}>Quit</Button>

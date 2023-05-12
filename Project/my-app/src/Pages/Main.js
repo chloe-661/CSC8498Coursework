@@ -38,6 +38,7 @@ import {
 
 //Styles
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 //Components
 import Background1 from '../components/Background1';
@@ -75,6 +76,8 @@ function Main (){
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
     const [showTask, setShowTask] = useState(null); 
     const [showTaskList, setShowTaskList] = useState(null); 
+    const [completed, setCompleted] = useState(false);
+    const [endTime, setEndTime] = useState(null);
 
     //Database SnapShots
     const snap = (sessionId, subscribe) => {
@@ -397,6 +400,7 @@ function Main (){
                             onHideQuitWarning={() => setQuitWarningShow(false)}
                             onQuit={quit}
                             onOpenTask={openTask}
+                            onCompleted={onCompleted}
                             />;
         const task = <TaskDashboard
                             sessionDetails={sessionDbData}
@@ -443,6 +447,57 @@ function Main (){
                 </>
             )
         }
+    }
+
+    function onCompleted(){
+        const d = new Date();
+        let time = d.getTime();
+        setEndTime(time);
+        setCompleted(true);
+
+    }
+
+    function completedBoard(){
+        if (completed){
+            console.log("SESSION COMPLETED");  
+            const timeInMilliseconds = getTimeDurationInMilliseconds(sessionDbData.startTime, endTime);
+            const timeFormatted = convertMillisecondsToMinutesAndSeconds(timeInMilliseconds);
+
+            return (
+                <>
+                    <h1 class="title2">ALL TASKS COMPLETED</h1>
+                    <Card className="completedCard">
+                        <Card.Body>
+                            <Card.Title className="taskDashboard__title">WELL DONE</Card.Title>
+                            <br />
+                            <Card.Text>All the tasks have been completed</Card.Text>
+                            <Card.Text className="time">{timeFormatted}*</Card.Text>
+                            <hr />
+                            <Card.Text className="listP">Senario: &nbsp; ...</Card.Text>
+                            <Card.Text className="listP">Tasks Completed: &nbsp; {sessionDbTaskData.length} </Card.Text>
+                            <Card.Text className="listP">Session Key: &nbsp; {sessionDbData.sessionKey} </Card.Text>
+                            <Card.Text>People: &nbsp; {sessionPeople} </Card.Text>
+                            <Button>Continue</Button>
+                        </Card.Body>
+                    </Card>
+                    <p className="tinyText listP">* The time displayed here may be different from what you saw during the session</p>
+                    <p className="tinyText listP"> This is because the timer on the screen pauses when you change tab in the browser</p>
+                    <p className="tinyText listP">The time displayed here is the total time from start to finish </p>
+                </>
+            )
+
+        }
+    }
+
+    function convertMillisecondsToMinutesAndSeconds(milliseconds){
+        let minutes = Math.floor(milliseconds / 60000);
+        let seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+        return (minutes + ":" + (seconds < 10 ? '0' : '') + seconds);
+    }
+
+    function getTimeDurationInMilliseconds(start, end){
+        // return (endTime - sessionDbData.startTime);
+        return (end - start);
     }
 
     const openTask = async (taskId) => {
@@ -654,6 +709,7 @@ function Main (){
             <div className="gameFrame">
                 {optionBoards()}
                 {taskBoards()}
+                {completedBoard()}
                 <Instructions
                     show={modalShow}
                     onHide={() => setModalShow(false)}
