@@ -264,10 +264,47 @@ const getTaskName = async (taskSetId, taskId) => {
     var tasks = [];
     try {
         const querySnapshot = await getDoc(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", taskSetId, "tasks", taskId));
-        const resultName = querySnapshot.data().name;
+        const data = {
+            name: querySnapshot.data().name,
+            role: querySnapshot.data().role,
+            language: querySnapshot.data().language,
+        }
         return {
             success: true,
-            name: resultName,
+            data: data,
+        }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const getTaskDependanciesDetails = async(taskSetId, dependancies) => {
+    let details = []
+    
+    try {
+        if (dependancies.length > 0 ){
+            dependancies.forEach(d => {
+                const x = getTaskName(taskSetId, d);
+                console.log("X:" + x);
+                details.push({
+                    name: x.data.name,
+                    role: x.data.role,
+                    language: x.data.language,
+                })
+            })
+            return {
+                success: true,
+                data: details,
+            }
+        }
+        return {
+            sucess: true,
+            data: {
+                name: "",
+                language: "",
+                role: "",
+            }
         }
     } catch (err) {
         console.error(err);
@@ -622,4 +659,5 @@ export {
     completeTaskInDb,
     cleanUpSessions,
     getTaskName,
+    getTaskDependanciesDetails,
 };

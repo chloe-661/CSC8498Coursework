@@ -152,7 +152,7 @@ function Main (){
                 if (task.taskDependancies.length > 1 ){
                     task.taskDependancies.forEach(dep => {
                         x.forEach(task2 => {
-                            if (dep != task.taskId && dep == task2.taskId){
+                            if (dep.taskId != task.taskId && dep.taskId == task2.taskId){
                                 if (task2.completed){
                                 locked = false;
                                 }

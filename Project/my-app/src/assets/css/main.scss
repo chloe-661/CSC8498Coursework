@@ -119,6 +119,10 @@ a {
     color: $pigment-green !important;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 // Navigation -----------------------------------------------------------------------------------------------------------------
 
 .navbar {
@@ -209,6 +213,7 @@ a {
 .home .gameFrame {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .home div {
@@ -858,7 +863,7 @@ label {
   color: $forest-green !important;
 }
 
-.modal-wrongAnswer .listP {
+.listP {
   margin-bottom: 0.25rem;
 }
 

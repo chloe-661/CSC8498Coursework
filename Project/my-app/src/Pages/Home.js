@@ -14,12 +14,17 @@ function Home (){
           <div className="gameFrame">
             <div>
               <h1 className="title">DevWeb</h1>
-              <h2>Lorem ipsum dolor sit amet. Et quae unde sit rerum pariatur qui enim dolorem in dignissimos magnam non internos nulla? Sed obcaecati voluptatem eum similique corrupti aut vero suscipit et dolorum impedit ea magni dolorum.</h2>
+              <h2>An online tool to improve your web development skills</h2>
+              <h6>You can work by yourself and have a go at all tasks, or work in a group to split them.</h6>
+              <p className="tinyText">Aimed at beginners, but you will need a small amount of coding knowledge beforehand</p>
               <Button as={Link} to="/main">Get Stated</Button>
             </div>  
             
           </div>
         </div>
+        {/* <h2>An online tool to improve your web development skills</h2>
+              <h4>You can work by yourself and have a go at all tasks, or work in a group to split them.</h4>
+              <p>Aimed at beginners, but you will need a small amount of coding knowledge beforehand</p> */}
       </>
     )
 }

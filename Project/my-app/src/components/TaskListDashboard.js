@@ -16,6 +16,7 @@ import {
   deleteUserInSessionInDb,
   endSessionInDb,
   getTaskName,
+  getTaskDependanciesDetails,
 } from "../firebase";
 
 import TaskDescription from './TaskDescription';
@@ -28,15 +29,58 @@ import ReasonsLocked from '../components/ReasonsLocked';
 function TaskListDashboard(props) {
 
   const [showLockedReasons, setShowLockedReasons] = useState(false);
+  const [lockedReasons, setLockedReasons] = useState(null);
 
-  const getTaskDependanciesNames = async () => {
+  const prepareReasonsLocked = async (reason, dependancies) => {
+    // const request = await getTaskDependanciesDetails(props.sessionDetails.taskSetId, dependancies);
+
+    if (reason == "dep"){
+      let arr = []
+      for (let i = 1; i < dependancies.length; i++){
+        arr.push(dependancies[i]);
+      }
+      setLockedReasons({
+        message: "these tasks need to be completed first:",
+        tasks: arr,
+      })
+    }
+    else if (reason == "use"){
+      setLockedReasons({
+        message: "someone else is currently attempting to do this task",
+        tasks: [],
+      })
+    }
+    setShowLockedReasons(true);
     
+    
+    
+    
+    // if (reason == "use"){
+    //   setLockedReasons({
+    //     message: "someone else is currently attempting to do this task",
+    //     tasks: [],
+    //   })
+    // }
+    // else if (reason == "dep"){
+    //   console.log("dep");
+    //   let text = [];
+    //   dependancies.forEach(d => {
+    //     const x = getTaskName(props.sessionDetails.taskSetId, d);
+    //     text.push(x.data);
+    //   });
+
+    //   setLockedReasons({
+    //     message: "these tasks need to be completed first:",
+    //     tasks: text,
+    //   })
+    // }
+    // setShowLockedReasons(true);
   }
 
   const displayTasks = () => {
     return (
       <>
-        {props.taskDetails.map(({id, title, description, role, language, completed, inUse, isLockedByDependancies}) => (
+        {props.taskDetails.map(({id, title, description, role, language, completed, inUse, isLockedByDependancies, taskDependancies}) => (
           <TaskDescription
             key={id}
             taskId={id}
@@ -47,7 +91,8 @@ function TaskListDashboard(props) {
             completed={completed} 
             inUse={inUse} 
             isLockedByDependancies={isLockedByDependancies}
-            onShow={() => setShowLockedReasons(true)}
+            taskDependancies={taskDependancies}
+            onShow={prepareReasonsLocked}
             onHide={() => setShowLockedReasons(false)}
             onOpenTask={props.onOpenTask}
             userDetails={props.userDetails}
@@ -86,6 +131,7 @@ function TaskListDashboard(props) {
       <ReasonsLocked 
         show={showLockedReasons}
         onHide={() => setShowLockedReasons(false)}
+        reasons={lockedReasons != null ? lockedReasons : ""}
         />
       </>
   );
