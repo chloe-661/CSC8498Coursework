@@ -24,7 +24,6 @@ function QuitWarning(props) {
         <p><em>!!! If you are the leader of your session, quitting will end the session for EVERYONE</em></p>
       </Modal.Body>
       <Modal.Footer>
-        {/* <Button onClick={props.onHide}>Close</Button> */}
         <Button className="quitWarning-btn" onClick={() => props.onQuit()}>Yes- I want to quit</Button>
       </Modal.Footer>
     </Modal>

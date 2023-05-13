@@ -20,7 +20,6 @@ function GoBackWarning(props) {
         <p><em>!!! You will loose all progress on this task</em></p>
       </Modal.Body>
       <Modal.Footer>
-        {/* <Button onClick={props.onHide}>Close</Button> */}
         <Button className="quitWarning-btn" onClick={() => props.onGoBack(props.taskId)}>Yes- I want to go back</Button>
       </Modal.Footer>
     </Modal>

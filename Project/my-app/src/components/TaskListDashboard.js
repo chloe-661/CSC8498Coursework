@@ -1,24 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
-import { 
-  db,
-  auth, 
-  getWebStacks, //Gets all the different webstacks available
-  getAllTaskSets, //Gets all task sets but NOT the tasks within
-  getAllTaskSetsAndTasks, //Gets all sets + the tasks in them
-  getAllTaskSetsIdsWithWebStack, //Gets all task set ids that match a webstack type
-  getAllTaskswithinTaskSet, //Gets all the tasks within a task set but ONLY gets the task information
-  startNewSessionInDb, //Setup of the session
-  startSessionInDb, //Starts the session for all users
-  joinSessionInDb,
-  deleteSessionInDb,
-  deleteUserInSessionInDb,
-  endSessionInDb,
-  getTaskName,
-  getTaskDependanciesDetails,
-  getTaskSet,
-} from "../firebase";
+import { getTaskSet } from "../firebase";
 
 import TaskDescription from './TaskDescription';
 import SessionStats from './SessionStats';

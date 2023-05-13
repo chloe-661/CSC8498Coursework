@@ -11,8 +11,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, logout } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 
-// import '../assets/css/Navigation.scss';
-
 function Navigation(props) {
 
     const minigames = [
