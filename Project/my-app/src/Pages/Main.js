@@ -50,6 +50,7 @@ import QuitWarning from '../components/QuitWarning';
 import TaskListDashboard from '../components/TaskListDashboard';
 import SessionDurationStats from '../components/SessionDurationStats';
 import TaskDashboard from '../components/TaskDashboard';
+import WebStackCard from '../components/WebStackCard';
 
 function Main (){
     const [user, loading, error] = useAuthState(auth);
@@ -64,6 +65,7 @@ function Main (){
     const [gameMode, setGameMode] = useState(null); //Solo or Coop
     const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
     const [inputtedSessionKey, setInputtedSessionKey] = useState(null); //e.g The users attempt to add a session key
+    const [allWebStacks, setAllWebstacks] = useState(null);
 
     //Session Data
     const [isQuitting, setIsQuitting] = useState(false);
@@ -74,9 +76,8 @@ function Main (){
     const [sessionKey, setSessionKey] = useState(null); //A valid session that can be joined
     const [sessionPeople, setSessionPeople] = useState(null); //How many people in the group
     const [sessionSenario, setSessionSenario] = useState(""); //How many people in the group
-    const [sessionDuration, setSessionDuration] = useState(null); //e.g 02:34 (2mins, 34 seconds)
     const [sessionStarted, setSessionStarted] = useState(false); //e.g 02:34 (2mins, 34 seconds)
-    const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
+    const [sessionWebStack, setSessionWebStack] = useState(null);
     const [showTask, setShowTask] = useState(null); 
     const [showTaskList, setShowTaskList] = useState(null); 
     const [completed, setCompleted] = useState(false);
@@ -218,14 +219,16 @@ function Main (){
 
     function startOrJoinClick(e, type) {
         setSessionStartType(type);
-
-        if (type == "start"){
-            startSession();
-        }
-        else if (type == "join"){
+        
+        if (type == "join"){
             joinSession();
         }
         //NEED TO ADD SESSION KEY AUTH IN HERE AND RESET sessionKey if it is invalid
+    }    
+    
+    function onWebStack(webStackId){
+        setSessionWebStack(webStackId);
+        startSession(webStackId);
     }
 
     //Resets the state if the user presses the go back button based on what section they were at
@@ -235,6 +238,7 @@ function Main (){
                 setGameMode(null);
                 break;
             case 2:
+                setSessionWebStack(null);
                 setSessionStartType(null);
                 setInputtedSessionKey(null);
                 setSessionKey(null);
@@ -272,8 +276,26 @@ function Main (){
             else if (gameMode == "coop"){
                 // If start a session is chosen
                 if (sessionStartType == "start"){
+                    if (allWebStacks == null){
+                        getWebStackOptions();
+                    }
+                    if (sessionWebStack == null && allWebStacks != null){
+                        return (
+                            <>
+                                <h1 class="title2">CO-OP</h1>
+                                <h4>Pick the languages you want the tasks to be based on</h4>
+                                {allWebStacks.map(({webStackId, languages}, index) => (
+                                    <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>
+                                ))}
+                                <div>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                                </div>
+                            </>
+                        )
+                    }
                     //Will only display when the session exists in the database
-                    if (sessionKey != null && !sessionDbData.started) {
+                    if (sessionWebStack != null && sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
                                 <h1 class="title2">NEW SESSION</h1>
@@ -294,7 +316,6 @@ function Main (){
                                     >
                                     <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
                                 </GameOptionsCard>
-                                {/* <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Quit</Button> */}
                                 <div>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
@@ -313,7 +334,6 @@ function Main (){
                                 <h1 class="title2">JOINING SESSION</h1>
                                 <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
                                 </GameOptionsCard>
-                                {/* <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button> */}
                                 <div> 
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
@@ -347,7 +367,7 @@ function Main (){
                             </GameOptionsCard>
                             <div>
                             <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
-                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
                             </div>
                         </>
                     )
@@ -357,8 +377,26 @@ function Main (){
             //Solo
             else if (gameMode == "solo"){
                 if (sessionStartType == "start"){
+                    if (allWebStacks == null){
+                        getWebStackOptions();
+                    }
+                    if (sessionWebStack == null && allWebStacks != null){
+                        return (
+                            <>
+                                <h1 class="title2">CO-OP</h1>
+                                <h4>Pick the languages you want the tasks to be based on</h4>
+                                {allWebStacks.map(({webStackId, languages}, index) => (
+                                    <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>
+                                ))}
+                                <div>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                                </div>
+                            </>
+                        )
+                    }
                     //Will only display when the session exists in the database
-                    if (sessionKey != null && !sessionDbData.started) {
+                    if (sessionWebStack != null && sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
                                 <h1 class="title2">SOLO</h1>
@@ -468,6 +506,8 @@ function Main (){
         }
     }
 
+
+
     let runOnce = false;
     const onCompleted = async() => {
         if (!runOnce){
@@ -564,15 +604,16 @@ function Main (){
         }
     };
 
-    function test(){
-        console.log("123456789");
+    const getWebStackOptions = async () => {
+        const request = await getWebStacks();
+        setAllWebstacks(request);
     }
 
-    const pickTaskSet = async () => {
-        const request = await getAllTaskSetsIdsWithWebStack("hOOK382sKTHDCyOaaV0m");
+    const pickTaskSet = async (webStackId) => {
+        console.log("hyhyhy: " + webStackId);
+        const request = await getAllTaskSetsIdsWithWebStack(webStackId);
         const rnd = Math.floor(Math.random() * request.length);
         const choice = request[rnd].taskSetId;
-        console.log("set: " + choice);
         return choice;
     }
 
@@ -626,14 +667,14 @@ function Main (){
         setSessionSenario(senario);
     }
 
-    const startSession = async () => {
+    const startSession = async (webStackId) => {
         console.log("Starting session");
      
         //--------------------------------------------------------------------
         const key = generateKey();
         console.log(key);
 
-        const taskSet = await pickTaskSet();
+        const taskSet = await pickTaskSet(webStackId);
         console.log("setttt " + taskSet)
 
         const request = await startNewSessionInDb(key, taskSet, user.uid);
@@ -721,9 +762,7 @@ function Main (){
         setInputtedSessionKey(null); //e.g The users attempt to add a session key
         setSessionKey(null); //A valid session that can be joined
         setSessionPeople(null); //How many people in the group
-        setSessionDuration(null); //e.g 02:34 (2mins, 34 seconds)
         setSessionStarted(false); //e.g 02:34 (2mins, 34 seconds)
-        setUserRole(null); //e.g Builder, Styler, Database, etc
     }
     
     return (

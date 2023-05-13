@@ -116,7 +116,7 @@ const getWebStacks = async () => {
         // doc.data() is never undefined for query doc snapshots
             const x = {
                 webStackId: doc.id,
-                languages: doc.data()
+                languages: doc.data().languages,
             }
             webStacks.push(x);
         });
