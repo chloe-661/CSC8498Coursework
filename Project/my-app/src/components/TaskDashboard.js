@@ -405,8 +405,8 @@ function TaskDashboard(props) {
 
   return (
     <>
-      {displayTaskCompletedCard()}    
       <div class="taskDashboard grid-container">
+      {displayTaskCompletedCard()}    
         <div class="grid-item__name">
             {displayTitleCard()}
         </div>

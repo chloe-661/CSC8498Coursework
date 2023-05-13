@@ -1,17 +1,13 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+
+//Firebase
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import {
-    getFirestore,
     query,
     doc,
-    getDoc,
-    getDocs,
     collection,
-    where,
-    addDoc,
-    updateDoc,
     onSnapshot,
 } from "firebase/firestore";
 import { 
@@ -19,21 +15,15 @@ import {
     auth, 
     getWebStacks, //Gets all the different webstacks available
     getTaskSet, //Gets the info for a task set but NOT the tasks within it
-    getAllTaskSets, //Gets all task sets but NOT the tasks within
-    getAllTaskSetsAndTasks, //Gets all sets + the tasks in them
     getAllTaskSetsIdsWithWebStack, //Gets all task set ids that match a webstack type
-    getAllTaskswithinTaskSet, //Gets all the tasks within a task set but ONLY gets the task information
     startNewSessionInDb, //Setup of the session
     startSessionInDb, //Starts the session for all users
     joinSessionInDb,
-    deleteSessionInDb,
     deleteUserInSessionInDb,
     endSessionInDb,
     setUserRoleInDb,
     openTaskInDb,
     closeTaskInDb,
-    completeTaskInDb,
-    cleanUpSessions,
     completeSessionInDb,
     saveSessionDataToUser
 } from "../firebase";
@@ -53,6 +43,10 @@ import TaskDashboard from '../components/TaskDashboard';
 import WebStackCard from '../components/WebStackCard';
 
 function Main (){
+
+    //State ------------------------------------------------------------------------------------------------------------------
+
+    //User auth
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
 
@@ -62,29 +56,32 @@ function Main (){
     const [goBackWarningShow, setGoBackWarningShow] = useState(false);
 
     //Options to choose from before starting a game
-    const [gameMode, setGameMode] = useState(null); //Solo or Coop
-    const [sessionStartType, setSessionStartType] = useState(null); //Start a new session or join an existing one
-    const [inputtedSessionKey, setInputtedSessionKey] = useState(null); //e.g The users attempt to add a session key
-    const [allWebStacks, setAllWebstacks] = useState(null);
+    const [gameMode, setGameMode] = useState(null);                             //Stores the users choice between: Solo or Coop
+    const [sessionStartType, setSessionStartType] = useState(null);             //Stores the users choice between: Start a new session or join an existing one
+    const [inputtedSessionKey, setInputtedSessionKey] = useState(null);         //Stores the users attempt to add a session key (aka the data in the input box)
+    const [allWebStacks, setAllWebstacks] = useState(null);                     //All available webstack options to choose from
 
     //Session Data
     const [isQuitting, setIsQuitting] = useState(false);
-    const [sessionDbData, setSessionDbData] = useState({started: false});
-    const [sessionDbTaskData, setSessionDbTaskData] = useState(null);
-    const [sessionDbUserData, setSessionDbUserData] = useState(null);
-    const [sessionDbThisUserData, setSessionDbThisUserData] = useState(null);
-    const [sessionKey, setSessionKey] = useState(null); //A valid session that can be joined
-    const [sessionPeople, setSessionPeople] = useState(null); //How many people in the group
-    const [sessionSenario, setSessionSenario] = useState(""); //How many people in the group
-    const [sessionStarted, setSessionStarted] = useState(false); //e.g 02:34 (2mins, 34 seconds)
-    const [sessionWebStack, setSessionWebStack] = useState(null);
-    const [showTask, setShowTask] = useState(null); 
-    const [showTaskList, setShowTaskList] = useState(null); 
-    const [completed, setCompleted] = useState(false);
-    const [endTime, setEndTime] = useState(null);
+    const [sessionDbData, setSessionDbData] = useState({started: false});       //All data on the current session
+    const [sessionDbTaskData, setSessionDbTaskData] = useState(null);           //All data on the tasks in the current session
+    const [sessionDbUserData, setSessionDbUserData] = useState(null);           //All data on the users in the current session
+    const [sessionDbThisUserData, setSessionDbThisUserData] = useState(null);   //All data on the user logged in in the current session
+    const [sessionKey, setSessionKey] = useState(null);                         //The session key to be shared. Only set once all initalising of the session is done
+    const [sessionPeople, setSessionPeople] = useState(null);                   //How many people in the session group
+    const [sessionSenario, setSessionSenario] = useState("");                   //What the aim of the session is
+    const [sessionStarted, setSessionStarted] = useState(false);                //The time the session was created (in milliseconds since January 1, 1970)
+    const [sessionWebStack, setSessionWebStack] = useState(null);               //Stores the users choice of webstack for the session
+    const [showTask, setShowTask] = useState(null);                             //Decides on whether or not to show the task dashboard
+    const [showTaskList, setShowTaskList] = useState(null);                     //Decides on whether or not to show the tasklist dashboard
+    const [completed, setCompleted] = useState(false);                          //Whether or not the session has been completed (aka all tasks done)
+    const [endTime, setEndTime] = useState(null);                               //The time the session was completed (in milliseconds since January 1, 1970)
 
-    //Database SnapShots
+    
+    //Database SnapShots ------------------------------------------------------------------------------------------------------------------
     const snap = (sessionId, subscribe) => {
+        
+        //Session Data
         const snap1 = onSnapshot(query(doc(db, "sessions", sessionId)), (snapshot) => {
             console.log("test: " + snapshot.id);
             let x = {
@@ -99,6 +96,7 @@ function Main (){
             setSessionDbData(x);
         });
 
+        //Task Data
         const snap2 = onSnapshot(query(collection(db, "sessions", sessionId, "users")), (snapshot) => {
             let x = [];
             let y = {};
@@ -126,11 +124,11 @@ function Main (){
             setSessionPeople(x.length);
         });
 
+        //User Data
         const snap3 = onSnapshot(query(collection(db, "sessions", sessionId, "tasks")), (snapshot) => {
             let x = [];
 
             snapshot.docs.forEach((doc) => {
-                
                 x.push({
                     id: doc.id,
                     taskId: doc.data().taskId,
@@ -149,7 +147,6 @@ function Main (){
                     answerLines: doc.data().answerLines,
                     longDescription: doc.data().longDescription,
                     hints: doc.data().hints,
-                      
                 });
             })
             console.log("taskData= " + x[0].id);
@@ -185,7 +182,7 @@ function Main (){
         }
     }
 
-    //Hooks -----------------------------------------------------------------------------------------------------
+    //Hooks -------------------------------------------------------------------------------------------------------------------------------------------
     useEffect(() => {
         console.log("gameMode: " + gameMode);
         console.log("inputtedSessionKey: " + inputtedSessionKey);
@@ -211,7 +208,7 @@ function Main (){
         }
     });
     
-    //Event Handlers --------------------------------------------------------------------------------------------
+    //Event Handlers -------------------------------------------------------------------------------------------------------------------------------------------------------
     
     function soloOrCoopButtonClick(e, mode) {
         setGameMode(mode);
@@ -219,11 +216,10 @@ function Main (){
 
     function startOrJoinClick(e, type) {
         setSessionStartType(type);
-        
+    
         if (type == "join"){
             joinSession();
         }
-        //NEED TO ADD SESSION KEY AUTH IN HERE AND RESET sessionKey if it is invalid
     }    
     
     function onWebStack(webStackId){
@@ -231,7 +227,8 @@ function Main (){
         startSession(webStackId);
     }
 
-    //Resets the state if the user presses the go back button based on what section they were at
+    //Resets the state if the user presses the 
+    //go back button based on what section they were at
     function goBackClick(e, num){
         switch(num){
             case 1:
@@ -252,7 +249,220 @@ function Main (){
         beginGame();
     }
 
-    //Element Display Functions --------------------------------------------------------------------------------
+    //General Functions -------------------------------------------------------------------------------------------------------------------------------------------------
+
+    function convertMillisecondsToMinutesAndSeconds(milliseconds){
+        let minutes = Math.floor(milliseconds / 60000);
+        let seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+        return (minutes + ":" + (seconds < 10 ? '0' : '') + seconds);
+    }
+
+    function getTimeDurationInMilliseconds(start, end){
+        return (end - start);
+    }
+
+    const openTask = async (taskId) => {
+        const request = await openTaskInDb(sessionDbData.sessionId, taskId);
+        setShowTaskList(false);
+        setShowTask(taskId);
+    }
+
+    const getWebStackOptions = async () => {
+        const request = await getWebStacks();
+        setAllWebstacks(request);
+    }
+
+    const getSenario = async () => {
+        const request = await getTaskSet(sessionDbData.taskSetId);
+        let senario = request.senarioDescription;
+        setSessionSenario(senario);
+    }
+
+    const pickTaskSet = async (webStackId) => {
+        const request = await getAllTaskSetsIdsWithWebStack(webStackId);
+        const rnd = Math.floor(Math.random() * request.length);
+        const choice = request[rnd].taskSetId;
+        return choice;
+    }
+
+    const assignRoles = async () => {
+        const request = await getTaskSet(sessionDbData.taskSetId);
+        let roles = request.roles;
+
+        if (roles.length == sessionDbUserData.length){
+            for (let i = 0; i < roles.length; i++){
+                setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[i]);
+            }
+        }
+        else if (roles.length < sessionDbUserData.length){
+            let counter = 0;
+            for (let i = 0; i < sessionDbUserData.length; i++){
+                if (counter < roles.length){
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[counter]);
+                    counter++;
+                }
+                else {
+                    counter = 0;
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[counter]);
+                    counter++;
+                }
+            }
+
+        }
+        else if (roles.length > sessionDbUserData.length){
+            let counter = 0;
+            for (let i = 0; i < roles.length; i++){
+                if (counter < sessionDbUserData.length){
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[counter].userId, roles[i]);
+                    counter++;
+                }
+                else {
+                    counter = 0;
+                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[counter].userId, roles[i]);
+                    counter++;
+                }
+            }
+        }
+    }
+
+    function generateKey(){
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const charactersLength = characters.length;
+        let key = '';
+        let counter = 0;
+        let keyLength = 6
+        while (counter < keyLength) {
+            key += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+    
+        if (sessionKey == null) {
+            return key;
+        }
+    }
+
+    //Session Started/Joined -----------------------------------------------------------------------------------------------------------------------------------------
+
+    const startSession = async (webStackId) => {
+        const key = generateKey();
+        const taskSet = await pickTaskSet(webStackId);
+        const request = await startNewSessionInDb(key, taskSet, user.uid);
+
+        if (request.success){
+            setSessionKey(key);
+            snap(request.sessionId, true);
+        }
+        else {
+            console.log(request.errMes);
+            //Input a try again thing...
+        }
+    }
+
+    const joinSession = async () => {
+        const request = await joinSessionInDb(inputtedSessionKey, user.uid);
+
+        if (request.success){
+            setSessionKey(inputtedSessionKey);
+            snap(request.sessionId, true);
+            setShowTaskList(true);
+        }
+        else {
+            console.log(request.errMes);
+        }
+    };
+    
+    const beginGame = async () => {
+        assignRoles();
+        getSenario();
+        const request = await startSessionInDb(sessionDbData.sessionId);
+
+        if (request.success){
+            setShowTaskList(true);
+        }
+    }
+    
+    //Session Quit/End/Completed --------------------------------------------------------------------------------------------------------------------------------------
+
+    let runOnce = false;
+    const onCompleted = async() => {
+        if (!runOnce){
+            runOnce = true;
+            setCompleted(true);
+        
+            let time = Date.now();
+            setEndTime(time);
+    
+            if (sessionDbThisUserData.leader){
+                completeSessionInDb(sessionDbData.sessionId, time);
+            }
+    
+            const request = await saveSessionDataToUser(user.uid, sessionDbData.startTime, time, "hOOK382sKTHDCyOaaV0m", sessionDbData.taskSetId, sessionPeople, sessionDbThisUserData.role);
+            console.log("testing Request");
+        }  
+    }
+    
+    const goBack = async (taskId) => {
+        console.log("GOING BACK: " + taskId);
+        const request = await closeTaskInDb(sessionDbData.sessionId, taskId);
+        setGoBackWarningShow(false);
+        setShowTaskList(true);
+        setShowTask(null);
+    }
+
+    function leave(){
+        snap(sessionDbData.sessionId, false);
+        resetAllStates();
+        navigate("/main", {state:{previousPath: "/main"}})
+    }
+
+    const quit = () => {
+        console.log("starting quit");
+        sessionDbUserData.forEach((u) => {
+            if (u.uid == user.uid){
+                if (u.leader){
+                    //Delete the session
+                    // deleteSessionInDb(sessionDbData.sessionId);
+                    
+                    
+                    //Set the session to inactive
+                    let time = Date.now();
+                    endSessionInDb(sessionDbData.sessionId, time);
+                }
+                else {
+                    //Delete only the user from that session
+                    const role = u.role;
+                    deleteUserInSessionInDb(sessionDbData.sessionId, u.userId);
+                    role.forEach(r => {
+                        setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[0].userId, r);
+                    })
+                }
+            }
+        });
+        snap(sessionDbData.sessionId, false);
+        setQuitWarningShow(false);
+        resetAllStates();
+        console.log("ending quit");
+        setIsQuitting(true); //Takes you back to the dashboard
+    }
+
+    //Clean Up --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    function resetAllStates() {
+        setCompleted(false);
+        setSessionDbData(null);
+        setSessionDbData({started: false});
+        setSessionDbTaskData(null);
+        setSessionDbUserData(null);
+        setSessionDbThisUserData(null);
+        setGameMode(null); //Solo or Coop
+        setSessionStartType(null); //Start a new session or join an existing one
+        setInputtedSessionKey(null); //e.g The users attempt to add a session key
+        setSessionKey(null); //A valid session that can be joined
+        setSessionPeople(null); //How many people in the group
+        setSessionStarted(false); //e.g 02:34 (2mins, 34 seconds)
+    }
+
+    //Element Display Functions ----------------------------------------------------------------------------------------------------------------------
     
     function optionBoards(){
         if (!sessionStarted) {
@@ -506,29 +716,8 @@ function Main (){
         }
     }
 
-
-
-    let runOnce = false;
-    const onCompleted = async() => {
-        if (!runOnce){
-            runOnce = true;
-            setCompleted(true);
-        
-            let time = Date.now();
-            setEndTime(time);
-    
-            if (sessionDbThisUserData.leader){
-                completeSessionInDb(sessionDbData.sessionId, time);
-            }
-    
-            const request = await saveSessionDataToUser(user.uid, sessionDbData.startTime, time, "hOOK382sKTHDCyOaaV0m", sessionDbData.taskSetId, sessionPeople, sessionDbThisUserData.role);
-            console.log("testing Request");
-        }  
-    }
-
     function completedBoard(){
         if (completed){
-            console.log("SESSION COMPLETED");  
             const timeInMilliseconds = getTimeDurationInMilliseconds(sessionDbData.startTime, endTime);
             const timeFormatted = convertMillisecondsToMinutesAndSeconds(timeInMilliseconds);
 
@@ -554,217 +743,11 @@ function Main (){
                     <p className="tinyText listP">The time displayed here is the total time from start to finish </p>
                 </>
             )
-
         }
     }
 
-    function leave(){
-        snap(sessionDbData.sessionId, false);
-        resetAllStates();
-        navigate("/main", {state:{previousPath: "/main"}})
-    }
+    //Render Function --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    function convertMillisecondsToMinutesAndSeconds(milliseconds){
-        let minutes = Math.floor(milliseconds / 60000);
-        let seconds = ((milliseconds % 60000) / 1000).toFixed(0);
-        return (minutes + ":" + (seconds < 10 ? '0' : '') + seconds);
-    }
-
-    function getTimeDurationInMilliseconds(start, end){
-        // return (endTime - sessionDbData.startTime);
-        return (end - start);
-    }
-
-    const openTask = async (taskId) => {
-        console.log("OPENING TASK: " + taskId);
-        const request = await openTaskInDb(sessionDbData.sessionId, taskId);
-        setShowTaskList(false);
-        setShowTask(taskId);
-    }
-
-    const goBack = async (taskId) => {
-        console.log("GOING BACK: " + taskId);
-        const request = await closeTaskInDb(sessionDbData.sessionId, taskId);
-        setGoBackWarningShow(false);
-        setShowTaskList(true);
-        setShowTask(null);
-    }
-
-    const joinSession = async () => {
-        const request = await joinSessionInDb(inputtedSessionKey, user.uid);
-
-        if (request.success){
-            setSessionKey(inputtedSessionKey);
-            console.log("123");
-            snap(request.sessionId, true);
-            setShowTaskList(true);
-        }
-        else {
-            console.log(request.errMes);
-        }
-    };
-
-    const getWebStackOptions = async () => {
-        const request = await getWebStacks();
-        setAllWebstacks(request);
-    }
-
-    const pickTaskSet = async (webStackId) => {
-        console.log("hyhyhy: " + webStackId);
-        const request = await getAllTaskSetsIdsWithWebStack(webStackId);
-        const rnd = Math.floor(Math.random() * request.length);
-        const choice = request[rnd].taskSetId;
-        return choice;
-    }
-
-    const assignRoles = async () => {
-        const request = await getTaskSet(sessionDbData.taskSetId);
-        let roles = request.roles;
-
-        if (roles.length == sessionDbUserData.length){
-            for (let i = 0; i < roles.length; i++){
-                setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[i]);
-            }
-        }
-        else if (roles.length < sessionDbUserData.length){
-            let counter = 0;
-            for (let i = 0; i < sessionDbUserData.length; i++){
-                if (counter < roles.length){
-                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[counter]);
-                    counter++;
-                }
-                else {
-                    counter = 0;
-                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[i].userId, roles[counter]);
-                    counter++;
-                }
-            }
-
-        }
-        else if (roles.length > sessionDbUserData.length){
-            console.log("entering");
-
-
-            let counter = 0;
-            for (let i = 0; i < roles.length; i++){
-                console.log("Counter:" + counter)
-                if (counter < sessionDbUserData.length){
-                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[counter].userId, roles[i]);
-                    counter++;
-                }
-                else {
-                    counter = 0;
-                    setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[counter].userId, roles[i]);
-                    counter++;
-                }
-            }
-        }
-    }
-
-    const getSenario = async () => {
-        const request = await getTaskSet(sessionDbData.taskSetId);
-        let senario = request.senarioDescription;
-        setSessionSenario(senario);
-    }
-
-    const startSession = async (webStackId) => {
-        console.log("Starting session");
-     
-        //--------------------------------------------------------------------
-        const key = generateKey();
-        console.log(key);
-
-        const taskSet = await pickTaskSet(webStackId);
-        console.log("setttt " + taskSet)
-
-        const request = await startNewSessionInDb(key, taskSet, user.uid);
-        console.log("request " + request);
-        console.log("567: " + request.sessionId);
-        if (request.success){
-            setSessionKey(key);
-            console.log("456");
-            snap(request.sessionId, true);
-        }
-        else {
-            console.log(request.errMes);
-            //Input a try again thing...
-        }
-    }
-
-    const beginGame = async () => {
-        assignRoles();
-        getSenario();
-        const request = await startSessionInDb(sessionDbData.sessionId);
-
-        if (request.success){
-            setShowTaskList(true);
-        }
-    }
-
-    function generateKey(){
-        //CONTACT DB AND MAKE KEY
-        console.log("generating key");
-
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const charactersLength = characters.length;
-        let key = '';
-        let counter = 0;
-        let keyLength = 6
-        while (counter < keyLength) {
-            key += characters.charAt(Math.floor(Math.random() * charactersLength));
-            counter += 1;
-        }
-    
-        if (sessionKey == null) {
-            return key;
-        }
-    }
-
-    const quit = () => {
-        console.log("starting quit");
-        sessionDbUserData.forEach((u) => {
-            if (u.uid == user.uid){
-                if (u.leader){
-                    //Delete the session
-                    // deleteSessionInDb(sessionDbData.sessionId);
-                    
-                    
-                    //Set the session to inactive
-                    let time = Date.now();
-                    endSessionInDb(sessionDbData.sessionId, time);
-                }
-                else {
-                    //Delete only the user from that session
-                    const role = u.role;
-                    deleteUserInSessionInDb(sessionDbData.sessionId, u.userId);
-                    role.forEach(r => {
-                        setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData[0].userId, r);
-                    })
-                }
-            }
-        });
-        snap(sessionDbData.sessionId, false);
-        setQuitWarningShow(false);
-        resetAllStates();
-        console.log("ending quit");
-        setIsQuitting(true); //Takes you back to the dashboard
-    }
-
-    function resetAllStates() {
-        setCompleted(false);
-        setSessionDbData(null);
-        setSessionDbData({started: false});
-        setSessionDbTaskData(null);
-        setSessionDbUserData(null);
-        setSessionDbThisUserData(null);
-        setGameMode(null); //Solo or Coop
-        setSessionStartType(null); //Start a new session or join an existing one
-        setInputtedSessionKey(null); //e.g The users attempt to add a session key
-        setSessionKey(null); //A valid session that can be joined
-        setSessionPeople(null); //How many people in the group
-        setSessionStarted(false); //e.g 02:34 (2mins, 34 seconds)
-    }
-    
     return (
         <>
         <Background1 />
