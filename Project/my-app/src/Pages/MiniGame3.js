@@ -1,7 +1,7 @@
 import React from 'react';
 import Background1 from '../components/Background1';
 
-function MiniGame2 (){
+function MiniGame3 (){
     return (
         <>
         <Background1 />
@@ -16,4 +16,4 @@ function MiniGame2 (){
 }
 
 
-export default MiniGame2;
+export default MiniGame3;

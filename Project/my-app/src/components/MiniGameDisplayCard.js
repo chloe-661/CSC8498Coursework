@@ -10,7 +10,7 @@ function MiniGameDisplayCard(props) {
         <Card.Text>
           {props.text}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button disabled={true} variant="primary">Coming Soon</Button>
       </Card.Body>
     </Card>
   );

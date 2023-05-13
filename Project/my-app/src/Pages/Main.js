@@ -33,7 +33,9 @@ import {
     openTaskInDb,
     closeTaskInDb,
     completeTaskInDb,
-    cleanUpSessions
+    cleanUpSessions,
+    completeSessionInDb,
+    saveSessionDataToUser
 } from "../firebase";
 
 //Styles
@@ -71,6 +73,7 @@ function Main (){
     const [sessionDbThisUserData, setSessionDbThisUserData] = useState(null);
     const [sessionKey, setSessionKey] = useState(null); //A valid session that can be joined
     const [sessionPeople, setSessionPeople] = useState(null); //How many people in the group
+    const [sessionSenario, setSessionSenario] = useState(""); //How many people in the group
     const [sessionDuration, setSessionDuration] = useState(null); //e.g 02:34 (2mins, 34 seconds)
     const [sessionStarted, setSessionStarted] = useState(false); //e.g 02:34 (2mins, 34 seconds)
     const [userRole, setUserRole] = useState(null); //e.g Builder, Styler, Database, etc
@@ -254,7 +257,6 @@ function Main (){
                 return (
                     <>
                         <h1 class="title2">GAME MODE</h1>
-                        <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
                         <GameOptionsCard className="card-options" title="SOLO" text="Play by yourself and make it a challenge" img="https://raw.githubusercontent.com/chloe-661/CSC8498Coursework/main/Project/my-app/src/assets/img/solo-img.png?token=GHSAT0AAAAAACBJF5EI4SPDDXPU2IXCVI4YZCQJK4A">
                             <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
                         </GameOptionsCard>
@@ -262,6 +264,7 @@ function Main (){
                         <GameOptionsCard className="card-options" title="CO-OP" text="Play with up to 4 other people in a team" img="https://drive.google.com/file/d/1-7aiubacJspAAGAD5uELwfWJwBCX5tDI/preview">
                             <Button onClick={(e)=>soloOrCoopButtonClick(e, 'coop')}>Play</Button>
                         </GameOptionsCard>
+                        <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
                     </>
                 )
             }
@@ -274,8 +277,7 @@ function Main (){
                         return (
                             <>
                                 <h1 class="title2">NEW SESSION</h1>
-                                <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
-                                <GameOptionsCard className="card-options" 
+                                <GameOptionsCard className="card-options card-options__bigger" 
                                     title="SESSION KEY"
                                     topLine="--------------------" 
                                     bigText={sessionKey} 
@@ -284,7 +286,7 @@ function Main (){
                                     >
                                 </GameOptionsCard>
     
-                                <GameOptionsCard className="card-options" 
+                                <GameOptionsCard className="card-options card-options__bigger" 
                                     title="PEOPLE JOINED" 
                                     bigNumber={sessionPeople}
                                     tinyText="max: 4" 
@@ -293,7 +295,11 @@ function Main (){
                                     <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
                                 </GameOptionsCard>
                                 {/* <Button className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Quit</Button> */}
-                                <Button className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                                <div>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                                </div>
+
                             </>
                         )
                     }
@@ -305,11 +311,13 @@ function Main (){
                         return (
                             <>
                                 <h1 class="title2">JOINING SESSION</h1>
-                                <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                 <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
                                 </GameOptionsCard>
                                 {/* <Button className="btn-back"onClick={(e)=>goBackClick(e, 2)}>Go Back</Button> */}
-                                <Button className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                                <div> 
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                                </div>
                             </>
                         )
                     }
@@ -319,7 +327,6 @@ function Main (){
                     return (
                         <>
                             <h1 class="title2">CO-OP</h1>
-                            <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
                             <GameOptionsCard className="card-options" title="START A NEW SESSION" text="Start a new session for you and your friends" img="">
                                 <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Start</Button>
                             </GameOptionsCard>
@@ -338,7 +345,10 @@ function Main (){
                                 <Button onClick={(e) => startOrJoinClick(e, 'join')}>Join</Button>
                 
                             </GameOptionsCard>
-                            <Button className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                            <div>
+                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
+                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                            </div>
                         </>
                     )
                 }
@@ -352,7 +362,6 @@ function Main (){
                         return (
                             <>
                                 <h1 class="title2">SOLO</h1>
-                                <Button className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
                                 <GameOptionsCard className="card-options" 
                                     title="SESSION KEY"
                                     topLine="--------------------" 
@@ -361,7 +370,10 @@ function Main (){
                                     >
                                     <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
                                 </GameOptionsCard>
-                                <Button className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                                <div>
+                                <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>Need Help?</Button>
+                                <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={() => setQuitWarningShow(true)}>Quit</Button>
+                                </div>
                             </>
                         )
                     }
@@ -371,11 +383,13 @@ function Main (){
                     return (
                         <>
                             <h1 class="title2">SOLO</h1>
-                            <Button className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
-                            <GameOptionsCard className="card-options" title="Are you sure?" text="You will take on up to 4 roles by yourself" img="">
+                            <GameOptionsCard className="card-options" title="ARE YOU SURE?" text="You will take on up to 4 roles by yourself" img="">
                                 <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Continue</Button>
                             </GameOptionsCard>
-                            <Button className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                            <div>
+                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
+                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                            </div>
                         </>
                     )
                 }
@@ -384,8 +398,6 @@ function Main (){
     }
 
     function taskBoards(){
-        console.log("HELLLLLLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPP");
-        console.log("started: " + sessionDbData.started);
         const stats = <SessionDurationStats sessionKey={sessionKey} started={sessionDbData.started} />;
         const taskList = <TaskListDashboard 
                             sessionDetails={sessionDbData}
@@ -421,7 +433,14 @@ function Main (){
                             taskId={showTask}
                             onOpenTask={openTask}
         />;
-        const forceQuit = <h1>The leader left this session, it therefore has been ended</h1>
+        const forceQuit = <>
+            <h1 class="title2">OH NO!</h1>
+            <GameOptionsCard className="card-options" title="SESSION UNEXPECTEDLY ENDED" text="The leader left this session which has forced it to end. Sorry" img="">
+                <Button onClick={leave}>Start again</Button>
+            </GameOptionsCard>
+            <div>
+            </div>
+        </>
         if (sessionDbData.started && !sessionDbData.ended && sessionDbData.active){
             if (showTaskList){
                 return (
@@ -449,12 +468,22 @@ function Main (){
         }
     }
 
-    function onCompleted(){
-        const d = new Date();
-        let time = d.getTime();
-        setEndTime(time);
-        setCompleted(true);
-
+    let runOnce = false;
+    const onCompleted = async() => {
+        if (!runOnce){
+            runOnce = true;
+            setCompleted(true);
+        
+            let time = Date.now();
+            setEndTime(time);
+    
+            if (sessionDbThisUserData.leader){
+                completeSessionInDb(sessionDbData.sessionId, time);
+            }
+    
+            const request = await saveSessionDataToUser(user.uid, sessionDbData.startTime, time, "hOOK382sKTHDCyOaaV0m", sessionDbData.taskSetId, sessionPeople, sessionDbThisUserData.role);
+            console.log("testing Request");
+        }  
     }
 
     function completedBoard(){
@@ -473,11 +502,11 @@ function Main (){
                             <Card.Text>All the tasks have been completed</Card.Text>
                             <Card.Text className="time">{timeFormatted}*</Card.Text>
                             <hr />
-                            <Card.Text className="listP">Senario: &nbsp; ...</Card.Text>
+                            <Card.Text className="listP">Aim: &nbsp; {sessionSenario}</Card.Text>
                             <Card.Text className="listP">Tasks Completed: &nbsp; {sessionDbTaskData.length} </Card.Text>
-                            <Card.Text className="listP">Session Key: &nbsp; {sessionDbData.sessionKey} </Card.Text>
+                            <Card.Text className="listP">Session Key: &nbsp; {sessionKey} </Card.Text>
                             <Card.Text>People: &nbsp; {sessionPeople} </Card.Text>
-                            <Button>Continue</Button>
+                            <Button onClick={leave}>Continue</Button>
                         </Card.Body>
                     </Card>
                     <p className="tinyText listP">* The time displayed here may be different from what you saw during the session</p>
@@ -487,6 +516,12 @@ function Main (){
             )
 
         }
+    }
+
+    function leave(){
+        snap(sessionDbData.sessionId, false);
+        resetAllStates();
+        navigate("/main", {state:{previousPath: "/main"}})
     }
 
     function convertMillisecondsToMinutesAndSeconds(milliseconds){
@@ -541,28 +576,9 @@ function Main (){
         return choice;
     }
 
-    const assignRoles = async (sessionId, taskSetId) => {
-        const request = await getTaskSet("2rZdId43DTc2Mrgrt2kG");
-        console.log("assigning roles");
+    const assignRoles = async () => {
+        const request = await getTaskSet(sessionDbData.taskSetId);
         let roles = request.roles;
-        console.log("roles.length " + roles.length);
-        console.log("users.length " + sessionDbUserData.length);
-
-        // for(let i = 0; i < roles.length; i++){
-        //     let roleTaken = false;
-        //     console.log(sessionDbUserData[0].uid);
-        //     sessionDbUserData.forEach(u => {
-        //         if (u.role == roles[i]){
-        //             roleTaken = true;
-        //         }
-        //     });
-
-        //     if (!roleTaken){
-        //         setUserRoleInDb(sessionDbData.sessionId, sessionDbUserData.userId, roles[i])
-        //         console.log("role is: " + roles[i]);
-        //         break;
-        //     }
-        // };
 
         if (roles.length == sessionDbUserData.length){
             for (let i = 0; i < roles.length; i++){
@@ -604,6 +620,12 @@ function Main (){
         }
     }
 
+    const getSenario = async () => {
+        const request = await getTaskSet(sessionDbData.taskSetId);
+        let senario = request.senarioDescription;
+        setSessionSenario(senario);
+    }
+
     const startSession = async () => {
         console.log("Starting session");
      
@@ -629,7 +651,8 @@ function Main (){
     }
 
     const beginGame = async () => {
-        assignRoles(sessionDbData.sessionId, sessionDbData.taskSetId);
+        assignRoles();
+        getSenario();
         const request = await startSessionInDb(sessionDbData.sessionId);
 
         if (request.success){
@@ -666,7 +689,8 @@ function Main (){
                     
                     
                     //Set the session to inactive
-                    endSessionInDb(sessionDbData.sessionId);
+                    let time = Date.now();
+                    endSessionInDb(sessionDbData.sessionId, time);
                 }
                 else {
                     //Delete only the user from that session
@@ -682,11 +706,11 @@ function Main (){
         setQuitWarningShow(false);
         resetAllStates();
         console.log("ending quit");
-        setIsQuitting(true);
-
+        setIsQuitting(true); //Takes you back to the dashboard
     }
 
     function resetAllStates() {
+        setCompleted(false);
         setSessionDbData(null);
         setSessionDbData({started: false});
         setSessionDbTaskData(null);

@@ -1,12 +1,18 @@
 import React from 'react';
-import GameFrame from '../components/GameFrame';
+import Background1 from '../components/Background1';
 
-function MiniGame1 (){
+function Minigame1 (){
     return (
-        <GameFrame>
-            <h1>Minigame1</h1>
-        </GameFrame>
-    )
+        <>
+        <Background1 />
+
+        <div className="gameFrameContainer">
+          <div className="gameFrame">  
+            <h1 className="title2">COMING SOON</h1>
+          </div>
+        </div>
+        </>
+      );
 }
 
-export default MiniGame1;
+export default Minigame1;

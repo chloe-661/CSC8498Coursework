@@ -176,7 +176,7 @@ const getAllTaskSets = async () => {
 const getTaskSet = async (taskSetId) => {
     let taskSet;
     try {
-        const q = query(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", "2rZdId43DTc2Mrgrt2kG"));
+        const q = query(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "taskSets", taskSetId));
         const querySnapshot = await getDoc(q);
 
         taskSet = {
@@ -286,7 +286,7 @@ const getTaskDependanciesDetails = async(taskSetId, dependancies) => {
         if (dependancies.length > 0 ){
             dependancies.forEach(d => {
                 const x = getTaskName(taskSetId, d);
-                console.log("X:" + x);
+                console.log("X:")
                 details.push({
                     name: x.data.name,
                     role: x.data.role,
@@ -397,6 +397,48 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
     }
 }
 
+const saveSessionDataToUser = async (uid, startTime, endTime, webStackId, taskSetId, sessionPeople, role) => {
+    try {
+
+        //Find user doc using uid
+        //save that doc.id
+        //use that to update
+        console.log("IN FUNCTION");
+        console.log(uid);
+        const q = query(collection(db, "users"), where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        let tempId;
+
+        if(!querySnapshot.empty) {
+            const snapshot = querySnapshot.docs[0]  // use only the first document, but there could be more
+            tempId = snapshot.id  
+        }
+
+        const q2 = query(collection(db, "users", tempId, "results"));
+        const queryShot2 = await getDocs(q2);
+        
+        let alreadyAdded = false;
+        queryShot2.forEach(doc => {
+            if (doc.startTime == startTime){
+                alreadyAdded = true;
+            }
+        })
+
+        if (!alreadyAdded){
+            addDoc (collection(db, "users", tempId, "results"), {
+                startTime: startTime,
+                endTime: endTime,
+                webStackId: webStackId,
+                taskSetId, taskSetId,
+                sessionPeople, sessionPeople,
+                role, role,
+            });  
+        }
+    }catch (err){
+        console.error(err);
+    }
+}
+
 const joinSessionInDb = async (inputtedSessionKey, uid) => {   
     try {
         console.log(uid);
@@ -481,11 +523,28 @@ const startSessionInDb = async (sessionId) => {
     }
 }
 
-const endSessionInDb = async(sessionId) => {
+const endSessionInDb = async(sessionId, time) => {
     try {
         await updateDoc(doc(db, "sessions", sessionId), {
             active: false,
-            endTime: (Date.now()).toString(),
+            endTime: time.toString(),
+        });
+
+        return {
+            success: true
+        }
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
+const completeSessionInDb = async(sessionId, time) => {
+    try {
+        await updateDoc(doc(db, "sessions", sessionId), {
+            active: false,
+            ended: true,
+            endTime: time.toString(),
         });
 
         return {
@@ -652,6 +711,7 @@ export {
     joinSessionInDb,
     deleteSessionInDb,
     deleteUserInSessionInDb,
+    completeSessionInDb,
     endSessionInDb,
     setUserRoleInDb,
     openTaskInDb,
@@ -660,4 +720,5 @@ export {
     cleanUpSessions,
     getTaskName,
     getTaskDependanciesDetails,
+    saveSessionDataToUser,
 };

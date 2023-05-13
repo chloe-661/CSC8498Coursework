@@ -302,17 +302,29 @@ a {
 }
 
 .card-options {
+    min-height: 275px !important;
     border: 1px dashed $pigment-green !important;
     border-radius: 10px !important; 
 }
 
+.card-options__hr {
+  margin: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  width: 50%;
+}
+
 .card-options .card-title {
-    color: $forest-green;
+    color: $pigment-green;
     font-weight: bold;
 }
 
 .card-options .card-text {
     margin: 0 !important;
+}
+
+.card-options__bigger {
+  min-height: 320px !important;
 }
 
 .card-options .tinyText {

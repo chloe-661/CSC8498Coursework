@@ -17,6 +17,7 @@ import {
   endSessionInDb,
   getTaskName,
   getTaskDependanciesDetails,
+  getTaskSet,
 } from "../firebase";
 
 import TaskDescription from './TaskDescription';
@@ -30,6 +31,7 @@ function TaskListDashboard(props) {
 
   const [showLockedReasons, setShowLockedReasons] = useState(false);
   const [lockedReasons, setLockedReasons] = useState(null);
+  const [senarioDescription, setSenarioDescription] = useState(null);
 
   const prepareReasonsLocked = async (reason, dependancies) => {
     if (reason == "dep"){
@@ -65,6 +67,7 @@ function TaskListDashboard(props) {
   }
 
   const displayTasks = () => {
+    getSenario();
     return (
       <>
         {props.taskDetails.map(({id, title, description, role, language, completed, inUse, isLockedByDependancies, taskDependancies}) => (
@@ -89,14 +92,19 @@ function TaskListDashboard(props) {
     )
   }
 
+  const getSenario = async () => {
+    const request = await getTaskSet(props.sessionDetails.taskSetId);
+    setSenarioDescription(request.senarioDescription);
+  }
+
   return (
     <>
       <div class="taskListDashboard grid-container">
         <div class="grid-item__role">
         <UserRole title="USER ROLE:" role={props.userDetails.role}/>
         </div>
-        <div class="grid-item__stats">
-          <SessionStats title="SESSION STATS:" sessionDetails={props.sessionDetails} sessionPeople={props.sessionPeople} taskDetails={props.taskDetails}/>
+        <div class="grid-item__stats">    
+          <SessionStats title="GROUP SESSION STATS:" senario={senarioDescription != null ? senarioDescription : ""} sessionDetails={props.sessionDetails} sessionPeople={props.sessionPeople} taskDetails={props.taskDetails}/>
         </div>
         <div class="grid-item__tasks">
         {displayTasks()}

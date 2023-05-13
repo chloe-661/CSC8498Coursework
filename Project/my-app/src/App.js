@@ -18,6 +18,7 @@ import MainGame from './Pages/Main';
 import Minigames from './Pages/Minigames';
 import MiniGame1 from './Pages/MiniGame1';
 import MiniGame2 from './Pages/MiniGame2';
+import MiniGame3 from './Pages/MiniGame3';
 import Page404 from './Pages/Page404';
 import Test from './Pages/Test';
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/minigames" element={<Minigames />} />
           <Route path="/minigame1" element={<MiniGame1 />} />
           <Route path="/minigame2" element={<MiniGame2 />} />
+          <Route path="/minigame3" element={<MiniGame3 />} />
           <Route path="*" element={<Page404 />} />
        </Routes>
       </header>
