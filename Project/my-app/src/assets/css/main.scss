@@ -889,12 +889,12 @@ label {
 
   .userDashboard {
     display: grid;
-    min-height: 100%;
-    max-height: 100%;
+    min-height: 80%;
+    max-height: 80%;
     width: 100%;
     // grid-template-columns: auto auto auto auto auto auto;
     // grid-template-rows: auto auto auto auto auto auto;
-    grid-template-columns: 20% auto auto auto auto;
+    grid-template-columns: 20% 40% 40%;
     grid-template-rows: 40% 60%;
   }
   
@@ -902,26 +902,36 @@ label {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: 2;
+    grid-row-end: 3;
     width: 100%;
     padding-left: 1rem;
     padding-top: 0;
     // padding-bottom: 0.5rem;
     padding-bottom: 0;
-    margin-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
   }
 
-  .userDashboard__detailsCard .card {
-    text-align: center;
+  .userDashboard__detailsCard {
+    text-align: center !important;
     background-color: rgba(36, 130, 50, 0.2); 
     border: 1px dashed $pigment-green;
     border-radius: 10px;
+    max-width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
   }
 
-  .userDashboard__detailsCard .card-title{
+  .userDashboard__SoloCard, .userDashboard__CoopCard {
+    background-color: rgba(45, 58, 58, 0.5);
+    border-radius: 10px;
+    max-width: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+  }
+
+  .userDashboard__detailsCard .card-title, .userDashboard__SoloCard .card-title{
     text-decoration: none !important;
   }
 
@@ -932,34 +942,102 @@ label {
   .userDashboard .grid-item__solo {
     width: 100%;
     grid-column-start: 2;
-    grid-column-end: 4;
+    grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 3;
     padding-left: 1rem;
-    // padding-top: 0.5rem;
+    padding-right: 0.5rem;
     padding-top: 0;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    // padding-bottom: 0.5rem;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
   }
 
-  .taskDashboard .grid-item__coop {
+  .userDashboard .grid-item__coop {
     width: 100%;
-    grid-column-start: 4;
-    grid-column-end: 6;
+    grid-column-start: 3;
+    grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end: 2;
-    padding-left: 1rem;
-    padding-right: 0.5rem;
-    // padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
+    padding-left: 0.5rem !important;
+    padding-right: 1rem !important;
     max-height: 100%;
     overflow-y: auto;
     text-align: left;
   }
+
+  .userResults, .userResults__Solo {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .userResults .grid-container{
+    display: grid;
+    min-height: 100%;
+    width: 100%;
+    grid-template-columns: 10% auto auto auto !important;
+    grid-template-rows: auto auto !important;
+    column-gap: 2.5%;
+  }
+
+  .userResults .grid-item__duration{
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: center;
+  }
+
+  .userResults .grid-item__description{
+    width: 100%;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: center;
+  }
+
+  .userResults .grid-item__roles{
+    width: 100%;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+  
+  .userResults .grid-item__language{
+    width: 100%;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .userResults .grid-item__people{
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: center;
+  }
+
 
 // Modals
 

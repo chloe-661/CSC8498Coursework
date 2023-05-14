@@ -127,6 +127,20 @@ const getWebStacks = async () => {
     }
 }
 
+const getWebStacksById = async (webStackId) => {
+    try {
+        const querySnapshot = await getDoc(doc(db, "allTasks", "tNMFllVyNU0EAb9OLFOD", "webStacks", webStackId));
+        let result = {
+            languages: querySnapshot.data().languages   
+        }
+
+        return result
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
+}
+
 //Gets all task set ids that match a webstack type
 const getAllTaskSetsIdsWithWebStack = async (webStackId) => {
     var taskSets = [];
@@ -393,6 +407,43 @@ const startNewSessionInDb = async (sessionKey, taskSetId, uid) => {
             sessionId: tempId,
         }
     } catch (err) {
+        console.error(err);
+    }
+}
+
+const getUserResults = async (uid) => {
+    try {
+
+        const q = query(collection(db, "users"), where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        let tempId;
+
+        if(!querySnapshot.empty) {
+            const snapshot = querySnapshot.docs[0]  // use only the first document, but there could be more
+            tempId = snapshot.id  
+        }
+
+        const q2 = query(collection(db, "users", tempId, "results"));
+        const queryShot2 = await getDocs(q2);
+        let result = [];
+
+        queryShot2.forEach(doc => {
+            result.push(
+                {
+                    resultId: doc.id,
+                    startTime: doc.data().startTime,
+                    endTime: doc.data().endTime,
+                    webStackId: doc.data().webStackId,
+                    taskSetId: doc.data().taskSetId,
+                    sessionPeople: doc.data().sessionPeople,
+                    role: doc.data().role,
+                }
+            )
+        })
+
+        return result;
+
+    } catch (err){
         console.error(err);
     }
 }
@@ -721,4 +772,6 @@ export {
     getTaskName,
     getTaskDependanciesDetails,
     saveSessionDataToUser,
+    getUserResults,
+    getWebStacksById,
 };
