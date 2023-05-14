@@ -39,7 +39,8 @@ function TaskDashboard(props) {
   });
 
   const [codeLines, setCodeLines] = useState([])
-  const [completedCodeLines, setCompletedCodeLines] = useState (["...", "...", "... ", "... ", "... "])
+  const [numCodeLines, setNumCodeLine] = useState(0);
+  const [completedCodeLines, setCompletedCodeLines] = useState (["...", "...", "..."])
   const [codeWords, setCodeWords] = useState([])
   const [currInput, setCurrInput] = useState("")
   const [currLineIndex, setCurrLineIndex] = useState(0)
@@ -114,7 +115,7 @@ function TaskDashboard(props) {
 
   function resetAll(){
     splitCodeIntoLines();
-    setCompletedCodeLines(["...", "...", "... ", "... ", "... "]);
+    setCompletedCodeLines(["...", "...", "...", "..."]);
     setCurrInput("");
     setCurrLineIndex(0);
     setCurrCharIndex(-1);
@@ -164,6 +165,7 @@ function TaskDashboard(props) {
     const code = getCodeSnippet(`${task.title}__2`);
     const result = code.split(/\r?\n/);
     setCodeLines(result);
+    setNumCodeLine(result.length);
     // setCodeWords(result);
     // console.log(r[3]);
   }
@@ -284,6 +286,27 @@ function TaskDashboard(props) {
         setShowWrongAnswerModal(true);
       }
     }
+
+    if (task.type == "type-the-code"){
+      if (currLineIndex >= numCodeLines){
+        const result = {
+          success: true,
+          correct: 0,
+          wrong: 0,
+          err: [],
+        }
+        setSubmitAnswers(result);
+      }
+      else {
+        const result = {
+          success: false,
+          correct: [],
+          wrong: [],
+          err: [],
+        }
+        setSubmitAnswers(result);
+      }
+    }
   }
 
   //Formatting & Display -----------------------------------------------------------------------------------------------------------------------
@@ -343,10 +366,10 @@ function TaskDashboard(props) {
         }
       }
       if (task.type == "type-the-code"){
-        if (codeLines.length == 0){
+        if (codeLines.length == 0 && currLineIndex == 0){
           splitCodeIntoLines();
         }
-        if (codeLines.length > 0){
+        if (codeLines.length > 0 || numCodeLines == currLineIndex){
           return (
             <>
             <br />
@@ -373,7 +396,7 @@ function TaskDashboard(props) {
               </div>
 
               <div>
-                {codeLines.slice(0,5).map((line, index) => (
+                {codeLines.slice(0,2).map((line, index) => (
                     <p className={`codeLine ${index == 0 ? "codeLine__first" : "codeLine__onwards"}`} key={index}>
                       <span>
                         {line.split("").map((char, idx) => (
@@ -383,23 +406,28 @@ function TaskDashboard(props) {
                     </p>
                   ))}
               </div>
-
-              {/* <div>
-                {codeLines.map((line, index) => (
-                  <p key={index}>
-                    <span>
-                      {line.split("").map((char, idx) => (
-                          <span key={idx}>{char}</span>
-                        )) }
-                    </span>
-                  </p>
-                ))}
-              </div> */}
+              {checkIfAllTyped()}
             </>
           )
         }
       }
     }
+  }
+
+  function checkIfAllTyped(){
+    if (currLineIndex >= numCodeLines){
+      return (
+        <>
+        <div style={{textAlign: "center"}}>
+          <p>Congrats</p>
+          <p>You have typed it all correctly</p> 
+          <br />
+          <p>PRESS SUBMIT TO CONTINUE</p>
+          </div> 
+        </>
+      )
+    }
+    
   }
 
   function formatTask(){
