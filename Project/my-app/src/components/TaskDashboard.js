@@ -38,6 +38,15 @@ function TaskDashboard(props) {
     err: [],
   });
 
+  const [codeLines, setCodeLines] = useState([])
+  const [completedCodeLines, setCompletedCodeLines] = useState (["...", "...", "... ", "... ", "... "])
+  const [codeWords, setCodeWords] = useState([])
+  const [currInput, setCurrInput] = useState("")
+  const [currLineIndex, setCurrLineIndex] = useState(0)
+  const [currWordIndex, setCurrWordIndex] = useState(0)
+  const [currCharIndex, setCurrCharIndex] = useState(-1)
+  const [currChar, setCurrChar] = useState("")
+
   //Hooks ------------------------------------------------------------------------------------------------------------------------
   
   useEffect(() => {
@@ -103,6 +112,62 @@ function TaskDashboard(props) {
       }
   }
 
+  function splitCodeIntoLines(){
+    const code = getCodeSnippet(`${task.title}__2`);
+    const result = code.split(/\r?\n/);
+    setCodeLines(result);
+    // setCodeWords(result);
+    // console.log(r[3]);
+  }
+
+  //Functionality ------------------------------------------------------------------------------------------------------------------------
+
+  function handleKeyDown(e) {
+    // enter 
+    if (e.keyCode === 13){
+      console.log("Enter was pressed")
+      e.preventDefault();
+
+      checkMatch()
+      setCurrInput("")
+      setCurrCharIndex(-1)
+    }
+    // backspace
+    else if (e.keyCode === 8) {
+      setCurrCharIndex(currCharIndex - 1)
+      setCurrChar("")
+    } else {
+      setCurrCharIndex(currCharIndex + 1)
+      setCurrChar(e.key)
+    }
+  }
+
+  function deleteOnPaste(e){
+    e.preventDefault()
+    setCurrInput("");
+    setCurrCharIndex(-1);
+    return false;
+  }
+
+  function checkMatch() {
+    const lineToCompare = codeLines[0]
+    const doesItMatch = lineToCompare === currInput.trim()
+    if (doesItMatch) {
+      const tempArr = [...codeLines]
+      const element = tempArr.shift();
+
+      const tempArr2 = [...completedCodeLines]
+      tempArr2.shift();
+      tempArr2.push(element);
+
+      setCodeLines(tempArr);
+      setCompletedCodeLines(tempArr2);
+      setCurrLineIndex(currLineIndex + 1);
+    } else {
+      console.log("incorrect");
+    }
+  }
+
   //Answer Verification ------------------------------------------------------------------------------------------------------------------------
 
   function checkAnswers(){
@@ -144,7 +209,7 @@ function TaskDashboard(props) {
       }
     }
 
-    if (task.type == "find-in-the-blanks"){
+    if (task.type == "fill-in-the-blanks"){
       let numCorrect = 0;
       let errors = [];
       for (let i = 0; i < task.answerLines.length; i++){
@@ -239,6 +304,58 @@ function TaskDashboard(props) {
           )
         }
       }
+      if (task.type == "type-the-code"){
+        if (codeLines.length == 0){
+          splitCodeIntoLines();
+        }
+        if (codeLines.length > 0){
+          return (
+            <>
+            <br />
+              <div>
+                {completedCodeLines.map((line, index) => (
+                    <p className="codeLine codeLine__completed greenText listP" key={index}>
+                      {line}
+                    </p>
+                  ))}
+              </div>
+
+              <div className="answersForm-container">
+                <hr />
+                <div className="grid-container">
+                  <label className="grid-item__text" >Start Typing...</label>
+                  <input className="grid-item__input" type="text" onKeyDown={handleKeyDown} value={currInput} onChange={(e) => setCurrInput(e.target.value)} onPaste={deleteOnPaste} autocomplete="off"/>
+                </div>
+                <hr />
+              </div>
+
+              <div>
+                {codeLines.slice(0,5).map((line, index) => (
+                    <p className={`codeLine ${index == 0 ? "codeLine__first" : "codeLine__onwards"}`} key={index}>
+                      <span>
+                        {line.split("").map((char, idx) => (
+                            <span key={idx}>{char}</span>
+                          )) }
+                      </span>
+                    </p>
+                  ))}
+              </div>
+
+              {/* <div>
+                {codeLines.map((line, index) => (
+                  <p key={index}>
+                    <span>
+                      {line.split("").map((char, idx) => (
+                          <span key={idx}>{char}</span>
+                        )) }
+                    </span>
+                  </p>
+                ))}
+              </div> */}
+            </>
+          )
+        }
+      }
     }
   }
 
@@ -288,6 +405,32 @@ function TaskDashboard(props) {
                   </>
               )
           }
+          if (task.type == "type-the-code"){
+            const code = getCodeSnippet(`${task.title}__1`);
+
+            return (
+                <>
+                    <SyntaxHighlighter  wrapLines={true} 
+                                        wrapLongLines={true}
+                                        lineProps={lineNumber => {
+                                          let style = { display: 'block' };
+                                          if (lineNumber == currLineIndex+1) {
+                                              style.backgroundColor = '#2d3a3aff';
+                                          }
+                                          return { style };
+                                          }}  
+                                        customStyle={{ 
+                                            fontSize: 13.5, 
+                                            backgroundColor: 'transparent', 
+                                            padding: 0, 
+                                            margin: 0 }}
+                                        showLineNumbers={true} 
+                                        language={getLanguage()} 
+                                        style={dracula}
+                                        children={code} />
+                </>
+            )
+        }
       }
   } 
 
@@ -405,8 +548,8 @@ function TaskDashboard(props) {
 
   return (
     <>
+    {displayTaskCompletedCard()}    
       <div class="taskDashboard grid-container">
-      {displayTaskCompletedCard()}    
         <div class="grid-item__name">
             {displayTitleCard()}
         </div>

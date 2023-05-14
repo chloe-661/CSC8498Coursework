@@ -59,12 +59,64 @@ footer p {
     margin: 0px;
 }`;
 
+const Test6__1 = 
+`<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Login Form</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<header>
+			<h3>My Login Form Example</h3>
+		</header>
+	
+		<div id="loginForm">
+			<!-- Content will go here -->
+		</div>
+
+		<footer>
+			<p>WebDev</p>
+		</footer>
+	</body>
+	<script type="text/javascript" src="login.js"></script>
+</html>`;
+
+const Test6__2 = 
+`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login Form</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+<h3>My Login Form Example</h3>
+</header>
+<div id="loginForm">
+<!-- Content will go here -->
+</div>
+<footer>
+<p>WebDev</p>
+</footer>
+</body>
+<script type="text/javascript" src="login.js"></script>
+</html>`;
+
 function getCodeSnippet(taskName){
     switch (taskName){
         case "Setup the page":
             return setupThePage;
 		case "Style the page":
 			return styleThePage;
+		case "Test6__1":
+			return Test6__1;	
+		case "Test6__2":
+			return Test6__2;
     }
 }
 

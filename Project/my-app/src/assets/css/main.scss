@@ -123,6 +123,16 @@ a {
   font-weight: bold;
 }
 
+.codeLine {
+  font-size: 13.5px !important;
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
+}
+
+.codeLine__onwards, .codeLine__completed {
+  font-size: 13.5px !important;
+  opacity: 0.5;
+}
+
 // Navigation -----------------------------------------------------------------------------------------------------------------
 
 .navbar {
