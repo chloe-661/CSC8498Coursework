@@ -94,7 +94,6 @@ function Dashboard() {
 
           const timeInMilliseconds = getTimeDurationInMilliseconds(x.startTime, x.endTime);
           const timeFormatted = convertMillisecondsToMinutesAndSeconds(timeInMilliseconds);
-          console.log(timeFormatted);
           x.duration = timeFormatted;
 
           coop.push(x);

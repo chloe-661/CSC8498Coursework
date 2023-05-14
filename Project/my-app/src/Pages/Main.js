@@ -394,10 +394,11 @@ function Main (){
     
             if (sessionDbThisUserData.leader){
                 completeSessionInDb(sessionDbData.sessionId, time);
+
+                for (let i=0; i < sessionDbUserData.length; i++){
+                    const request = await saveSessionDataToUser(sessionDbUserData[i].uid, sessionDbData.startTime, time, "hOOK382sKTHDCyOaaV0m", sessionDbData.taskSetId, sessionPeople, sessionDbUserData[i].role);
+                }
             }
-    
-            const request = await saveSessionDataToUser(user.uid, sessionDbData.startTime, time, "hOOK382sKTHDCyOaaV0m", sessionDbData.taskSetId, sessionPeople, sessionDbThisUserData.role);
-            console.log("testing Request");
         }  
     }
     
