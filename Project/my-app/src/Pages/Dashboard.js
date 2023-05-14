@@ -6,6 +6,7 @@ import { query, collection, getDocs, where } from "firebase/firestore";
 
 //Styles
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 //Components
 import Background1 from '../components/Background1';
@@ -16,7 +17,6 @@ function Dashboard() {
   const navigate = useNavigate();
   const fetchUserName = async () => {
     try {
-        console.log("trying");
       const q = query(collection(db, "users"), where("uid", "==", user?.uid));
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
@@ -33,19 +33,31 @@ function Dashboard() {
   }, [user, loading]);
   return (
     <>
-        <div className="dashboard">
-            <div className="dashboard__container">
-                <h2>Logged in as:</h2>
-                <div>
-                    <p>{name}</p>
-                    <p>{user?.email}</p>
-                </div>
-                <Button className="dashboard__btn" onClick={logout}>
-                Logout
-                </Button>
-            </div>
+    <div className="gameFrameContainer">
+      <div className="gameFrame">
+        <div class="userDashboard grid-container">
+          <div class="grid-item__details">
+
+          <Card className="userDashboard__detailsCard">
+            <Card.Body>
+                <Card.Title>LOGGED IN AS:</Card.Title>
+                <hr />
+                <Card.Text>{name}</Card.Text>
+                <Card.Text>{user?.email}</Card.Text>
+                <Button className="dashboard__btn" onClick={logout}>Logout</Button>
+            </Card.Body>
+            </Card>
+          </div>
+          <div class="grid-item__solo">
+            
+          </div>
+          <div class="grid-item__coop">
+            
+          </div>
         </div>
-        <Background1 />
+        </div>
+        </div>
+          <Background1 />
      </>
   );
 }

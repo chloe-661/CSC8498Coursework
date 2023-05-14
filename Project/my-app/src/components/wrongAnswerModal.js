@@ -2,6 +2,34 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function WrongAnswerModal(props) {
+
+function getMessage(){
+    if (props.errors.taskType == "type-the-code"){
+        return (
+            <>
+                <h4>You need to finish typing all lines of the code</h4>
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <h4>Some of your answers are wrong</h4>
+                <p className="listP">Correct: {props.errors.correct} &nbsp;&nbsp;&nbsp; Wrong: {props.errors.wrong}</p>
+                <p>Go back and see if you can figure it out.</p>
+                <hr />
+                <p className="bold">Below are the answers you got wrong:</p>
+                {props.errors.err.map(({ lineNum, correction }, index) => (
+                            <p className="listP" key={index}>Line Number: {lineNum} &nbsp;&nbsp;&nbsp; Answer: {correction}</p>
+                ))}
+                <hr />
+                <p className=" greenText listP bold"><u>Note:</u></p>
+                <p className=" greenText listP"><i>- Check that there are no unnecessary spaces in your answer</i></p>
+                <p className=" greenText listP"><i>- You don't need to include the symbol at the end of the line if you're doing a task that involves finding and correcting the errors, unless that is the error. For example, write "10px" NOT "10px;" but if a line is missing the ";", then ";" alone is your answer</i></p>
+            </>
+        )
+    }
+}
   return (
     <Modal
       {...props}
@@ -16,18 +44,7 @@ function WrongAnswerModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Some of your answers are wrong</h4>
-        <p className="listP">Correct: {props.errors.correct} &nbsp;&nbsp;&nbsp; Wrong: {props.errors.wrong}</p>
-        <p>Go back and see if you can figure it out.</p>
-        <hr />
-        <p className="bold">Below are the answers you got wrong:</p>
-        {props.errors.err.map(({ lineNum, correction }, index) => (
-                    <p className="listP" key={index}>Line Number: {lineNum} &nbsp;&nbsp;&nbsp; Answer: {correction}</p>
-        ))}
-        <hr />
-        <p className=" greenText listP bold"><u>Note:</u></p>
-        <p className=" greenText listP"><i>- Check that there are no unnecessary spaces in your answer</i></p>
-        <p className=" greenText listP"><i>- You don't need to include the symbol at the end of the line if you're doing a task that involves finding and correcting the errors, unless that is the error. For example, write "10px" NOT "10px;" but if a line is missing the ";", then ";" alone is your answer</i></p>
+        {getMessage()};
       </Modal.Body>
       <Modal.Footer>
         <Button className="closeButton__text" onClick={props.onHide}>Close</Button>

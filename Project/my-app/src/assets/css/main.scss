@@ -887,6 +887,80 @@ label {
     }
   }
 
+  .userDashboard {
+    display: grid;
+    min-height: 100%;
+    max-height: 100%;
+    width: 100%;
+    // grid-template-columns: auto auto auto auto auto auto;
+    // grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 20% auto auto auto auto;
+    grid-template-rows: 40% 60%;
+  }
+  
+ .userDashboard .grid-item__details {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    width: 100%;
+    padding-left: 1rem;
+    padding-top: 0;
+    // padding-bottom: 0.5rem;
+    padding-bottom: 0;
+    margin-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .userDashboard__detailsCard .card {
+    text-align: center;
+    background-color: rgba(36, 130, 50, 0.2); 
+    border: 1px dashed $pigment-green;
+    border-radius: 10px;
+  }
+
+  .userDashboard__detailsCard .card-title{
+    text-decoration: none !important;
+  }
+
+  .userDashboard__detailsCard .btn {
+    margin: 0 !important;
+  }
+  
+  .userDashboard .grid-item__solo {
+    width: 100%;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    padding-left: 1rem;
+    // padding-top: 0.5rem;
+    padding-top: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    // padding-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  .taskDashboard .grid-item__coop {
+    width: 100%;
+    grid-column-start: 4;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    // padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+  }
+
 // Modals
 
 .modal-body h4 {

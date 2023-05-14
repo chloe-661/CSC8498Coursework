@@ -454,12 +454,12 @@ function Main (){
         setSessionDbTaskData(null);
         setSessionDbUserData(null);
         setSessionDbThisUserData(null);
-        setGameMode(null); //Solo or Coop
-        setSessionStartType(null); //Start a new session or join an existing one
-        setInputtedSessionKey(null); //e.g The users attempt to add a session key
-        setSessionKey(null); //A valid session that can be joined
-        setSessionPeople(null); //How many people in the group
-        setSessionStarted(false); //e.g 02:34 (2mins, 34 seconds)
+        setGameMode(null); 
+        setSessionStartType(null); 
+        setInputtedSessionKey(null);
+        setSessionKey(null);
+        setSessionPeople(null); 
+        setSessionStarted(false); 
     }
 
     //Element Display Functions ----------------------------------------------------------------------------------------------------------------------
@@ -499,7 +499,7 @@ function Main (){
                                 ))}
                                 <div>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
-                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
                                 </div>
                             </>
                         )
@@ -577,7 +577,7 @@ function Main (){
                             </GameOptionsCard>
                             <div>
                             <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
-                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
+                            <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
                             </div>
                         </>
                     )
@@ -600,7 +600,7 @@ function Main (){
                                 ))}
                                 <div>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
-                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 1)}>Go Back</Button>
+                                    <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
                                 </div>
                             </>
                         )

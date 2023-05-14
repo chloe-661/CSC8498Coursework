@@ -27,24 +27,24 @@ function TaskDashboard(props) {
 
   //State ------------------------------------------------------------------------------------------------------------------------
 
-  const [task, setTask] = useState(null); //The task and all it's details
-  const [showWrongAnswerModal, setShowWrongAnswerModal] = useState(false); //Modal popup that shows which answers were wrong
-  const [showHintModal, setShowHintModal] = useState(false); //Modal popup that shows some hints for the task
-  const [inputs, setInputs] = useState(null); //The answers the user has inputted/submitted
-  const [submitAnswers, setSubmitAnswers] = useState({ //The outcome of the answers the user has submitted
+  const [task, setTask] = useState(null);                                     //The task and all it's details
+  const [showWrongAnswerModal, setShowWrongAnswerModal] = useState(false);    //Modal popup that shows which answers were wrong
+  const [showHintModal, setShowHintModal] = useState(false);                  //Modal popup that shows some hints for the task
+  const [inputs, setInputs] = useState(null);                                 //The answers the user has inputted/submitted
+  const [submitAnswers, setSubmitAnswers] = useState({                        //The outcome of the answers the user has submitted
     success: false,
+    taskType: " ",
     correct: 0,
     wrong: 0,
     err: [],
   });
 
+          //For the type-the-code tasks
   const [codeLines, setCodeLines] = useState([])
   const [numCodeLines, setNumCodeLine] = useState(0);
   const [completedCodeLines, setCompletedCodeLines] = useState (["...", "...", "..."])
-  const [codeWords, setCodeWords] = useState([])
   const [currInput, setCurrInput] = useState("")
   const [currLineIndex, setCurrLineIndex] = useState(0)
-  const [currWordIndex, setCurrWordIndex] = useState(0)
   const [currCharIndex, setCurrCharIndex] = useState(-1)
   const [currChar, setCurrChar] = useState("")
 
@@ -229,6 +229,7 @@ function TaskDashboard(props) {
       if (numCorrect == task.answers.length){        
         const result = {
           success: true,
+          taskType: "find-the-errors",
           correct: numCorrect,
           wrong: errors.length,
           err: errors,
@@ -239,6 +240,7 @@ function TaskDashboard(props) {
       else {
         const result = {
           success: false,
+          taskType: "find-the-errors",
           correct: numCorrect,
           wrong: errors.length,
           err: errors,
@@ -267,6 +269,7 @@ function TaskDashboard(props) {
       if (numCorrect == task.answers.length){        
         const result = {
           success: true,
+          taskType: "fill-in-the-blanks",
           correct: numCorrect,
           wrong: errors.length,
           err: errors,
@@ -277,6 +280,7 @@ function TaskDashboard(props) {
       else {
         const result = {
           success: false,
+          taskType: "fill-in-the-blanks",
           correct: numCorrect,
           wrong: errors.length,
           err: errors,
@@ -291,6 +295,7 @@ function TaskDashboard(props) {
       if (currLineIndex >= numCodeLines){
         const result = {
           success: true,
+          taskType: "type-the-code",
           correct: 0,
           wrong: 0,
           err: [],
@@ -300,11 +305,13 @@ function TaskDashboard(props) {
       else {
         const result = {
           success: false,
+          taskType: "type-the-code",
           correct: [],
           wrong: [],
           err: [],
         }
         setSubmitAnswers(result);
+        setShowWrongAnswerModal(true);
       }
     }
   }
@@ -396,7 +403,7 @@ function TaskDashboard(props) {
               </div>
 
               <div>
-                {codeLines.slice(0,2).map((line, index) => (
+                {codeLines.slice(0,4).map((line, index) => (
                     <p className={`codeLine ${index == 0 ? "codeLine__first" : "codeLine__onwards"}`} key={index}>
                       <span>
                         {line.split("").map((char, idx) => (
@@ -589,7 +596,7 @@ function TaskDashboard(props) {
         <>
           <Card className="answers">
             <Card.Body>
-                <Card.Title>Put your answers here:</Card.Title>
+                <Card.Title>Answers:</Card.Title>
                 <Card.Text>
                   <form>
                     {task ? formatAnswers() : <p>Loading...</p>}
