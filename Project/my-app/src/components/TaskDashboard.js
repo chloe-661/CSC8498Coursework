@@ -80,6 +80,54 @@ function TaskDashboard(props) {
     }
   }
 
+  function handleKeyDown(e) {
+    // enter 
+    if (e.keyCode === 13){
+      console.log("Enter was pressed")
+      e.preventDefault();
+
+      checkMatch()
+      setCurrInput("")
+      setCurrCharIndex(-1)
+    }
+    // backspace
+    else if (e.keyCode === 8) {
+      setCurrCharIndex(currCharIndex - 1)
+      setCurrChar("")
+    } 
+    else if (e.shiftKey && e.keyCode !== 16) {
+      setCurrCharIndex(currCharIndex + 1)
+      setCurrChar(e.key)
+    }
+    else if (!e.shiftKey){
+      setCurrCharIndex(currCharIndex + 1)
+      setCurrChar(e.key)
+    }
+  }
+
+  function deleteOnPaste(e){
+    e.preventDefault()
+    setCurrInput("");
+    setCurrCharIndex(-1);
+    return false;
+  }
+
+  function resetAll(){
+    splitCodeIntoLines();
+    setCompletedCodeLines(["...", "...", "... ", "... ", "... "]);
+    setCurrInput("");
+    setCurrLineIndex(0);
+    setCurrCharIndex(-1);
+    setCurrChar("");
+  
+  }
+
+  function resetLine(){
+    setCurrInput("");
+    setCurrCharIndex(-1);
+    setCurrChar("");
+  }
+
   //Initalisations ------------------------------------------------------------------------------------------------------------------------
 
   function initaliseFormInputs(){
@@ -122,33 +170,6 @@ function TaskDashboard(props) {
 
   //Functionality ------------------------------------------------------------------------------------------------------------------------
 
-  function handleKeyDown(e) {
-    // enter 
-    if (e.keyCode === 13){
-      console.log("Enter was pressed")
-      e.preventDefault();
-
-      checkMatch()
-      setCurrInput("")
-      setCurrCharIndex(-1)
-    }
-    // backspace
-    else if (e.keyCode === 8) {
-      setCurrCharIndex(currCharIndex - 1)
-      setCurrChar("")
-    } else {
-      setCurrCharIndex(currCharIndex + 1)
-      setCurrChar(e.key)
-    }
-  }
-
-  function deleteOnPaste(e){
-    e.preventDefault()
-    setCurrInput("");
-    setCurrCharIndex(-1);
-    return false;
-  }
-
   function checkMatch() {
     const lineToCompare = codeLines[0]
     const doesItMatch = lineToCompare === currInput.trim()
@@ -165,6 +186,23 @@ function TaskDashboard(props) {
       setCurrLineIndex(currLineIndex + 1);
     } else {
       console.log("incorrect");
+    }
+  }
+
+  function getCharClass(lineIdx, charIdx, char) {
+    if (charIdx === currCharIndex+1){
+      return 'codeChar__current'
+    }
+    if (lineIdx === 0 && charIdx === currCharIndex && currChar) {
+      if (char === currChar) {
+        return 'codeChar__success'
+      } else {
+        return 'codeChar__error'
+      }
+    } else if (lineIdx === 0 && currCharIndex >= codeLines[0].length) {
+      return 'codeChar__error'
+    } else {
+      return ''
     }
   }
 
@@ -327,6 +365,11 @@ function TaskDashboard(props) {
                   <input className="grid-item__input" type="text" onKeyDown={handleKeyDown} value={currInput} onChange={(e) => setCurrInput(e.target.value)} onPaste={deleteOnPaste} autocomplete="off"/>
                 </div>
                 <hr />
+                <div className="task-reset">
+                  <Button className="reset__small" onClick={resetAll}>Reset All</Button>
+                  <Button className="reset__small" onClick={resetLine}>Reset Current Line</Button>  
+                  </div>
+                <hr />
               </div>
 
               <div>
@@ -334,7 +377,7 @@ function TaskDashboard(props) {
                     <p className={`codeLine ${index == 0 ? "codeLine__first" : "codeLine__onwards"}`} key={index}>
                       <span>
                         {line.split("").map((char, idx) => (
-                            <span key={idx}>{char}</span>
+                            <span className={getCharClass(index, idx, char)} key={idx}>{char}</span>
                           )) }
                       </span>
                     </p>

@@ -133,6 +133,18 @@ a {
   opacity: 0.5;
 }
 
+.codeChar__current {
+  background-color: rgba(252, 255, 252, 0.2);
+}
+
+.codeChar__success {
+  background-color: green;
+}
+
+.codeChar__error {
+  background-color: red;
+}
+
 // Navigation -----------------------------------------------------------------------------------------------------------------
 
 .navbar {
@@ -292,6 +304,31 @@ a {
 
 .locked-btn {
   width: 46.5px !important;
+}
+
+.task-reset {
+  text-align: center;
+}
+
+.reset__small {
+  font-size: 13.5px;
+  text-align: center !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-right: 0.5rem !important;
+  margin-left: 0.5rem !important;
+  color: $baby-powder !important;
+  background-color: $gunmetal !important;
+
+  &:hover {
+    background-color: red !important;
+    color: black !important;
+    border-color: red !important;
+  }
 }
 
 // Cards -----------------------------------------------------------------------------------------------------
