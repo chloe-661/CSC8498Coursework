@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 //Styles
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/css/Main.scss';
+import './assets/css/main.scss';
 
 //Components
 import Navigation from './components/Navigation';
