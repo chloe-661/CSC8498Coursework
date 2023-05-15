@@ -596,7 +596,7 @@ function Main (){
                     if (sessionWebStack == null && allWebStacks != null){
                         return (
                             <>
-                                <h1 class="title2">CO-OP</h1>
+                                <h1 class="title2">SOLO</h1>
                                 <h4>Pick the languages you want the tasks to be based on</h4>
                                 {allWebStacks.map(({webStackId, languages}, index) => (
                                     <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>

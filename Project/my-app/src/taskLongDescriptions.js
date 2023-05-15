@@ -6,10 +6,82 @@ Specification:
 - The header should be grey and should fill the entire width of the page. There should be 10px of padding on all sides. All text should be 16px in size, aligned to the left, and white.
 - The footer should be fixed to the bottom of the page and fill the entire width of the page. All text should be green and centered. There should be 10px of padding on all sides`;
 
+const ScgiEQug6VqA9TgP3BmJ = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const qfjcrYfg3oSZHdgQKGbb = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const TGTrWGPoHoYVMpIH8mBa = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const gTYjs6HRmJHWA7yS0dOr = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const faQppom7TTGcEghqk9m = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const PH1IbycfnWpa4wAwqjDI = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const czWoH3s26oKQsQ0pCbpB = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
+const nkMHX38JUXuA1oIwQa3a =
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
 function getTaskLongDescription(taskId){
     switch (taskId){
         case "sBtAOBWivZcOlbjCkf89":
             return sBtAOBWivZcOlbjCkf89;
+        case "ScgiEQug6VqA9TgP3BmJ":
+            return ScgiEQug6VqA9TgP3BmJ;
+        case "qfjcrYfg3oSZHdgQKGbb":
+            return qfjcrYfg3oSZHdgQKGbb;
+        case "TGTrWGPoHoYVMpIH8mBa":
+            return TGTrWGPoHoYVMpIH8mBa;
+        case "gTYjs6HRmJHWA7yS0dOr":
+            return gTYjs6HRmJHWA7yS0dOr;
+        case "3faQppom7TTGcEghqk9m":
+            return faQppom7TTGcEghqk9m;
+        case "PH1IbycfnWpa4wAwqjDI":
+            return PH1IbycfnWpa4wAwqjDI;
+        case "czWoH3s26oKQsQ0pCbpB":
+            return czWoH3s26oKQsQ0pCbpB;
+        case "nkMHX38JUXuA1oIwQa3a":
+            return nkMHX38JUXuA1oIwQa3a;
     }
 }
 

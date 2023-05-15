@@ -1,26 +1,26 @@
 const setupThePage = 
-`<!DOCTYPE html>
+`<!DOCTYPE ???>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<??? name="viewport" content="width=device-width, initial-scale=1">
 		<title>Login Form</title>
-		<link rel="stylesheet" href="styles.css">
-	</head>
+		<link rel="stylesheet" href="styles.???">
+	???
 	<body>
 		<header>
-			<h3>My Login Form Example</h3>
+			???My Login Form Example</h3>
 		</header>
 	
-		<div id="loginForm">
+		<div id???"loginForm">
 			<!-- Content will go here -->
 		</div>
 
 		<footer>
-			<p>WebDev</p>
-		</footer>
+			<p>WebDev???
+		???
 	</body>
-	<script type="text/javascript" src="login.js"></script>
+	<script ???="text/javascript" src="login.js"></script>
 </html>`;
 
 const styleThePage = 
@@ -107,6 +107,449 @@ const Test6__2 =
 <script type="text/javascript" src="login.js"></script>
 </html>`;
 
+const PracticeBasicTags__1 = 
+`<!DOCTYPE html>
+<html>
+	<head>
+		<title> Page Title </title>
+		<meta charset="">
+		<meta name="" content="">
+		<link rel="stylesheet" href="">
+		<style> </style>
+	</head>
+	<body>
+		<h1> Heading 1 </h1>
+		<h2> Heading 2 </h2>
+		<h3> Heading 3 </h3>
+		<h4> Heading 4 </h4>
+		<h5> Heading 5 </h5>
+		<h6> Heading 6 </h6>
+		<p> Paragraph </p>
+		<a href=""> Link </a>
+		<img src="" alt="">
+		<ul>
+			<li> item </li>
+			<li> item </li>
+			<li> item </li>
+		</ul>
+		<ol>
+			<li> item </li>
+			<li> item </li>
+			<li> item </li>
+		</ol>
+		<script> </script>
+	</body>
+</html>`
+
+const PracticeBasicTags__2 = 
+`<!DOCTYPE html>
+<html>
+<head>
+<title> Page Title </title>
+<meta charset="">
+<meta name="" content="">
+<link rel="stylesheet" href="">
+<style> </style>
+</head>
+<body>
+<h1> Heading 1 </h1>
+<h2> Heading 2 </h2>
+<h3> Heading 3 </h3>
+<h4> Heading 4 </h4>
+<h5> Heading 5 </h5>
+<h6> Heading 6 </h6>
+<p> Paragraph </p>
+<a href=""> Link </a>
+<img src="" alt="">
+<ul>
+<li> item </li>
+<li> item </li>
+<li> item </li>
+</ul>
+<ol>
+<li> item </li>
+<li> item </li>
+<li> item </li>
+</ol>
+<script> </script>
+</body>
+</html>`
+
+const PracticeAttributes__1 = 
+`<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="">
+		<meta name="" content="">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<h1 id="title"> This has a unique ID attribute </h1>
+		<h2 class="blueFont"> This has a class attribute</h2>
+		<h3 class="blueFont"> This has the same class attribute, as classes can be used multiple times </h3>
+		<h4 id="miniTitle" class="blueFont"> This has both an ID attribute and a class attribute </h4>
+		<a href="www.google.com"> This has an attribute that includes a url to make a hyperlink </a>
+		<p style="color:red;"> This has a style attribute that allows you to put CSS on the element </p>
+		<img src="dog.jpg" alt="dog" width="500" height="600">
+			<!-- the src attribute contains a url, the alt attribute describes the img in words, the width and height attribute set the size of the image -->
+	</body>
+</html>`
+
+const PracticeAttributes__2 = 
+`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="">
+<meta name="" content="">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1 id="title"> This has a unique ID attribute </h1>
+<h2 class="blueFont"> This has a class attribute</h2>
+<h3 class="blueFont"> This has the same class attribute, as classes can be used multiple times </h3>
+<h4 id="miniTitle" class="blueFont"> This has both an ID attribute and a class attribute </h4>
+<a href="www.google.com"> This has an attribute that includes a url to make a hyperlink </a>
+<p style="color:red;"> This has a style attribute that allows you to put CSS on the element </p>
+<img src="dog.jpg" alt="dog" width="500" height="600">
+<!-- the src attribute contains a url, the alt attribute describes the img in words, the width and height attribute set the size of the image -->
+</body>
+</html>`
+
+const PracticeTables__1 = 
+`<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="">
+		<meta name="" content="">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<table>
+			<tr>
+				<th> Dogs </th>
+				<th> Cats </th>
+				<th> Fish </th>
+			</tr>
+			<tr>
+				<td> Husky </td>
+				<td> Persian </td>
+				<td> ClownFish </td>
+			</tr>
+			<tr>
+				<td> Pug </td>
+				<td> Siamese </td>
+				<td> Cod </td>
+			</tr>
+		</table>
+	</body>
+</html>`
+
+const PracticeTables__2 = 
+`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="">
+<meta name="" content="">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<table>
+<tr>
+<th> Dogs </th>
+<th> Cats </th>
+<th> Fish </th>
+</tr>
+<tr>
+<td> Husky </td>
+<td> Persian </td>
+<td> ClownFish </td>
+</tr>
+<tr>
+<td> Pug </td>
+<td> Siamese </td>
+<td> Cod </td>
+</tr>
+</table>
+</body>
+</html>`
+
+const PracticeFonts__1 = 
+`body {
+	font-family: "Times New Roman", Times, serif;
+}	
+h1 {
+	color: green;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 200%;
+	font-weight: bolder;
+	text-align: center;
+	text-decoration: overline underline;
+}
+h2 {
+	color: red;
+	font-size: large;
+	font-weight: bold;
+	font-style: italic;
+	text-align: left;
+	text-decoration: line-through;
+}
+h3 {
+	color: blue;
+	font-size: 1rem;
+	font-weight: normal
+	font-style: oblique;
+	text-align: right;
+	text-decoration: overline;
+}
+p {
+	color: black;
+	font-size: 11px;
+	font-weight: lighter
+	text-align: left;
+}
+a {
+	color: black;
+	font-size: 11px;
+	font-weight: 600
+	text-align: left;
+	text-decoration: underline;
+}`
+
+const PracticeFonts__2 = 
+`body {
+font-family: "Times New Roman", Times, serif;
+}
+h1 {
+color: green;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 200%;
+font-weight: bolder;
+text-align: center;
+text-decoration: overline underline;
+}
+h2 {
+color: red;
+font-size: large;
+font-weight: bold;
+font-style: italic;
+text-align: left;
+text-decoration: line-through;
+}
+h3 {
+color: blue;
+font-size: 1rem;
+font-weight: normal
+font-style: oblique;
+text-align: right;
+text-decoration: overline;
+}
+p {
+color: black;
+font-size: 11px;
+font-weight: lighter
+text-align: left;
+}
+a {
+color: black;
+font-size: 11px;
+font-weight: 600
+text-align: left;
+text-decoration: underline;
+}`
+
+const PracticePaddingMargin__1 = 
+`h1 {
+	margin: 100px;
+	padding: 200px;
+}
+h2 {
+	margin: auto;
+}
+h3 {
+	margin: 50%;
+	padding: 75%;
+}
+h4 {
+	margin: 1rem;
+	padding: 1em;
+}
+div {
+	margin-top: 100px;
+	margin-bottom: 40px;
+	margin-right: 150px;
+	margin-left: 80px;
+	padding-top: 100px;
+	padding-bottom: 40px;
+	padding-right: 150px;
+	padding-left: 80px;
+}
+p {
+	margin: 100px 150px 40px 80px;
+	padding: 100px 150px 40px 80px;
+}
+.container {
+	margin-top: 100px;
+	margin-bottom: 100px;
+	margin-right: 80px;
+	margin-left: 80px;
+	padding-top: 100px;
+	padding-bottom: 100px;
+	padding-right: 80px;
+	padding-left: 80px;
+}
+.container p {
+	margin: 100px 80px;
+	padding: 100px 80px;
+}`
+
+const PracticePaddingMargin__2 = 
+`h1 {
+margin: 100px;
+padding: 200px;
+}
+h2 {
+margin: auto;
+}
+h3 {
+margin: 50%;
+padding: 75%;
+}
+h4 {
+margin: 1rem;
+padding: 1em;
+}
+div {
+margin-top: 100px;
+margin-bottom: 40px;
+margin-right: 150px;
+margin-left: 80px;
+padding-top: 100px;
+padding-bottom: 40px;
+padding-right: 150px;
+padding-left: 80px;
+}
+p {
+margin: 100px 150px 40px 80px;
+padding: 100px 150px 40px 80px;
+}
+.container {
+margin-top: 100px;
+margin-bottom: 100px;
+margin-right: 80px;
+margin-left: 80px;
+padding-top: 100px;
+padding-bottom: 100px;
+padding-right: 80px;
+padding-left: 80px;
+}
+.container p {
+margin: 100px 80px;
+padding: 100px 80px;
+}`
+
+const PracticeLoops__1 =
+`// For Loop
+for (let i = 0; i < 5; i++) {
+	let multiplesOfTwo = 2 * i;
+	console.log(multiplesOfTwo);
+}
+// For-in Loop with an array
+const numbers = [45, 4, 9, 16, 25];
+for (let n in numbers) {
+	let cummulative = cummulative + numbers[n];
+	console.log(cummulative);
+}
+// For-in Loop with a object
+const person = {firstName:"Jane", lastName:"Doe", age:18};
+let text = "";
+for (let p in person) {
+	text = text + person[p];
+}
+console.log(text)
+// While Loop
+const max = 100;
+let i = 0;
+while (i < max){
+	console.log(i)
+	i++
+}
+// Do While Loop
+const maximum = 50;
+let j = 0;
+do {
+	j = j * 10;
+}
+while (j < maximum);`
+
+const PracticeLoops__2 =
+`// For Loop
+for (let i = 0; i < 5; i++) {
+let multiplesOfTwo = 2 * i;
+console.log(multiplesOfTwo);
+}
+// For-in Loop with an array
+const numbers = [45, 4, 9, 16, 25];
+for (let n in numbers) {
+let cummulative = cummulative + numbers[n];
+console.log(cummulative);
+}
+// For-in Loop with a object
+const person = {firstName:"Jane", lastName:"Doe", age:18};
+let text = "";
+for (let p in person) {
+text = text + person[p];
+}
+console.log(text)
+// While Loop
+const max = 100;
+let i = 0;
+while (i < max){
+console.log(i)
+i++
+}
+// Do While Loop
+const maximum = 50;
+let j = 0;
+do {
+j = j * 10;
+}
+while (j < maximum);`
+
+const PracticeGettingDOMElements =
+`// Get elements from the DOM
+document.getElementById("id");
+document.getElementsByTagName("h1");
+document.getElementsByClassName("name");
+// Change elements from the DOM
+document.getElementById("id").innerHTML = newHtmlContent;
+document.getElementsByTagName("h1").attribute = newValue;
+document.getElementsByClassName("name").style.property = newStyle;
+document.getElementById("id").setAttribute(attribute, value);
+// Add or Remove elements from the DOM
+document.createElement(element);
+document.removeChild(element);
+document.appendChild(element);
+document.replaceChild(new, old);
+document.write(text);
+// Combining them
+// Getting all elements with the id="unique"
+// Then finding all <p> elements within "unique"
+const x = document.getElementById("unique");
+const y = x.getElementsByTagName("p");`
+
+const PracticeDataRetrieval =
+`SELECT * FROM Users;
+SELECT firstName, lastName FROM Users;
+SELECT firstName, lastName FROM Users WHERE city='London';
+SELECT * FROM Users WHERE age BETWEEN 18 AND 30;
+SELECT * FROM Users WHERE country NOT 'UK';
+SELECT * FROM Users WHERE country='UK' OR 'USA';
+SELECT * FROM Users WHERE country='UK' AND city='London;
+SELECT * FROM Users ORDER BY age;
+SELECT * FROM Users ORDER BY age ASC;
+SELECT * FROM Users ORDER BY age DESC;
+SELECT * FROM Users ORDER BY age ASC, lastName DESC;`
+
 function getCodeSnippet(taskName){
     switch (taskName){
         case "Setup the page":
@@ -117,6 +560,38 @@ function getCodeSnippet(taskName){
 			return Test6__1;	
 		case "Test6__2":
 			return Test6__2;
+		case "Practice: Basic Tags__1":
+			return PracticeBasicTags__1;	
+		case "Practice: Basic Tags__2":
+			return PracticeBasicTags__2;
+		case "Practice: Attributes__1":
+			return PracticeBasicTags__1;	
+		case "Practice: Attributes__2":
+			return PracticeBasicTags__2;
+		case "Practice: Tables__1":
+			return PracticeTables__1;	
+		case "Practice: Tables__2":
+			return PracticeTables__2;
+		case "Practice: Fonts__1":
+			return PracticeFonts__1;	
+		case "Practice: Fonts__2":
+			return PracticeFonts__2;
+		case "Practice: Padding and Margins__1":
+			return PracticePaddingMargin__1;	
+		case "Practice: Padding and Margins__2":
+			return PracticePaddingMargin__2;
+		case "Practice: Loops__1":
+			return PracticeLoops__1;	
+		case "Practice: Loops__2":
+			return PracticeLoops__2;
+		case "Practice: Getting DOM Elements__1":
+			return PracticeGettingDOMElements;	
+		case "Practice: Getting DOM Elements__2":
+			return PracticeGettingDOMElements;
+		case "Practice: Data Retrieval__1":
+			return PracticeDataRetrieval;	
+		case "Practice: Data Retrieval__2":
+			return PracticeDataRetrieval;
     }
 }
 

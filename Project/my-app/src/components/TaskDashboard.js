@@ -160,6 +160,8 @@ function TaskDashboard(props) {
               return "css";
           case "Javascript":
               return "javascript";
+          case "SQL":
+            return "sql";
       }
   }
 
