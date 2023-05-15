@@ -123,6 +123,10 @@ a {
   font-weight: bold;
 }
 
+.number {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 .codeLine {
   font-size: 13.5px !important;
   font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace !important;
@@ -978,7 +982,7 @@ label {
     display: grid;
     min-height: 100%;
     width: 100%;
-    grid-template-columns: 10% auto auto auto !important;
+    grid-template-columns: 10% 30% 30% auto !important;
     grid-template-rows: auto auto !important;
     column-gap: 2.5%;
   }
@@ -1002,7 +1006,7 @@ label {
     grid-row-end: 2;
     max-height: 100%;
     overflow-y: auto;
-    text-align: center;
+    text-align: left;
   }
 
   .userResults .grid-item__roles{

@@ -62,7 +62,7 @@ function Dashboard() {
   }
   
   //Other functions -------------------------------------------------------------------------------------------------------------------------------
-  
+
   const sortResults = async() => {
     let solo = [];
     let coop = [];
@@ -99,9 +99,17 @@ function Dashboard() {
           coop.push(x);
         }
       }
+
+      const soloSorted = solo.sort(
+        (objA, objB) => Number((objA.endTime - objA.startTime)) - Number((objB.endTime - objB.startTime)),
+      );
+
+      const coopSorted = coop.sort(
+        (objA, objB) => Number((objA.endTime - objA.startTime)) - Number((objB.endTime - objB.startTime)),
+      );
         
-      setSoloResults(solo);
-      setCoopResults(coop);
+      setSoloResults(soloSorted);
+      setCoopResults(coopSorted);
     }
     
   }
@@ -175,7 +183,7 @@ function Dashboard() {
               <Card.Body>
                 <div class="grid-container">
                     <div class="grid-item__duration">
-                        <Card.Title>{duration}</Card.Title>
+                        <Card.Title className="number">{duration}</Card.Title>
                     </div>
                     <div class="grid-item__description">
                         <Card.Text>{senarioDescription}</Card.Text>
@@ -190,7 +198,7 @@ function Dashboard() {
                         </Card.Text>
                     </div>
                     <div class="grid-item__language">
-                        <Card.Text className="taskDescription__languages">
+                        <Card.Text>
                         {
                           languages.map((l, index) => (
                             <p key={index} className="tinyText listP">{l}</p>
@@ -199,7 +207,7 @@ function Dashboard() {
                         </Card.Text>
                     </div>
                     <div class="grid-item__people">
-                      <Card.Text className="taskDescription__languages">{sessionPeople}</Card.Text>
+                      <Card.Text className="number">{sessionPeople}</Card.Text>
                     </div> 
                 </div> 
               </Card.Body>
@@ -280,7 +288,7 @@ function Dashboard() {
               <Card.Body>
                 <div class="grid-container">
                     <div class="grid-item__duration">
-                        <Card.Title>{duration}</Card.Title>
+                        <Card.Title className="number">{duration}</Card.Title>
                     </div>
                     <div class="grid-item__description">
                         <Card.Text>{senarioDescription}</Card.Text>
@@ -295,7 +303,7 @@ function Dashboard() {
                         </Card.Text>
                     </div>
                     <div class="grid-item__language">
-                        <Card.Text className="taskDescription__languages">
+                        <Card.Text>
                         {
                           languages.map((l, index) => (
                             <p key={index} className="tinyText listP">{l}</p>
@@ -304,7 +312,7 @@ function Dashboard() {
                         </Card.Text>
                     </div>
                     <div class="grid-item__people">
-                      <Card.Text className="taskDescription__languages">{sessionPeople}</Card.Text>
+                      <Card.Text className="number">{sessionPeople}</Card.Text>
                     </div> 
                 </div> 
               </Card.Body>

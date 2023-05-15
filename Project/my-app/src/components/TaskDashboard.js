@@ -38,6 +38,8 @@ function TaskDashboard(props) {
     wrong: 0,
     err: [],
   });
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
 
           //For the type-the-code tasks
   const [codeLines, setCodeLines] = useState([])
@@ -172,6 +174,32 @@ function TaskDashboard(props) {
 
   //Functionality ------------------------------------------------------------------------------------------------------------------------
 
+  function startTimer() {
+    const time = Date.now();
+    setStartTime(time);
+  }
+
+  function stopTimer(){
+   const time = Date.now();
+   setEndTime(time) ;
+  }
+
+  function formatTime(){
+    const timeInMilliseconds = getTimeDurationInMilliseconds(startTime, endTime);
+    const timeFormatted = convertMillisecondsToMinutesAndSeconds(timeInMilliseconds);
+    return timeFormatted;
+  }
+
+  function convertMillisecondsToMinutesAndSeconds(milliseconds){
+    let minutes = Math.floor(milliseconds / 60000);
+    let seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+    return (minutes + ":" + (seconds < 10 ? '0' : '') + seconds);
+  }
+
+  function getTimeDurationInMilliseconds(start, end){
+      return (end - start);
+  }
+
   function checkMatch() {
     const lineToCompare = codeLines[0]
     const doesItMatch = lineToCompare === currInput.trim()
@@ -215,10 +243,18 @@ function TaskDashboard(props) {
       let numCorrect = 0;
       let errors = [];
       for (let i = 0; i < task.answerLines.length; i++){
-        if (inputs[i].lineNum == task.answerLines[i] && inputs[i].correction == task.answers[i]){
-          numCorrect++;
+        let found = false;
+        for (let j = 0; j < task.answerLines.length; j++){
+          if (inputs[i].lineNum == task.answerLines[j]){
+            if (inputs[i].correction == task.answers[j]){
+              numCorrect++;
+              found = true;
+              break;
+            }
+          }
         }
-        else {
+
+        if (!found){
           errors.push ({
             lineNum: inputs[i].lineNum,
             correction: inputs[i].correction,
@@ -515,29 +551,37 @@ function TaskDashboard(props) {
   function displayTaskCompletedCard(){
     if (task != null){
       if (submitAnswers.success){
-        return (
-          <>
-            <h1 class="title2">SUCCESS</h1>
-            <Card>
-              <Card.Body>
-                <Card.Title className="taskDashboard__title">TASK COMPLETED</Card.Title>
-                <br />
-                <Card.Text>Congradulations, you got all the answers correct</Card.Text>
-                <Card.Text>TIME</Card.Text>
-                <hr />
-                <Card.Text>Type: &nbsp; {task.type} </Card.Text>
-                <Card.Text>Language: &nbsp; {task.language} </Card.Text>
-                <Card.Text>Role: &nbsp; {task.role}</Card.Text>
-                <Button onClick={handleCompleted}>Continue</Button>
-              </Card.Body>
-            </Card>
-          </>
-        )
+        if (endTime == null){
+          stopTimer();
+        }
+        else {
+          return (
+            <>
+              <h1 class="title2">SUCCESS</h1>
+              <Card>
+                <Card.Body>
+                  <Card.Title className="taskDashboard__title">TASK COMPLETED</Card.Title>
+                  <br />
+                  <Card.Text>Congradulations, you got all the answers correct</Card.Text>
+                  <Card.Text>{formatTime()}</Card.Text>
+                  <hr />
+                  <Card.Text>Type: &nbsp; {task.type} </Card.Text>
+                  <Card.Text>Language: &nbsp; {task.language} </Card.Text>
+                  <Card.Text>Role: &nbsp; {task.role}</Card.Text>
+                  <Button onClick={handleCompleted}>Continue</Button>
+                </Card.Body>
+              </Card>
+            </>
+          )
+        }
       }
     }
   }
 
   function displayTitleCard(){
+    if (startTime == null){
+      startTimer();
+    }
     if (task != null && submitAnswers.success == false){
       return (
         <>
