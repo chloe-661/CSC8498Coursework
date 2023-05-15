@@ -25,7 +25,8 @@ import {
     openTaskInDb,
     closeTaskInDb,
     completeSessionInDb,
-    saveSessionDataToUser
+    saveSessionDataToUser,
+    deleteSessionInDb
 } from "../firebase";
 
 //Styles
@@ -172,8 +173,8 @@ function Main (){
             setSessionDbTaskData(x);
         });
 
-        //Unsubscribes when a user quits the session
-        //Doesn't work for some reason.......
+        // Unsubscribes when a user quits the session
+        // Doesn't work for some reason.......
         if (subscribe == false){
             console.log("Unsubscribing");
             snap1()
@@ -422,6 +423,7 @@ function Main (){
             if (u.uid == user.uid){
                 if (u.leader){
                     //Delete the session
+                    // snap(sessionDbData.sessionId, false);
                     // deleteSessionInDb(sessionDbData.sessionId);
                     
                     

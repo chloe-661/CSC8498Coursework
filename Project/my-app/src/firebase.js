@@ -538,7 +538,6 @@ const joinSessionInDb = async (inputtedSessionKey, uid) => {
         if (querySnapshot3.empty){
             console.log("1");
             if (querySnapshot2.size < 5) {
-                console.log("helllllllllllllllllllllllllll");
                 addDoc (collection(db, "sessions", sessionId, "users"), {
                     uid: uid,
                     leader: false,
@@ -609,7 +608,34 @@ const completeSessionInDb = async(sessionId, time) => {
 
 const deleteSessionInDb = async(sessionId) => {
     try {
-        const request = await deleteDoc(doc(db, "sessions", sessionId));
+        // const request = await deleteDoc(doc(db, "sessions", sessionId));
+
+        const q = query(collection(db, "sessions", sessionId, "users"));
+        const q2 = query(collection(db, "sessions", sessionId, "tasks"));
+        const querySnapshot = await getDocs(q);
+        const querySnapshot2 = await getDocs(q2);
+
+        console.log(querySnapshot);
+        console.log(querySnapshot2);
+
+        querySnapshot.forEach(d => {
+            deleteDoc(doc(db, "sessions", sessionId, "users", d.id));
+        })
+
+        querySnapshot2.forEach(d => {
+            deleteDoc(doc(db, "sessions", sessionId, "tasks", d.id));
+        })
+
+        // for (let i=0; i < querySnapshot.length; i++){
+        //     console.log(querySnapshot[i]);
+        //     deleteDoc(doc(db, "sessions", sessionId, "users", querySnapshot[i].id));
+        // }
+
+        // for (let j=0; j < querySnapshot2.length; j++){
+        //     deleteDoc(doc(db, "sessions", sessionId, "tasks", querySnapshot2[j].id));
+        // }
+
+        // await deleteDoc(doc(db, "sessions", sessionId));
 
         return {
             success: true
