@@ -681,9 +681,9 @@ function getCodeSnippet(taskName){
 		case "*Practice: Basic Tags__2":
 			return PracticeBasicTags__2;
 		case "*Practice: Attributes__1":
-			return PracticeBasicTags__1;	
+			return PracticeAttributes__1;	
 		case "*Practice: Attributes__2":
-			return PracticeBasicTags__2;
+			return PracticeAttributes__2;
 		case "*Practice: Tables__1":
 			return PracticeTables__1;	
 		case "*Practice: Tables__2":
