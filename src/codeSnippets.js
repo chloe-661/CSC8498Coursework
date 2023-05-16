@@ -59,6 +59,120 @@ footer p {
     margin: 0px;
 }`;
 
+const BuildTheHTMLForm__1 =
+`<form action="/action_page.php" method="post">
+	<div class="imgcontainer">
+		<img src="./images/avatar.png" alt="Avatar" class="avatar">
+	</div>
+	<div class="container">
+		<label for="user"><b>Username</b></label>
+		<input type="text" placeholder="Enter Username" name="user" required>
+
+		<label for="pass"><b>Password</b></label>
+		<input type="password" placeholder="Enter Password" name="pass" required>
+			
+		<button type="submit">Login</button>
+		<label>
+		<input type="checkbox" checked="checked" name="remember">
+		Remember me
+		</label>
+	</div>
+	<div id="loginForm__footer" class="container">
+		<button type="button" class="cancelButton">Cancel</button>
+		<span class="psw">Forgot <a href="#">password?</a></span>
+	</div>
+</form>`
+
+const BuildTheHTMLForm__2 =
+`<form action="/action_page.php" method="post">
+<div class="imgcontainer">
+<img src="./images/avatar.png" alt="Avatar" class="avatar">
+</div>
+<div class="container">
+<label for="user"><b>Username</b></label>
+<input type="text" placeholder="Enter Username" name="user" required>
+<label for="pass"><b>Password</b></label>
+<input type="password" placeholder="Enter Password" name="pass" required>		
+<button type="submit">Login</button>
+<label>
+<input type="checkbox" checked="checked" name="remember">
+Remember me
+</label>
+</div>
+<div id="loginForm__footer" class="container">
+<button type="button" class="cancelButton">Cancel</button>
+<span class="psw">Forgot <a href="#">password?</a></span>
+</div>
+</form>`
+
+const StyleTheHTMLForm = 
+`#loginForm ???
+    width: 100%;
+}
+
+form {
+    ???: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid #f1f1f1;
+    width: 25%;
+    margin: auto;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  ???: inline-block;
+  ???: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  ???-color: green;
+  border: 1px solid white;
+  ???: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  cursor: ???;
+  width: 100%;
+}
+
+button:??? {
+  opacity: 0.8;
+  border: 1px dashed black;
+}
+
+.cancelbtn {
+  width??? auto;
+  padding: 10px 18px;
+  background-color: red;
+}
+
+.imgcontainer {
+  text-???: center;
+  margin: 24px 0 12px 0;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+#loginForm__footer {
+    background-color: #f1f1f1;
+}
+
+span.psw {
+  float: right???
+  padding-top: 16px;
+}`
+
 const Test6__1 = 
 `<!DOCTYPE html>
 <html>
@@ -556,42 +670,48 @@ function getCodeSnippet(taskName){
             return setupThePage;
 		case "Style the page":
 			return styleThePage;
+		case "Style the HTML Form":
+			return StyleTheHTMLForm;
 		case "Test6__1":
 			return Test6__1;	
 		case "Test6__2":
 			return Test6__2;
-		case "Practice: Basic Tags__1":
+		case "*Practice: Basic Tags__1":
 			return PracticeBasicTags__1;	
-		case "Practice: Basic Tags__2":
+		case "*Practice: Basic Tags__2":
 			return PracticeBasicTags__2;
-		case "Practice: Attributes__1":
+		case "*Practice: Attributes__1":
 			return PracticeBasicTags__1;	
-		case "Practice: Attributes__2":
+		case "*Practice: Attributes__2":
 			return PracticeBasicTags__2;
-		case "Practice: Tables__1":
+		case "*Practice: Tables__1":
 			return PracticeTables__1;	
-		case "Practice: Tables__2":
+		case "*Practice: Tables__2":
 			return PracticeTables__2;
-		case "Practice: Fonts__1":
+		case "*Practice: Fonts__1":
 			return PracticeFonts__1;	
-		case "Practice: Fonts__2":
+		case "*Practice: Fonts__2":
 			return PracticeFonts__2;
-		case "Practice: Padding and Margins__1":
+		case "*Practice: Padding and Margins__1":
 			return PracticePaddingMargin__1;	
-		case "Practice: Padding and Margins__2":
+		case "*Practice: Padding and Margins__2":
 			return PracticePaddingMargin__2;
-		case "Practice: Loops__1":
+		case "*Practice: Loops__1":
 			return PracticeLoops__1;	
-		case "Practice: Loops__2":
+		case "*Practice: Loops__2":
 			return PracticeLoops__2;
-		case "Practice: Getting DOM Elements__1":
+		case "*Practice: Getting DOM Elements__1":
 			return PracticeGettingDOMElements;	
-		case "Practice: Getting DOM Elements__2":
+		case "*Practice: Getting DOM Elements__2":
 			return PracticeGettingDOMElements;
-		case "Practice: Data Retrieval__1":
+		case "*Practice: Data Retrieval__1":
 			return PracticeDataRetrieval;	
-		case "Practice: Data Retrieval__2":
+		case "*Practice: Data Retrieval__2":
 			return PracticeDataRetrieval;
+		case "Build the HTML Form__1":
+			return BuildTheHTMLForm__1;	
+		case "Build the HTML Form____2":
+			return BuildTheHTMLForm__2;
     }
 }
 

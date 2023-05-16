@@ -33,6 +33,7 @@ function App() {
         <Navigation isLoggedIn={isLoggedIn} username={username}/>
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/CSC8498Coursework" element={<Home />} />
           <Route path="/test" element={<Test />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/register" element={<Register />} />

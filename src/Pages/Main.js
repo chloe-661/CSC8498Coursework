@@ -347,6 +347,9 @@ function Main (){
     const startSession = async (webStackId) => {
         const key = generateKey();
         const taskSet = await pickTaskSet(webStackId);
+        console.log(key);
+        console.log(taskSet);
+        console.log(user.uid);
         const request = await startNewSessionInDb(key, taskSet, user.uid);
 
         if (request.success){

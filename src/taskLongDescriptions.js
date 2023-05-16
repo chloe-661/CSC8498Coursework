@@ -1,3 +1,21 @@
+const PKg5RUvfZdB4i4CA6rfj = 
+`The piece of code to the side is what you have written to begin your HTML document. 
+However, when you left to make a drink, your cat walked over the keyboard and has deleted some parts of it. 
+The gaps you need to fill in again are represented by a ??? 
+Put your answers in the boxes on the right.
+For example:
+<p> Paragraph </???>
+So you would put 'p' into the answer box`;
+
+const hnwt4H97tYk88lm2tzwW = 
+`The piece of code to the side is what you have written to style your login form. 
+However, when you left to make a drink, your cat walked over the keyboard and has deleted some parts of it. 
+The gaps you need to fill in again are repsented by a ???. 
+Put your answers in the boxes on the right.
+An example: line1 = 
+background-???: red;
+Sp you would put [color] into the answer box`;
+
 const sBtAOBWivZcOlbjCkf89 = 
 `You have attempted to style the beginning of your website using the specification below but it is not looking correct. There must be some errors in your code. Try to find them all, then note down the line number and the correction. 
 For example, on line 1, body is spelt wrong. So you would input [1, body] into the answer boxes. You don't need to repeat this one.
@@ -62,6 +80,13 @@ Use the green box on the left to type the line highlighted.
 Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
 Finish copying it all to complete the task`
 
+const AGGCXqmwU8zTBUdDZxj =
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
 function getTaskLongDescription(taskId){
     switch (taskId){
         case "sBtAOBWivZcOlbjCkf89":
@@ -82,6 +107,12 @@ function getTaskLongDescription(taskId){
             return czWoH3s26oKQsQ0pCbpB;
         case "nkMHX38JUXuA1oIwQa3a":
             return nkMHX38JUXuA1oIwQa3a;
+        case "2AGGCXqmwU8zTBUdDZxj":
+            return AGGCXqmwU8zTBUdDZxj;
+        case "PKg5RUvfZdB4i4CA6rfj":
+            return PKg5RUvfZdB4i4CA6rfj;
+        case "hnwt4H97tYk88lm2tzwW":
+            return hnwt4H97tYk88lm2tzwW;
     }
 }
 

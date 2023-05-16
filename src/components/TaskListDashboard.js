@@ -51,9 +51,24 @@ function TaskListDashboard(props) {
 
   const displayTasks = () => {
     getSenario();
+    let arr = [...props.taskDetails];
+    
+    arr.sort((a, b) => {
+      let ta = a.title.toLowerCase(),
+          tb = b.title.toLowerCase();
+  
+      if (ta > tb) {
+          return -1;
+      }
+      if (ta < tb) {
+          return 1;
+      }
+      return 0;
+    });
+
     return (
       <>
-        {props.taskDetails.map(({id, title, description, role, language, completed, inUse, isLockedByDependancies, taskDependancies}) => (
+        {arr.map(({id, title, description, role, language, completed, inUse, isLockedByDependancies, taskDependancies}) => (
           <TaskDescription
             key={id}
             taskId={id}
