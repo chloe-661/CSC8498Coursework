@@ -505,6 +505,9 @@ function Main (){
                                 ))}
                                 <Card className="card-options card-options__bigger">
                                     <Card.Body>
+                                        <br />
+                                        <br />
+                                        <br />
                                         <Card.Title>MORE OPTIONS COMING SOON</Card.Title>
                                     </Card.Body>
                                 </Card>
@@ -611,6 +614,9 @@ function Main (){
                                 ))}
                                 <Card className="card-options card-options__bigger">
                                     <Card.Body>
+                                        <br />
+                                        <br />
+                                        <br />
                                         <Card.Title>MORE OPTIONS COMING SOON</Card.Title>
                                     </Card.Body>
                                 </Card>
