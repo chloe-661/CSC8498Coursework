@@ -503,6 +503,11 @@ function Main (){
                                 {allWebStacks.map(({webStackId, languages}, index) => (
                                     <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>
                                 ))}
+                                <Card className="card-options card-options__bigger">
+                                    <Card.Body>
+                                        <Card.Title>MORE OPTIONS COMING SOON</Card.Title>
+                                    </Card.Body>
+                                </Card>
                                 <div>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
@@ -604,6 +609,11 @@ function Main (){
                                 {allWebStacks.map(({webStackId, languages}, index) => (
                                     <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>
                                 ))}
+                                <Card className="card-options card-options__bigger">
+                                    <Card.Body>
+                                        <Card.Title>MORE OPTIONS COMING SOON</Card.Title>
+                                    </Card.Body>
+                                </Card>
                                 <div>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-instructions" onClick={() => setModalShow(true)}>How it works</Button>
                                     <Button style={{display:"inline-block", marginLeft: "0.5rem", marginRight: "0.5rem"}} className="btn-back" onClick={(e)=>goBackClick(e, 2)}>Go Back</Button>
@@ -617,10 +627,8 @@ function Main (){
                             <>
                                 <h1 class="title2">SOLO</h1>
                                 <GameOptionsCard className="card-options" 
-                                    title="SESSION KEY"
-                                    topLine="--------------------" 
-                                    bigText={sessionKey} 
-                                    bottomLine="--------------------" 
+                                    title="ALL SET"
+                                    text="Click the button below to start"
                                     >
                                     <Button onClick={(e)=>beginGameClick(e)}>Start</Button>
                                 </GameOptionsCard>

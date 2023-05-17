@@ -59,6 +59,35 @@ footer p {
     margin: 0px;
 }`;
 
+const SetuptheDatabase =
+`/*You would enter these commands into an SQL editor or the command line*/
+
+/*Creates a database if it doesn't already exist*/
+CREATE ??? IF NOT ??? webDev DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+/*Shows you want to edit this database*/
+USE ???;
+
+/*Creates a new table called "users"*/
+/*outlining the kind of data to be stored*/
+/*and in what format the data will be, aka a number or a string*/
+??? TABLE ??? NOT EXISTS ??? (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  username varchar(50) NOT NULL,
+  password ???(255) NOT NULL,
+  PRIMARY ??? (id)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8???
+
+/*Puts some data into the table*/
+INSERT ??? users (???, ???, ???) 
+VALUES 
+    (1, 'John_Doe', 'testPassword'),
+    (2, 'Jane_Doe', 'testPassword'),
+    (3, 'CAPTAIN_Jack_Sparrow', 'rum')???
+    (4, 'Than0s', 'snap'),
+    ???5, 'JohnDow', 'test'),
+    (6, 'JohnDow', 'test')????`
+
 const BuildTheHTMLForm__1 =
 `<form action="/action_page.php" method="post">
 	<div class="imgcontainer">
@@ -71,7 +100,7 @@ const BuildTheHTMLForm__1 =
 		<label for="pass"><b>Password</b></label>
 		<input type="password" placeholder="Enter Password" name="pass" required>
 			
-		<button type="submit">Login</button>
+		<button type="submit" id="login-form-submit" >Login</button>
 		<label>
 		<input type="checkbox" checked="checked" name="remember">
 		Remember me
@@ -93,7 +122,7 @@ const BuildTheHTMLForm__2 =
 <input type="text" placeholder="Enter Username" name="user" required>
 <label for="pass"><b>Password</b></label>
 <input type="password" placeholder="Enter Password" name="pass" required>		
-<button type="submit">Login</button>
+<button type="submit" id="login-form-submit" >Login</button>
 <label>
 <input type="checkbox" checked="checked" name="remember">
 Remember me
@@ -712,6 +741,8 @@ function getCodeSnippet(taskName){
 			return BuildTheHTMLForm__1;	
 		case "Build the HTML Form____2":
 			return BuildTheHTMLForm__2;
+		case "Setup the Database":
+			return SetuptheDatabase;
     }
 }
 
