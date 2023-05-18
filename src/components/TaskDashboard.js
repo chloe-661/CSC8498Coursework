@@ -564,7 +564,7 @@ function TaskDashboard(props) {
                 <Card.Body>
                   <Card.Title className="taskDashboard__title">TASK COMPLETED</Card.Title>
                   <br />
-                  <Card.Text>Congradulations, you got all the answers correct</Card.Text>
+                  <Card.Text>Congratulations, you got all the answers correct</Card.Text>
                   <Card.Text>{formatTime()}</Card.Text>
                   <hr />
                   <Card.Text>Type: &nbsp; {task.type} </Card.Text>

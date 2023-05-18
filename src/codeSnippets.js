@@ -693,6 +693,146 @@ SELECT * FROM Users ORDER BY age ASC;
 SELECT * FROM Users ORDER BY age DESC;
 SELECT * FROM Users ORDER BY age ASC, lastName DESC;`
 
+const ConnectToTheDatabase__1 = 
+`// This login form is using Express and MySQL to talk to a database
+// Config Modules
+const mysql = require('mysql');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+// Database connection config
+const connection = mysql.createConnection({
+	host: 'localhost',
+	user: 'root',
+	password: '',
+	database: 'users' //Name of the database
+});
+// Express Modules
+const app = express();
+app.use(session({
+	secret: 'secret', // Replace this
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'static')));
+// Logs whether the connection to the database was successful or not to the console
+connection.connect((error) => {
+    if(error) {
+        console.log(error);
+    } else {
+        console.log("MySQL connected!");
+    }
+});
+// ---
+// Data Retrieval Requests will go here
+// ---
+// States which ports should be listened to
+app.listen(3000, ()=> {
+    console.log("server started on port 3000");
+});`
+
+const ConnectToTheDatabase__2 = 
+`// This login form is using Express and MySQL to talk to a database
+// Config Modules
+const mysql = require('mysql');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+// Database connection config
+const connection = mysql.createConnection({
+host: 'localhost',
+user: 'root',
+password: '',
+database: 'users' //Name of the database
+});
+// Express Modules
+const app = express();
+app.use(session({
+secret: 'secret', // Replace this
+resave: true,
+saveUninitialized: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'static')));
+// Logs whether the connection to the database was successful or not to the console
+connection.connect((error) => {
+if(error) {
+console.log(error);
+} else {
+console.log("MySQL connected!");
+}
+});
+// ---
+// Data Retrieval Requests will go here
+// ---
+// States which ports should be listened to
+app.listen(3000, ()=> {
+console.log("server started on port 3000");
+});`
+
+const GetDataFromTheDatabase =
+`// Render login template to the screen
+// http://localhost:3000/
+app.get('/', function(request, ???) {
+	response.sendFile(path.join(__dirname + '/login.html'));
+});
+
+// Get data from the database
+// http://localhost:3000/auth
+???.post('/???', function(request, response) {
+	// Capture the input fields
+	let username = request.body.username;
+	let password = request.body.password;
+	// Ensure the input fields exists and are not empty
+	if (??? && password) {
+		// Execute SQL query that'll select the account from the database based on the specified username and password
+		connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], 
+            function(error, results, fields) {
+                // If there is an issue with the query, output the error
+                ??? (error) throw error;
+                // If the account exists
+                if (results.length > 0) {
+                    // Authenticate the user
+                    ???.session.loggedin = true;
+                    request.session.username = ???;
+                    // Redirect to home page
+                    response.???('/home');
+                } else {
+                    response.send('Incorrect Username and/or Password!');
+                }			
+                response.end();
+		    }
+        );
+	} else {
+		response.???('Please enter Username and Password!');
+		response.???();
+	}
+});
+
+// Render login template to the screen with updated values
+// http://localhost:3000/home
+app.???('/home', function(request, response) {
+	// If the user is loggedin
+	if (request.???.loggedin) {
+		// Output username
+		response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		// Not logged in
+		response.send('Please login to view this page!');
+	}
+	response.end();
+});
+
+// States which ports should be listened to
+app.listen(3000, ()=> {
+    console.log("server started on port 3000")
+})`
+
+
+
 function getCodeSnippet(taskName){
     switch (taskName){
         case "Setup the page":
@@ -743,6 +883,12 @@ function getCodeSnippet(taskName){
 			return BuildTheHTMLForm__2;
 		case "Setup the Database":
 			return SetuptheDatabase;
+		case "Connect to the Database__1":
+			return ConnectToTheDatabase__1;	
+		case "Connect to the Database__2":
+			return ConnectToTheDatabase__2;
+		case "Get Data from the Database":
+			return GetDataFromTheDatabase;
     }
 }
 

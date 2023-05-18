@@ -1,3 +1,12 @@
+const SlVspu1Z08UwV9CXlxl = 
+`The piece of code to the side is what you have written as part of your javascript file. 
+However, when you left to make a drink, your cat walked over the keyboard and has deleted some parts of it. 
+The gaps you need to fill in again are represented by a ??? 
+Put your answers in the boxes on the right.
+For example:
+console.???("Hello World");
+So you would put 'log' into the answer box`;
+
 const PKg5RUvfZdB4i4CA6rfj = 
 `The piece of code to the side is what you have written to begin your HTML document. 
 However, when you left to make a drink, your cat walked over the keyboard and has deleted some parts of it. 
@@ -87,6 +96,13 @@ Use the green box on the left to type the line highlighted.
 Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
 Finish copying it all to complete the task`
 
+const JesmixptG76oMd1QlQKm = 
+`To the side you can see an example piece of code, we need you to copy it for us. 
+Unfortunetly, the paste button is broken, so you will have to type it word for word. 
+Use the green box on the left to type the line highlighted. 
+Press enter to submit what you have typed. If it is correct, it will move onto the next line, if not, you will have to try again. 
+Finish copying it all to complete the task`
+
 function getTaskLongDescription(taskId){
     switch (taskId){
         case "sBtAOBWivZcOlbjCkf89":
@@ -113,6 +129,10 @@ function getTaskLongDescription(taskId){
             return PKg5RUvfZdB4i4CA6rfj;
         case "hnwt4H97tYk88lm2tzwW":
             return hnwt4H97tYk88lm2tzwW;
+        case "JesmixptG76oMd1QlQKm":
+            return JesmixptG76oMd1QlQKm;
+        case "9SlVspu1Z08UwV9CXlxl":
+            return SlVspu1Z08UwV9CXlxl;
     }
 }
 
