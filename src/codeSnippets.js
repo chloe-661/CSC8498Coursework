@@ -719,7 +719,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 // Logs whether the connection to the database was successful or not to the console
 connection.connect((error) => {
-    if(error) {
+    if (error) {
         console.log(error);
     } else {
         console.log("MySQL connected!");
@@ -759,7 +759,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 // Logs whether the connection to the database was successful or not to the console
 connection.connect((error) => {
-if(error) {
+if (error) {
 console.log(error);
 } else {
 console.log("MySQL connected!");
