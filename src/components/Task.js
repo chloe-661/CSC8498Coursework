@@ -85,7 +85,6 @@ function Task(props) {
     function fillInBlanks(){
         // const split = task.content.split(/\\n/);
         let arr = task.content.split(/ (\\t) /);
-        console.log(arr);
         return arr;
     }
 

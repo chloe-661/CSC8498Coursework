@@ -84,7 +84,6 @@ function Main (){
         
         //Session Data
         const snap1 = onSnapshot(query(doc(db, "sessions", sessionId)), (snapshot) => {
-            console.log("test: " + snapshot.id);
             let x = {
                 sessionId: snapshot.id,
                 active: snapshot.data().active,
@@ -119,7 +118,6 @@ function Main (){
                     };
                 }
             })
-            console.log("userData= " + x);
             setSessionDbUserData(x);
             setSessionDbThisUserData(y);
             setSessionPeople(x.length);
@@ -150,7 +148,6 @@ function Main (){
                     hints: doc.data().hints,
                 });
             })
-            console.log("taskData= " + x[0].id);
 
             x.forEach(task => {
                 let locked = false;
@@ -176,7 +173,6 @@ function Main (){
         // Unsubscribes when a user quits the session
         // Doesn't work for some reason.......
         if (subscribe == false){
-            console.log("Unsubscribing");
             snap1()
             snap2()
             snap3()
@@ -185,14 +181,6 @@ function Main (){
 
     //Hooks -------------------------------------------------------------------------------------------------------------------------------------------
     useEffect(() => {
-        console.log("gameMode: " + gameMode);
-        console.log("inputtedSessionKey: " + inputtedSessionKey);
-        console.log("sessionKey: " + sessionKey);
-        console.log("sessionPeople: " + sessionPeople);
-        console.log("sessionDbData: " + sessionDbData);
-        console.log("sessionDbTaskData: " + sessionDbData);
-        console.log("sessionDbData: " + sessionDbData);
-
         if (loading) return;
         
         //If the user is not logged in, it redirects to the login page
@@ -246,7 +234,6 @@ function Main (){
     }
 
     function beginGameClick(e) {
-        console.log("beginning game");
         beginGame();
     }
 
@@ -347,9 +334,6 @@ function Main (){
     const startSession = async (webStackId) => {
         const key = generateKey();
         const taskSet = await pickTaskSet(webStackId);
-        console.log(key);
-        console.log(taskSet);
-        console.log(user.uid);
         const request = await startNewSessionInDb(key, taskSet, user.uid);
 
         if (request.success){
@@ -407,7 +391,6 @@ function Main (){
     }
     
     const goBack = async (taskId) => {
-        console.log("GOING BACK: " + taskId);
         const request = await closeTaskInDb(sessionDbData.sessionId, taskId);
         setGoBackWarningShow(false);
         setShowTaskList(true);
@@ -421,7 +404,6 @@ function Main (){
     }
 
     const quit = () => {
-        console.log("starting quit");
         sessionDbUserData.forEach((u) => {
             if (u.uid == user.uid){
                 if (u.leader){
@@ -447,7 +429,6 @@ function Main (){
         snap(sessionDbData.sessionId, false);
         setQuitWarningShow(false);
         resetAllStates();
-        console.log("ending quit");
         setIsQuitting(true); //Takes you back to the dashboard
     }
 

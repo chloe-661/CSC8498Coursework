@@ -300,7 +300,6 @@ const getTaskDependanciesDetails = async(taskSetId, dependancies) => {
         if (dependancies.length > 0 ){
             dependancies.forEach(d => {
                 const x = getTaskName(taskSetId, d);
-                console.log("X:")
                 details.push({
                     name: x.data.name,
                     role: x.data.role,
@@ -454,8 +453,6 @@ const saveSessionDataToUser = async (uid, startTime, endTime, webStackId, taskSe
         //Find user doc using uid
         //save that doc.id
         //use that to update
-        console.log("IN FUNCTION");
-        console.log(uid);
         const q = query(collection(db, "users"), where("uid", "==", uid));
         const querySnapshot = await getDocs(q);
         let tempId;
@@ -492,25 +489,20 @@ const saveSessionDataToUser = async (uid, startTime, endTime, webStackId, taskSe
 
 const joinSessionInDb = async (inputtedSessionKey, uid) => {   
     try {
-        console.log(uid);
-        console.log(inputtedSessionKey);
         var sessionId;
         
         //Checks for the session
         const q = query(collection(db, "sessions"), where("key", "==", inputtedSessionKey));
         const querySnapshot1 = await getDocs(q);
         if (!querySnapshot1.empty){
-            console.log(querySnapshot1.size);
             querySnapshot1.forEach((doc) => {
                 if (!doc.data().active){
-                    console.log("session isn't active");
                     return {
                         success: false,
                         errMes: "The session doesn't exist"
                     }  
                 }
                 else if (doc.data().started){
-                    console.log("session is started");
                     return {
                         success: false,
                         errMes: "You can't join a session that has been started by the leader"
@@ -519,7 +511,6 @@ const joinSessionInDb = async (inputtedSessionKey, uid) => {
                 else {
                     sessionId = doc.id;
                 }
-                console.log(doc.data());
             });
         }
         else {
@@ -536,7 +527,6 @@ const joinSessionInDb = async (inputtedSessionKey, uid) => {
         const q3 = query(collection(db, "sessions", sessionId, "users"), where("uid", "==", uid));
         const querySnapshot3 = await getDocs(q3);
         if (querySnapshot3.empty){
-            console.log("1");
             if (querySnapshot2.size < 5) {
                 addDoc (collection(db, "sessions", sessionId, "users"), {
                     uid: uid,
@@ -545,7 +535,6 @@ const joinSessionInDb = async (inputtedSessionKey, uid) => {
                 });
             }
         }
-        console.log("2");
 
         return {
             success: true, //Session joined
@@ -615,9 +604,6 @@ const deleteSessionInDb = async(sessionId) => {
         const querySnapshot = await getDocs(q);
         const querySnapshot2 = await getDocs(q2);
 
-        console.log(querySnapshot);
-        console.log(querySnapshot2);
-
         querySnapshot.forEach(d => {
             deleteDoc(doc(db, "sessions", sessionId, "users", d.id));
         })
@@ -659,7 +645,6 @@ const getUsersInSessionInDb = async(sessionId) => {
 
 const deleteUserInSessionInDb = async(sessionId, userId) => {
     try {
-        console.log("Deleting");
         const request = await deleteDoc(doc(db, "sessions", sessionId, "users", userId));
 
         return {
@@ -673,8 +658,6 @@ const deleteUserInSessionInDb = async(sessionId, userId) => {
 
 const setUserRoleInDb = async(sessionId, userId, role) => {
     try {
-        console.log("user: " + userId);
-        console.log("role: " + role);
         await updateDoc(doc(db, "sessions", sessionId, "users", userId), {
             role: arrayUnion(role),
         });

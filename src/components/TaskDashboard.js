@@ -86,7 +86,6 @@ function TaskDashboard(props) {
   function handleKeyDown(e) {
     // enter 
     if (e.keyCode === 13){
-      console.log("Enter was pressed")
       e.preventDefault();
 
       checkMatch()

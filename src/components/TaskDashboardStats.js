@@ -10,14 +10,12 @@ function TaskDashboardStats(props) {
 
 
     function splitDescription(){
-        console.log(props.originalTaskId);
         if (props.originalTaskId != null){
             const test = getTaskLongDescription(props.originalTaskId);
             // description = props.description.toString().split(/\n/);
             if (test != null){
                 description = test.toString().split(/\n/);
             }
-            console.log(description);
         }
     }
 
