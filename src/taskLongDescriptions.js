@@ -21,9 +21,18 @@ const hnwt4H97tYk88lm2tzwW =
 However, when you left to make a drink, your cat walked over the keyboard and has deleted some parts of it. 
 The gaps you need to fill in again are repsented by a ???. 
 Put your answers in the boxes on the right.
-An example: line1 = 
+An example:
 background-???: red;
 Sp you would put [color] into the answer box`;
+
+const iO3OmeQI4lFlkC8TGT4M = 
+`The piece of code to the side is what you have written to create and setup your database for the login form. 
+However, when you left to make a drink, your cat walked over the keyboard and has deleted some parts of it. 
+The gaps you need to fill in again are repsented by a ???. 
+Put your answers in the boxes on the right.
+An example: 
+SELECT * FROM Users ??? country='UK';
+Sp you would put [WHERE] into the answer box`;
 
 const sBtAOBWivZcOlbjCkf89 = 
 `You have attempted to style the beginning of your website using the specification below but it is not looking correct. There must be some errors in your code. Try to find them all, then note down the line number and the correction. 
@@ -133,6 +142,8 @@ function getTaskLongDescription(taskId){
             return JesmixptG76oMd1QlQKm;
         case "9SlVspu1Z08UwV9CXlxl":
             return SlVspu1Z08UwV9CXlxl;
+        case "iO3OmeQI4lFlkC8TGT4M":
+            return iO3OmeQI4lFlkC8TGT4M;
     }
 }
 
