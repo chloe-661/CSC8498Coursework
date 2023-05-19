@@ -89,7 +89,7 @@ VALUES
     (6, 'JohnDow', 'test')????`
 
 const BuildTheHTMLForm__1 =
-`<form action="/action_page.php" method="post">
+`<form action="/auth" method="post">
 	<div class="imgcontainer">
 		<img src="./images/avatar.png" alt="Avatar" class="avatar">
 	</div>
@@ -113,7 +113,7 @@ const BuildTheHTMLForm__1 =
 </form>`
 
 const BuildTheHTMLForm__2 =
-`<form action="/action_page.php" method="post">
+`<form action="/auth" method="post">
 <div class="imgcontainer">
 <img src="./images/avatar.png" alt="Avatar" class="avatar">
 </div>
@@ -879,7 +879,7 @@ function getCodeSnippet(taskName){
 			return PracticeDataRetrieval;
 		case "Build the HTML Form__1":
 			return BuildTheHTMLForm__1;	
-		case "Build the HTML Form____2":
+		case "Build the HTML Form__2":
 			return BuildTheHTMLForm__2;
 		case "Setup the Database":
 			return SetuptheDatabase;
