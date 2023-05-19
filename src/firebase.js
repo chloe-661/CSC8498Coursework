@@ -59,7 +59,6 @@ const signInWithGoogle = async () => {
     }
   } catch (err) {
     console.error(err);
-    alert(err.message);
   }
 };
 
@@ -123,7 +122,6 @@ const getWebStacks = async () => {
         return webStacks;
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -137,7 +135,6 @@ const getWebStacksById = async (webStackId) => {
         return result
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -159,7 +156,6 @@ const getAllTaskSetsIdsWithWebStack = async (webStackId) => {
         return taskSets;
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -182,7 +178,6 @@ const getAllTaskSets = async () => {
         return taskSets;
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -213,7 +208,6 @@ const getTaskSet = async (taskSetId) => {
         return taskSet;
     } catch (err) {
         console.error(err);
-        // alert(err.message);
     }
 }
 
@@ -237,7 +231,6 @@ const getAllTaskSetsAndTasks = async () => {
         return taskSets;
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -270,7 +263,6 @@ const getAllTaskswithinTaskSet = async (taskSetId) => {
         return tasks;
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -289,7 +281,6 @@ const getTaskName = async (taskSetId, taskId) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -321,7 +312,6 @@ const getTaskDependanciesDetails = async(taskSetId, dependancies) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -542,7 +532,6 @@ const joinSessionInDb = async (inputtedSessionKey, uid) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -558,7 +547,6 @@ const startSessionInDb = async (sessionId) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -574,7 +562,6 @@ const endSessionInDb = async(sessionId, time) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -591,7 +578,6 @@ const completeSessionInDb = async(sessionId, time) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -628,7 +614,6 @@ const deleteSessionInDb = async(sessionId) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -639,7 +624,6 @@ const getUsersInSessionInDb = async(sessionId) => {
         return request;
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -652,7 +636,6 @@ const deleteUserInSessionInDb = async(sessionId, userId) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -668,7 +651,6 @@ const setUserRoleInDb = async(sessionId, userId, role) => {
 
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -684,7 +666,6 @@ const openTaskInDb = async (sessionId, taskId) => {
 
     } catch (err) {
         console.error(err);
-        // alert(err.message);
     }
 }
 
@@ -700,7 +681,6 @@ const closeTaskInDb = async (sessionId, taskId) => {
 
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -717,7 +697,6 @@ const completeTaskInDb = async (sessionId, taskId) => {
 
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
@@ -746,7 +725,6 @@ const cleanUpSessions = async () => {
         console.log("RUNNING DATABASE CLEAN UP");
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 }
 
