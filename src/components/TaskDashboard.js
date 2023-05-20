@@ -558,7 +558,7 @@ function TaskDashboard(props) {
         else {
           return (
             <>
-              <h1 class="title2">SUCCESS</h1>
+              <h1 className="title2">SUCCESS</h1>
               <Card>
                 <Card.Body>
                   <Card.Title className="taskDashboard__title">TASK COMPLETED</Card.Title>
@@ -672,23 +672,23 @@ function TaskDashboard(props) {
   return (
     <>
     {displayTaskCompletedCard()}    
-      <div class="taskDashboard grid-container">
-        <div class="grid-item__name">
+      <div className="taskDashboard grid-container">
+        <div className="grid-item__name">
             {displayTitleCard()}
         </div>
-        <div class="grid-item__description">
+        <div className="grid-item__description">
           {displayDescriptionCard()}
         </div>
-        <div class="grid-item__task">
+        <div className="grid-item__task">
           {displayTaskCard()}
         </div>
-        <div class="grid-item__answers">
+        <div className="grid-item__answers">
           {displayAnswerCard()}
         </div>
-        <div class="grid-item__info">
+        <div className="grid-item__info">
           {displayInfoCard()}
         </div>
-        <div class="grid-item__button">
+        <div className="grid-item__button">
           {displayButtons()}
         </div>
       </div>

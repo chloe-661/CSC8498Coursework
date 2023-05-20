@@ -72,17 +72,17 @@ function TaskDescription(props) {
         <>
             <Card className= {"taskDescription " + (visible ? 'visible' : 'd-none')}>
             <Card.Body>
-                <div class="grid-container">
-                    <div class="grid-item__title">
+                <div className="grid-container">
+                    <div className="grid-item__title">
                         <Card.Title className="taskDescription__title">{props.title}</Card.Title>
                     </div>
-                    <div class="grid-item__description">
+                    <div className="grid-item__description">
                         <Card.Text className="taskDescription__description">{props.description}</Card.Text>
                     </div>
-                    <div class="grid-item__language">
+                    <div className="grid-item__language">
                         <Card.Text className="taskDescription__languages">{props.languages}</Card.Text>
                     </div>
-                    <div class="grid-item__button">
+                    <div className="grid-item__button">
                         {taskLocked()}
                     </div>  
             </div>

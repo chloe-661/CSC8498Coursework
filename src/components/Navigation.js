@@ -51,7 +51,7 @@ function Navigation(props) {
       fetchUserName();
         return  (
             <>
-                <p><i>Logged in as: <span class="greenText">{name}</span></i></p>
+                <p><i>Logged in as: <span className="greenText">{name}</span></i></p>
                 <Button as={Link} to="/" onClick={() => logout()}>Logout</Button>
             </>
         )

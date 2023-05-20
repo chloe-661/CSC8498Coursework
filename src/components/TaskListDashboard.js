@@ -97,18 +97,18 @@ function TaskListDashboard(props) {
 
   return (
     <>
-      <div class="taskListDashboard grid-container">
-        <div class="grid-item__role">
+      <div className="taskListDashboard grid-container">
+        <div className="grid-item__role">
         <UserRole title="USER ROLE:" role={props.userDetails.role}/>
         </div>
-        <div class="grid-item__stats">    
+        <div className="grid-item__stats">    
           <SessionStats title="GROUP SESSION STATS:" senario={senarioDescription != null ? senarioDescription : ""} sessionDetails={props.sessionDetails} sessionPeople={props.sessionPeople} taskDetails={props.taskDetails}/>
         </div>
-        <div class="grid-item__tasks">
+        <div className="grid-item__tasks">
         {displayTasks()}
         {checkCompleted()}
         </div>
-        <div class="grid-item__button">
+        <div className="grid-item__button">
           <Button className="btn-back" onClick={props.onShowQuitWarning}>Quit</Button>
           <Button className="btn-instructions" onClick={props.onShowInstructions}>Need Help?</Button>
         </div>   

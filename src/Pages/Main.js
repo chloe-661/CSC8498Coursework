@@ -457,7 +457,7 @@ function Main (){
             if (gameMode == null) {
                 return (
                     <>
-                        <h1 class="title2">GAME MODE</h1>
+                        <h1 className="title2">GAME MODE</h1>
                         <GameOptionsCard className="card-options" title="SOLO" text="Play by yourself and make it a challenge" img="https://raw.githubusercontent.com/chloe-661/CSC8498Coursework/main/Project/my-app/src/assets/img/solo-img.png?token=GHSAT0AAAAAACBJF5EI4SPDDXPU2IXCVI4YZCQJK4A">
                             <Button onClick={(e)=>soloOrCoopButtonClick(e, 'solo')}>Play</Button>
                         </GameOptionsCard>
@@ -479,7 +479,7 @@ function Main (){
                     if (sessionWebStack == null && allWebStacks != null){
                         return (
                             <>
-                                <h1 class="title2">CO-OP</h1>
+                                <h1 className="title2">CO-OP</h1>
                                 <h4>Pick the languages you want the tasks to be based on</h4>
                                 {allWebStacks.map(({webStackId, languages}, index) => (
                                     <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>
@@ -503,7 +503,7 @@ function Main (){
                     if (sessionWebStack != null && sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
-                                <h1 class="title2">NEW SESSION</h1>
+                                <h1 className="title2">NEW SESSION</h1>
                                 <GameOptionsCard className="card-options card-options__bigger" 
                                     title="SESSION KEY"
                                     topLine="--------------------" 
@@ -536,7 +536,7 @@ function Main (){
                     if (sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
-                                <h1 class="title2">JOINING SESSION</h1>
+                                <h1 className="title2">JOINING SESSION</h1>
                                 <GameOptionsCard className="card-options" title="JOINING A SESSION" text="Waiting for the leader to start the game..." img="">
                                 </GameOptionsCard>
                                 <div> 
@@ -551,7 +551,7 @@ function Main (){
                 else {
                     return (
                         <>
-                            <h1 class="title2">CO-OP</h1>
+                            <h1 className="title2">CO-OP</h1>
                             <GameOptionsCard className="card-options" title="START A NEW SESSION" text="Start a new session for you and your friends" img="">
                                 <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Start</Button>
                             </GameOptionsCard>
@@ -588,7 +588,7 @@ function Main (){
                     if (sessionWebStack == null && allWebStacks != null){
                         return (
                             <>
-                                <h1 class="title2">SOLO</h1>
+                                <h1 className="title2">SOLO</h1>
                                 <h4>Pick the languages you want the tasks to be based on</h4>
                                 {allWebStacks.map(({webStackId, languages}, index) => (
                                     <WebStackCard className="card-options card-options__bigger" key={index} title={`Option ${index+1}`} languages={languages} webStackId={webStackId} onWebStack={onWebStack}/>
@@ -612,7 +612,7 @@ function Main (){
                     if (sessionWebStack != null && sessionKey != null && !sessionDbData.started) {
                         return (
                             <>
-                                <h1 class="title2">SOLO</h1>
+                                <h1 className="title2">SOLO</h1>
                                 <GameOptionsCard className="card-options" 
                                     title="ALL SET"
                                     text="Click the button below to start"
@@ -631,7 +631,7 @@ function Main (){
                 else {
                     return (
                         <>
-                            <h1 class="title2">SOLO</h1>
+                            <h1 className="title2">SOLO</h1>
                             <GameOptionsCard className="card-options" title="ARE YOU SURE?" text="You will take on up to 4 roles by yourself" img="">
                                 <Button onClick={(e)=>startOrJoinClick(e, 'start')}>Continue</Button>
                             </GameOptionsCard>
@@ -683,7 +683,7 @@ function Main (){
                             onOpenTask={openTask}
         />;
         const forceQuit = <>
-            <h1 class="title2">OH NO!</h1>
+            <h1 className="title2">OH NO!</h1>
             <GameOptionsCard className="card-options" title="SESSION UNEXPECTEDLY ENDED" text="The leader left this session which has forced it to end. Sorry" img="">
                 <Button onClick={leave}>Start again</Button>
             </GameOptionsCard>
@@ -724,7 +724,7 @@ function Main (){
 
             return (
                 <>
-                    <h1 class="title2">ALL TASKS COMPLETED</h1>
+                    <h1 className="title2">ALL TASKS COMPLETED</h1>
                     <Card className="completedCard">
                         <Card.Body>
                             <Card.Title className="taskDashboard__title">WELL DONE</Card.Title>

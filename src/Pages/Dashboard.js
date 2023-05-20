@@ -158,20 +158,20 @@ function Dashboard() {
               <Card.Body>
                 <Card.Title style={{textAlign: "center"}}>SOLO</Card.Title>
                 <hr />
-                <div class="grid-container">
-                    <div style={{textAlign: "center"}} class="grid-item__duration">
+                <div className="grid-container">
+                    <div style={{textAlign: "center"}} className="grid-item__duration">
                       <Card.Text className="tinyText greenText">Duration</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__description">
+                    <div style={{textAlign: "center"}} className="grid-item__description">
                         <Card.Text className="tinyText greenText">Overall Task Aim</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__roles">
+                    <div style={{textAlign: "center"}} className="grid-item__roles">
                         <Card.Text className="tinyText greenText">Roles</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__language">
+                    <div style={{textAlign: "center"}} className="grid-item__language">
                         <Card.Text className="tinyText greenText">Languages</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__people">
+                    <div style={{textAlign: "center"}} className="grid-item__people">
                       <Card.Text className="tinyText greenText">People &</Card.Text>
                     </div> 
                 </div> 
@@ -181,14 +181,14 @@ function Dashboard() {
           {soloResults.map(({senarioDescription, role, languages, duration, sessionPeople}, index) => (
             <Card key={index} className="userResults">
               <Card.Body>
-                <div class="grid-container">
-                    <div class="grid-item__duration">
+                <div className="grid-container">
+                    <div className="grid-item__duration">
                         <Card.Title className="number">{duration}</Card.Title>
                     </div>
-                    <div class="grid-item__description">
+                    <div className="grid-item__description">
                         <Card.Text>{senarioDescription}</Card.Text>
                     </div>
-                    <div class="grid-item__roles">
+                    <div className="grid-item__roles">
                         <Card.Text className="tinyText">
                         {
                           role.map((r, index) => (
@@ -197,7 +197,7 @@ function Dashboard() {
                         }
                         </Card.Text>
                     </div>
-                    <div class="grid-item__language">
+                    <div className="grid-item__language">
                         <Card.Text>
                         {
                           languages.map((l, index) => (
@@ -206,7 +206,7 @@ function Dashboard() {
                         }
                         </Card.Text>
                     </div>
-                    <div class="grid-item__people">
+                    <div className="grid-item__people">
                       <Card.Text className="number">{sessionPeople}</Card.Text>
                     </div> 
                 </div> 
@@ -223,20 +223,20 @@ function Dashboard() {
               <Card.Body>
                 <Card.Title style={{textAlign: "center"}}>SOLO</Card.Title>
                 <hr />
-                <div class="grid-container">
-                    <div style={{textAlign: "center"}} class="grid-item__duration">
+                <div className="grid-container">
+                    <div style={{textAlign: "center"}} className="grid-item__duration">
                       <Card.Text className="tinyText greenText">Duration</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__description">
+                    <div style={{textAlign: "center"}} className="grid-item__description">
                         <Card.Text className="tinyText greenText">Overall Task Aim</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__roles">
+                    <div style={{textAlign: "center"}} className="grid-item__roles">
                         <Card.Text className="tinyText greenText">Roles</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__language">
+                    <div style={{textAlign: "center"}} className="grid-item__language">
                         <Card.Text className="tinyText greenText">Languages</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__people">
+                    <div style={{textAlign: "center"}} className="grid-item__people">
                       <Card.Text className="tinyText greenText">People &</Card.Text>
                     </div> 
                 </div> 
@@ -263,20 +263,20 @@ function Dashboard() {
               <Card.Body>
                 <Card.Title style={{textAlign: "center"}}>CO-OP</Card.Title>
                 <hr />
-                <div class="grid-container">
-                    <div style={{textAlign: "center"}} class="grid-item__duration">
+                <div className="grid-container">
+                    <div style={{textAlign: "center"}} className="grid-item__duration">
                       <Card.Text className="tinyText greenText">Duration</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__description">
+                    <div style={{textAlign: "center"}} className="grid-item__description">
                         <Card.Text className="tinyText greenText">Overall Task Aim</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__roles">
+                    <div style={{textAlign: "center"}} className="grid-item__roles">
                         <Card.Text className="tinyText greenText">Roles</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__language">
+                    <div style={{textAlign: "center"}} className="grid-item__language">
                         <Card.Text className="tinyText greenText">Languages</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__people">
+                    <div style={{textAlign: "center"}} className="grid-item__people">
                       <Card.Text className="tinyText greenText">People &</Card.Text>
                     </div> 
                 </div> 
@@ -286,14 +286,14 @@ function Dashboard() {
           {coopResults.map(({senarioDescription, role, languages, duration, sessionPeople}, index) => (
             <Card key={index} className="userResults">
               <Card.Body>
-                <div class="grid-container">
-                    <div class="grid-item__duration">
+                <div className="grid-container">
+                    <div className="grid-item__duration">
                         <Card.Title className="number">{duration}</Card.Title>
                     </div>
-                    <div class="grid-item__description">
+                    <div className="grid-item__description">
                         <Card.Text>{senarioDescription}</Card.Text>
                     </div>
-                    <div class="grid-item__roles">
+                    <div className="grid-item__roles">
                         <Card.Text className="tinyText">
                         {
                           role.map((r, index) => (
@@ -302,7 +302,7 @@ function Dashboard() {
                         }
                         </Card.Text>
                     </div>
-                    <div class="grid-item__language">
+                    <div className="grid-item__language">
                         <Card.Text>
                         {
                           languages.map((l, index) => (
@@ -311,7 +311,7 @@ function Dashboard() {
                         }
                         </Card.Text>
                     </div>
-                    <div class="grid-item__people">
+                    <div className="grid-item__people">
                       <Card.Text className="number">{sessionPeople}</Card.Text>
                     </div> 
                 </div> 
@@ -328,20 +328,20 @@ function Dashboard() {
               <Card.Body>
                 <Card.Title style={{textAlign: "center"}}>CO-OP</Card.Title>
                 <hr />
-                <div class="grid-container">
-                    <div style={{textAlign: "center"}} class="grid-item__duration">
+                <div className="grid-container">
+                    <div style={{textAlign: "center"}} className="grid-item__duration">
                       <Card.Text className="tinyText greenText">Duration</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__description">
+                    <div style={{textAlign: "center"}} className="grid-item__description">
                         <Card.Text className="tinyText greenText">Overall Task Aim</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__roles">
+                    <div style={{textAlign: "center"}} className="grid-item__roles">
                         <Card.Text className="tinyText greenText">Roles</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__language">
+                    <div style={{textAlign: "center"}} className="grid-item__language">
                         <Card.Text className="tinyText greenText">Languages</Card.Text>
                     </div>
-                    <div style={{textAlign: "center"}} class="grid-item__people">
+                    <div style={{textAlign: "center"}} className="grid-item__people">
                       <Card.Text className="tinyText greenText">People &</Card.Text>
                     </div> 
                 </div> 
@@ -358,15 +358,15 @@ function Dashboard() {
     <>
     <div className="gameFrameContainer">
       <div className="gameFrame">
-        <h1 class="title2">USER DASHBOARD</h1>
-        <div class="userDashboard grid-container">
-          <div class="grid-item__details">
+        <h1 className="title2">USER DASHBOARD</h1>
+        <div className="userDashboard grid-container">
+          <div className="grid-item__details">
             {displayUserDetailsCard()}
           </div>
-          <div class="grid-item__solo">
+          <div className="grid-item__solo">
             {displaySoloCard()}
           </div>
-          <div class="grid-item__coop">
+          <div className="grid-item__coop">
             {displayCoopCard()}
           </div>
         </div>

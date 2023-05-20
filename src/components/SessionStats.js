@@ -42,23 +42,23 @@ function SessionStats(props) {
             <Card.Body>
                 <Card.Title className="sessionStats__title">{props.title}</Card.Title>
                 <p className="sessionStats__description">Aim: &nbsp;
-                    <span class="greenText">{props.senario}</span>
+                    <span className="greenText">{props.senario}</span>
                 </p>
                 
                 <p className="sessionStats__description">Tasks Completed: &nbsp;
-                    <span class="greenText">{tasksCompleted}</span>
+                    <span className="greenText">{tasksCompleted}</span>
                 </p>
 
                 <p className="sessionStats__description">Tasks Left To Do: &nbsp;
-                    <span class="greenText">{tasksLeft}</span>
+                    <span className="greenText">{tasksLeft}</span>
                 </p>    
 
                 <p className="sessionStats__description">Total Tasks: &nbsp;
-                    <span class="greenText">{props.taskDetails.length}</span>
+                    <span className="greenText">{props.taskDetails.length}</span>
                 </p>    
 
                 <p className="sessionStats__description">People in the session: &nbsp;
-                    <span class="greenText">{props.sessionPeople}</span>
+                    <span className="greenText">{props.sessionPeople}</span>
                 </p>                
             </Card.Body>
             </Card>

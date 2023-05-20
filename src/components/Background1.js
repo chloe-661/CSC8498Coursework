@@ -30,36 +30,36 @@ function Background1 (){
                   <polygon class="dotted-hex" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
           </div> */}
-          <div class="hex--3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--1 dotted-line " width="270" height="270" overflow="visible">
-                  <polygon class="main-hex--1" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+          <div className="hex--3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--1 dotted-line " width="270" height="270" overflow="visible">
+                  <polygon className="main-hex--1" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--2 filled" width="270" height="270" overflow="visible">
-                  <polygon class="main-hex--2" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--2 filled" width="270" height="270" overflow="visible">
+                  <polygon className="main-hex--2" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--3 solid-thin-line" width="270" height="270" overflow="visible">
-                  <polygon class="main-hex--3 draw-in" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--3 solid-thin-line" width="270" height="270" overflow="visible">
+                  <polygon className="main-hex--3 draw-in" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--4 solid-thin-line" width="270" height="270" overflow="visible">
-                  <polygon class="main-hex--4 draw-in" points="225,280 75,280 0,150 75,20 225,20 300,150"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--4 solid-thin-line" width="270" height="270" overflow="visible">
+                  <polygon className="main-hex--4 draw-in" points="225,280 75,280 0,150 75,20 225,20 300,150"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--5 dotted-line" width="210" height="210" overflow="visible">
-                  <polygon class="main-hex--5 item-to bounce-1" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--5 dotted-line" width="210" height="210" overflow="visible">
+                  <polygon className="main-hex--5 item-to bounce-1" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--6 solid-thick-dotted-line--1" width="210" height="210" overflow="visible">
-                  <polygon class="main-hex--6" points=" 75,20 225,20 300,150 225,280 75,280 0,150"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--6 solid-thick-dotted-line--1" width="210" height="210" overflow="visible">
+                  <polygon className="main-hex--6" points=" 75,20 225,20 300,150 225,280 75,280 0,150"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--7 solid-thick-dotted-line--2" width="150" height="150" overflow="visible">
-                  <polygon class="main-hex--7 item-to bounce-2" points="300,150 225,280 75,280 0,150 75,20 225,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--7 solid-thick-dotted-line--2" width="150" height="150" overflow="visible">
+                  <polygon className="main-hex--7 item-to bounce-2" points="300,150 225,280 75,280 0,150 75,20 225,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--8 filled" width="90" height="90" overflow="visible">
-                  <polygon class="main-hex--8" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--8 filled" width="90" height="90" overflow="visible">
+                  <polygon className="main-hex--8" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--9 filled" width="90" height="90" overflow="visible">
-                  <polygon class="main-hex--9" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--9 filled" width="90" height="90" overflow="visible">
+                  <polygon className="main-hex--9" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
-              <svg xmlns="http://www.w3.org/2000/svg" class="hexsvg--10 dotted-line" width="150" height="150" overflow="visible">
-                  <polygon class="main-hex--10 item-to bounce-3" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
+              <svg xmlns="http://www.w3.org/2000/svg" className="hexsvg--10 dotted-line" width="150" height="150" overflow="visible">
+                  <polygon className="main-hex--10 item-to bounce-3" points="225,20 300,150 225,280 75,280 0,150 75,20"></polygon>
               </svg>
           </div>
           {/* <div class="arrow arrow--top">
