@@ -98,7 +98,7 @@ const BuildTheHTMLForm__1 =
 		<input type="text" placeholder="Enter Username" name="user" required>
 		<label for="pass"><b>Password</b></label>
 		<input type="password" placeholder="Enter Password" name="pass" required>
-		<button type="submit" id="login-form-submit" >Login</button>
+		<button type="submit" id="login-form-submit">Login</button>
 		<label>
 		<input type="checkbox" checked="checked" name="remember">
 		Remember me
@@ -119,8 +119,8 @@ const BuildTheHTMLForm__2 =
 <label for="user"><b>Username</b></label>
 <input type="text" placeholder="Enter Username" name="user" required>
 <label for="pass"><b>Password</b></label>
-<input type="password" placeholder="Enter Password" name="pass" required>		
-<button type="submit" id="login-form-submit" >Login</button>
+<input type="password" placeholder="Enter Password" name="pass" required>
+<button type="submit" id="login-form-submit">Login</button>
 <label>
 <input type="checkbox" checked="checked" name="remember">
 Remember me
