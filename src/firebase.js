@@ -20,9 +20,7 @@ import {
     where,
     addDoc,
     updateDoc,
-    onSnapshot,
     arrayUnion, 
-    arrayRemove, 
   } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -106,7 +104,6 @@ const logout = () => {
 
 //Tasks ---------------------------------------------------------------------------------------------
 
-//Gets all the different webstacks available
 const getWebStacks = async () => {
     var webStacks = [];
     try {
@@ -138,7 +135,6 @@ const getWebStacksById = async (webStackId) => {
     }
 }
 
-//Gets all task set ids that match a webstack type
 const getAllTaskSetsIdsWithWebStack = async (webStackId) => {
     var taskSets = [];
     try {
@@ -211,7 +207,6 @@ const getTaskSet = async (taskSetId) => {
     }
 }
 
-//Gets all sets + the tasks in them
 const getAllTaskSetsAndTasks = async () => {
     var taskSets = [];
     try {
@@ -733,32 +728,33 @@ const cleanUpSessions = async () => {
 export {
     auth,
     db,
-    signInWithGoogle,
-    logInWithEmailAndPassword,
-    registerWithEmailAndPassword,
-    sendPasswordReset,
-    logout,
-    getWebStacks,
-    getTaskSet,
-    getAllTaskSets,
-    getAllTaskSetsAndTasks,
-    getAllTaskSetsIdsWithWebStack,
-    getAllTaskswithinTaskSet,
-    startNewSessionInDb,
-    startSessionInDb,
-    joinSessionInDb,
-    deleteSessionInDb,
-    deleteUserInSessionInDb,
-    completeSessionInDb,
-    endSessionInDb,
-    setUserRoleInDb,
-    openTaskInDb,
-    closeTaskInDb,
-    completeTaskInDb,
-    cleanUpSessions,
-    getTaskName,
-    getTaskDependanciesDetails,
-    saveSessionDataToUser,
-    getUserResults,
-    getWebStacksById,
+    signInWithGoogle,                   //Allows the user to log in using Google
+    logInWithEmailAndPassword,          //Allows the user to log in using an email
+    registerWithEmailAndPassword,       //Allows the user to register for a new account
+    sendPasswordReset,                  //Sends a password reset email
+    logout,                             //Logs the user out
+    getWebStacks,                       //Gets all the different webstacks available
+    getWebStacksById,                   //Gets a specific webstack
+    getAllTaskSets,                     //Gets all taskSets
+    getTaskSet,                         //Gets a specific taskSet
+    getAllTaskSetsAndTasks,             //Gets all sets + the tasks in them
+    getAllTaskSetsIdsWithWebStack,      //Gets all task set ids that match a webstack type
+    getAllTaskswithinTaskSet,           //Gets all the tasks within a specific taskSet
+    startNewSessionInDb,                //Sets up a new session
+    startSessionInDb,                   //Marks an already created session as "started"
+    joinSessionInDb,                    //Adds a user to an exisiting session
+    deleteSessionInDb,                  //Deletes the session
+    deleteUserInSessionInDb,            //Deletes a user from a session
+    completeSessionInDb,                //Marks an already created session as "completed"
+    endSessionInDb,                     //Marks an already created session as "ended"
+    setUserRoleInDb,                    //Write the user's role to their profile within the session
+    openTaskInDb,                       //Marks a task as "open"/"inuse"
+    closeTaskInDb,                      //Marks a task as not "inuse" or "closed"
+    completeTaskInDb,                   //Marks a task as "completed"
+    cleanUpSessions,                    //Tidies up the database
+    getTaskName,                        //Gets the name of a specific task
+    getTaskDependanciesDetails,         //Gets the list of dependandies for a specific task
+    saveSessionDataToUser,              //Adds the session results to the users account
+    getUserResults,                     //Gets all the session results for a specific user
+    
 };
