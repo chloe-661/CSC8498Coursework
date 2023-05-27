@@ -1,3 +1,23 @@
+# CSC8498
+Newcastle University - 2022/23 - MComp
+
+	Project and Dissertation
+  
+	Ethics Form Submitted: 11/04/2023
+	Interim Report Submitted: 27/04/2023
+	Dissertation Submitted: 26/05/2023
+	Demonstration Submitted: 26/05/2023
+
+Marks and Feedback
+
+	DISSERTATION - 100%
+	
+	Marks: 
+	Feedback:     
+		
+	    
+-------------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
