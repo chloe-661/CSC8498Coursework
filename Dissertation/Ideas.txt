@@ -1,0 +1,35 @@
+Game/Quiz Thing
+
+block programming tetris
+
+penguin dinner but programming
+
+web development, teambased? game?
+
+kahoot
+
+flokey
+
+ds professor layton
+
+
+
+
+Eisode thing
+
+
+
+tux typing - mini game
+- press the keys in turn
+
+word search - mini game
+
+
+
+
+
+web development with tux typing
+Using interactive <> in a game style to aid web developemt learning
+
+An interactive game to aid web development learning
+The development of a task based game which focuses on the areas of web development for semi-beginners. It will involve a user having to complete a range of different tasks to set up and perform actions that would occur when building a website, such as creating a navigation bar, styling a home page, generating an API and querying a database. It will use repetition through typing to increase the learning rate of coding languages and feature a collaboration mode for timed team-based attempts. 
